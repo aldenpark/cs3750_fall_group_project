@@ -1,0 +1,21 @@
+﻿@page
+@model Group_Project.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="OnPost">
+    <label for="userName">Username</label>
+    <input type="text" id="userName" name="username"><br></br>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password"><br></br>
+
+    <input type="submit" value="Submit" /><br></br>
+
+    <a asp-page="/signup"> Don't have an account? Sign up Now!</a>
+
+
+
+</form>
