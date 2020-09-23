@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Group_Project.Data;
 using Microsoft.EntityFrameworkCore;
+using Group_Project.Data.Repository.IRepository;
+using Group_Project.Data.Repository;
 
 namespace Group_Project
 {
@@ -30,6 +32,7 @@ namespace Group_Project
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddMvc(OptionsBuilderConfigurationExtensions => OptionsBuilderConfigurationExtensions.EnableEndpointRouting = false); // so we can use Javascript
         }
 
