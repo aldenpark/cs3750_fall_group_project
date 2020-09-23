@@ -7,18 +7,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
+using Group_Project.Data.Repository.IRepository;
 
 namespace Group_Project.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UsersController(ApplicationDbContext context)
         {
             _context = context;
+
+        }
+
+        public UsersController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Users
@@ -37,6 +45,27 @@ namespace Group_Project.Controllers
             if (user == null)
             {
                 return NotFound();
+            }
+
+            return user;
+        }
+
+        // GET: api/Users/Email
+        [HttpGet("{user}")]
+        public ActionResult<User> GetUser(User login)
+        {
+            //var user = await _context.User.FindAsync(id);
+            var user = _unitOfWork.User.GetFirstorDefault(u => u.Email == login.Email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+            if (user.Passwrd != login.Passwrd) // need encryption method to wrap login.Passwrd for comparing again saved encrypted password
+            {
+                return ValidationProblem();
             }
 
             return user;
