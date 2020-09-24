@@ -9,13 +9,20 @@ namespace Group_Project.Pages
 {
     public class LoginModel : PageModel
     {
+
+
+        [BindProperty]
+        public Models.User user { get; set; }
+
         public void OnPost()
         {
-            var username = Request.Form["username"];
-            var password = Request.Form["password"];
+            System.Diagnostics.Debug.WriteLine(user);
 
 
+        }
 
+        public void OnGet()
+        {
 
         }
     }

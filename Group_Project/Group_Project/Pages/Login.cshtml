@@ -5,17 +5,13 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<form method="OnPost">
-    <label for="userName">Username</label>
-    <input type="text" id="userName" name="username"><br></br>
+<<form method="post">
 
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password"><br></br>
+    <label asp-for="user.Email" class="control-label">Username</label>
+    <input asp-for="user.Email" class="form-control" />
 
-    <input type="submit" value="Submit" /><br></br>
+    <label asp-for="user.Passwrd">Password</label>
+    <input asp-for="user.Passwrd" class="form-control">
 
-    <a asp-page="/signup"> Don't have an account? Sign up Now!</a>
-
-
-
+    <input type="submit" value="Submit" /><br />
 </form>

@@ -9,17 +9,22 @@ namespace Group_Project.Pages
 {
     public class SignupModel : PageModel
     {
+
+
+        [BindProperty]
+        public Models.User user { get; set; }
+
+
         public void OnPost()
         {
+            System.Diagnostics.Debug.WriteLine(user);
 
-            var username = Request.Form["username"];
-            var password = Request.Form["password"];
-            var fName = Request.Form["fname"];
-            var lName = Request.Form["lname"];
-            var birthDate = Request.Form["birthdate"];
-            var email = Request.Form["email"];
+        }
 
-            Models.User login = new Models.User();
+
+
+        public void OnGet()
+        {
 
         }
     }
