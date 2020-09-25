@@ -6,20 +6,61 @@
 <h1>@ViewData["Title"]</h1>
 
 <form method="post">
-    <label asp-for="user.Email" class="control-label">Username</label>
-    <input asp-for="user.Email" class="form-control" />
+    <div class="col-8 pt-3">
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="user.Email">Username</label>
+            </div>
+            <div class="col-9">
+                <input asp-for="user.Email" class="form-control" />
+                <span class="text-danger" asp-validation-for="user.Email"></span>
+            </div>
+        </div>
 
-    <label asp-for="user.Passwrd">Password</label>
-    <input asp-for="user.Passwrd" class="form-control">
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="user.Passwrd">Password</label>
+            </div>
+            <div class="col-9">
+                <input asp-for="user.Passwrd" class="form-control">
+                <span class="text-danger" asp-validation-for="user.Passwrd"></span>
+            </div>
+        </div>
 
-    <label asp-for="user.FirstName">First Name</label>
-    <input asp-for="user.FirstName" class="form-control">
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="user.FirstName">First Name</label>
+            </div>
+            <div class="col-9">
+                <input asp-for="user.FirstName" class="form-control">
+                <span class="text-danger" asp-validation-for="user.FirstName"></span>
+            </div>
+        </div>
 
-    <label asp-for="user.LastName">Last Name</label>
-    <input asp-for="user.LastName" class="form-control">
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="user.LastName">Last Name</label>
+            </div>
+            <div class="col-9">
+                <input asp-for="user.LastName" class="form-control">
+                <span class="text-danger" asp-validation-for="user.LastName"></span>
+            </div>
+        </div>
 
-    <label asp-for="user.Birthdate">Birth Date</label>
-    <input asp-for="user.Birthdate" class="form-control">
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="user.Birthdate">Birth Date</label>
+            </div>
+            <div class="col-9">
+                <input asp-for="user.Birthdate" class="form-control">
+                <span class="text-danger" asp-validation-for="user.Birthdate"></span>
+            </div>
+        </div>
 
-    <input type="submit" value="Submit" /><br />
+        <div class="form-group row">
+            <div class="col-3"></div>
+            <div class="col-9">
+                <input type="submit" value="Submit" /><br />
+            </div>
+        </div>
 </form>

@@ -145,8 +145,6 @@ D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\b
 D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.csprojAssemblyReference.cache
 D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.AssemblyInfoInputs.cache
 D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.AssemblyInfo.cs
-D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.csproj.CoreCompileInputs.cache
-D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.MvcApplicationPartsAssemblyInfo.cache
 D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.RazorAssemblyInfo.cache
 D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.RazorAssemblyInfo.cs
 D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.TagHelpers.input.cache
@@ -340,3 +338,8 @@ C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Projec
 C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.genruntimeconfig.cache
 C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Razor\Pages\Login.cshtml.g.cs
 C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Razor\Pages\Signup.cshtml.g.cs
+D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Razor\Pages\Login.cshtml.g.cs
+D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Razor\Pages\Signup.cshtml.g.cs
+D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.csproj.CoreCompileInputs.cache
+D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Group_Project.MvcApplicationPartsAssemblyInfo.cache
+D:\var\www\School\CS3750\cs3750_fall_group_project\Group_Project\Group_Project\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll
