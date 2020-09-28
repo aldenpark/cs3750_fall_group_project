@@ -29,6 +29,7 @@ namespace Group_Project.Helpers
         //The RouteValue is used as an encryption key and should only map to one IDataProtector
         public Security()
         {
+            
             passwordProtector = dataProtectionProvider.CreateProtector(UserPasswordRouteValue);
 
         }
