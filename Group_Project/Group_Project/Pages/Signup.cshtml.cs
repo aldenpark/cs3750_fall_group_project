@@ -36,6 +36,7 @@ namespace Group_Project.Pages
             if (user.ID == 0)
             {
                 var encrypt = new Security();
+                user.Passwrd = encrypt.EncryptString(user.Passwrd);
                 user.Passwrd = encrypt.HashPassword(user.Passwrd);
 
                 _unitOfWork.User.Add(user);
