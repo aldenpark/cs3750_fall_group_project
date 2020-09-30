@@ -1,0 +1,17 @@
+﻿@page
+@model Group_Project.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<h1>@ViewData["Title"]</h1>
+
+<<form method="post">
+
+    <label asp-for="user.Email" class="control-label">Username</label>
+    <input asp-for="user.Email" class="form-control" />
+
+    <label asp-for="user.Passwrd">Password</label>
+    <input asp-for="user.Passwrd" class="form-control">
+
+    <input type="submit" value="Submit" /><br />
+</form>
