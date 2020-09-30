@@ -41,8 +41,12 @@ namespace Group_Project.Pages
             }
 
             var encrypt = new Security();
-            var encPasswrd = encrypt.HashPassword(login.Passwrd);
-            if(!encrypt.IsMatch(login.Passwrd, encPasswrd))
+
+
+            user.Passwrd = encrypt.EncryptString(user.Passwrd);
+            //user.Passwrd = encrypt.HashPassword(user.Passwrd);
+
+            if(!encrypt.IsMatch(user.Passwrd,login.Passwrd))
             {
                 return Forbid();
             }

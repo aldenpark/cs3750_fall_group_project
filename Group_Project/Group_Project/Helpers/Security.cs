@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.DataProtection;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Group_Project.Helpers
@@ -29,6 +32,8 @@ namespace Group_Project.Helpers
         //The RouteValue is used as an encryption key and should only map to one IDataProtector
         public Security()
         {
+            dataProtectionProvider = DataProtectionProvider.Create("Security");
+
             passwordProtector = dataProtectionProvider.CreateProtector(UserPasswordRouteValue);
 
         }
@@ -64,5 +69,62 @@ namespace Group_Project.Helpers
         {
              return BCrypt.Net.BCrypt.Verify(unhashedPassword, hashedPassword);
         }
+
+        public string EncryptString(string plainText)
+        {
+            string key = "db1535c08f173a43d82b9cf2349bd2c0";
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+
+            return Convert.ToBase64String(array);
+        }
+
+        public string DecryptString(string cipherText)
+        {
+            string key = "db1535c08f173a43d82b9cf2349bd2c0";
+            byte[] iv = new byte[16];
+            byte[] buffer = Convert.FromBase64String(cipherText);
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        {
+                            return streamReader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 }
