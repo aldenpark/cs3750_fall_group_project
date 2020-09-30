@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "whVmQZFz3orP4d8kbJD20YukLwEZstKnqqdhLc0dX+w/Jc0Oh4gLpWUKIeDgssTvY6n+miF4tgtgK62e0XHd6Q==",
+  "dgSpecHash": "pvkkNMQ/9kJC2I+ZoVW3TS+D8NabZ6OBDhfnUC6AHtAzDGoYl4Ee/waPgMqKC2a9xcs9aPWByQlv3GE0hPo5gg==",
   "success": true,
   "projectFilePath": "C:\\Users\\oldsc\\Source\\Repos\\cs3750_fall_group_project\\Group_Project\\Group_Project\\Group_Project.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\oldsc\\.nuget\\packages\\bcrypt.net-next\\4.0.0\\bcrypt.net-next.4.0.0.nupkg.sha512",
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\3.1.0\\microsoft.aspnetcore.razor.language.3.1.0.nupkg.sha512",
@@ -24,6 +25,7 @@
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\3.1.8\\microsoft.entityframeworkcore.abstractions.3.1.8.nupkg.sha512",
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\3.1.8\\microsoft.entityframeworkcore.analyzers.3.1.8.nupkg.sha512",
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.entityframeworkcore.design\\3.1.8\\microsoft.entityframeworkcore.design.3.1.8.nupkg.sha512",
+    "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\3.1.8\\microsoft.entityframeworkcore.inmemory.3.1.8.nupkg.sha512",
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\3.1.8\\microsoft.entityframeworkcore.relational.3.1.8.nupkg.sha512",
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.entityframeworkcore.sqlite\\3.1.8\\microsoft.entityframeworkcore.sqlite.3.1.8.nupkg.sha512",
     "C:\\Users\\oldsc\\.nuget\\packages\\microsoft.entityframeworkcore.sqlite.core\\3.1.8\\microsoft.entityframeworkcore.sqlite.core.3.1.8.nupkg.sha512",

@@ -37,7 +37,7 @@ namespace Group_Project.Pages
 
             if (login == null)
             {
-                return NotFound();
+                return RedirectToPage("./BadLogin");
             }
 
             var encrypt = new Security();
@@ -46,13 +46,13 @@ namespace Group_Project.Pages
             user.Passwrd = encrypt.EncryptString(user.Passwrd);
             //user.Passwrd = encrypt.HashPassword(user.Passwrd);
 
-            if(!encrypt.IsMatch(user.Passwrd,login.Passwrd))
+            if(encrypt.IsMatch(user.Passwrd,login.Passwrd) != true)
             {
-                return Forbid();
+                return RedirectToPage("./BadLogin");
             }
 
             // Do we have a page for showing a sucessful login?
-            return RedirectToPage("./LoginSuccess");
+            return RedirectToPage("./GoodLogin");
         }
 
     }

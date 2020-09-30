@@ -18,7 +18,7 @@ namespace Group_Project.Pages
         }
 
         [BindProperty]
-        public Models.User user { get; set; }
+        public Models.User User { get; set; }
 
         public void OnGet()
         {
@@ -33,13 +33,13 @@ namespace Group_Project.Pages
                 return Page();
             }
 
-            if (user.ID == 0)
+            if (User.ID == 0)
             {
                 var encrypt = new Security();
-                user.Passwrd = encrypt.EncryptString(user.Passwrd);
-                user.Passwrd = encrypt.HashPassword(user.Passwrd);
+                User.Passwrd = encrypt.EncryptString(User.Passwrd);
+                User.Passwrd = encrypt.HashPassword(User.Passwrd);
 
-                _unitOfWork.User.Add(user);
+                _unitOfWork.User.Add(User);
                 _unitOfWork.Save(); // Create new user
             }
 
