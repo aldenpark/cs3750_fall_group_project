@@ -2,6 +2,7 @@
 @model Group_Project.Pages.CalendarModel
 @*
     https://github.com/edlynvillegas/evo-calendar
+    https://edlynvillegas.github.io/evo-calendar/
 *@
 @{ ViewData["Title"] = "Calendar Demo"; }
 
@@ -12,6 +13,19 @@
     <!-- Add the evo-calendar.js for.. obviously, functionality! -->
     <script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>
     <script>
-        $("#calendar").evoCalendar();
+        $(document).ready(function () {
+            $("#calendar").evoCalendar();
+            $.ajax({
+                url: "api/CalendarEvents", dataType: "json", success: function (result) {
+                    if (result.events) {
+                        //$("#calendar").evoCalendar({calendarEvents: result.events});
+                        $.each(result.events, function(i, evnt){
+                            $("#calendar").evoCalendar('addCalendarEvent', evnt);
+                        });
+
+                    }
+                }
+            });
+        });
     </script>
 }
