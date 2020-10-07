@@ -522,3 +522,8 @@ C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Projec
 C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Razor\Pages\BadLogin.cshtml.g.cs
 C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Razor\Pages\GoodLogin.cshtml.g.cs
+C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\bin\Debug\netcoreapp3.1\package-lock.json
+C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\bin\Debug\netcoreapp3.1\package.json
+C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\bin\Debug\netcoreapp3.1\vendor\fontawesome-free\package.json
+C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Razor\Pages\buttons.cshtml.g.cs
+C:\Users\oldsc\Source\Repos\cs3750_fall_group_project\Group_Project\Group_Project\obj\Debug\netcoreapp3.1\Razor\Pages\Calendar.cshtml.g.cs
