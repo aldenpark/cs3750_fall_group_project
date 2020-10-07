@@ -14,7 +14,10 @@
     <script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#calendar").evoCalendar();
+            $("#calendar").evoCalendar({
+                'sidebarDisplayDefault': false,
+                'todayHighlight': true
+            });
             $.ajax({
                 url: "api/CalendarEvents", dataType: "json", success: function (result) {
                     if (result.events) {
