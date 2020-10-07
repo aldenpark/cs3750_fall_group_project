@@ -5,6 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\404.html" />
+    <None Include="wwwroot\blank.html" />
+    <None Include="wwwroot\buttons.html" />
+    <None Include="wwwroot\cards.html" />
+    <None Include="wwwroot\charts.html" />
+    <None Include="wwwroot\forgot-password.html" />
+    <None Include="wwwroot\gulpfile.js" />
+    <None Include="wwwroot\index.html" />
+    <None Include="wwwroot\login.html" />
+    <None Include="wwwroot\register.html" />
+    <None Include="wwwroot\tables.html" />
+    <None Include="wwwroot\utilities-animation.html" />
+    <None Include="wwwroot\utilities-border.html" />
+    <None Include="wwwroot\utilities-color.html" />
+    <None Include="wwwroot\utilities-other.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
