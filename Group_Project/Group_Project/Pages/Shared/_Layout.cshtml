@@ -34,6 +34,9 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">Calendar</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
                             </li>
                             <li class="nav-item">
@@ -215,26 +218,27 @@
                 </div>
             </nav>
         </header>
+    </div>
 
-       
 
-            <div class="container">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                </main>
-            </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; 2020 - Group_Project - <a asp-area="" asp-page="/Privacy">Privacy</a>
-                </div>
-            </footer>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Group_Project - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
 
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
-            @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 
 
 
