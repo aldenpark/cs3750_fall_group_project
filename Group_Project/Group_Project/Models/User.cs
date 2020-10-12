@@ -29,5 +29,34 @@ namespace Group_Project.Models
         public char UserType { get; set; }
         //A single letter I for instructor, S for student
 
+        [Display(Name = "Address Line 1")]
+        public string AddressLine1 { get; set; }
+
+        [Display(Name = "Address Line 2")]
+        public string AddressLine2 { get; set; }
+
+        [Display(Name = "State")]
+        public string State { get; set; }
+
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Display(Name = "Zip Code")]
+        public int Zip { get; set; }
+
+        [Display(Name = "Bio")]
+        public string Bio { get; set; }
+
+        [Display(Name = "Link1")]
+        public string Link1 { get; set; }
+
+        [Display(Name = "Link2")]
+        public string Link2 { get; set; }
+
+        [Display(Name = "Link3")]
+        public string Link3 { get; set; }
+
+        public string ProfilePic { get; set; }
+
     }
 }
