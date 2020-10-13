@@ -21,8 +21,6 @@ namespace Group_Project.Pages
         [BindProperty]
         public User User { get; set; }
 
-
-
         public void OnGet()
         {
         }

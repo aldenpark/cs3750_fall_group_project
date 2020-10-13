@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
+using System.Dynamic;
 
 namespace Group_Project.Pages
 {
@@ -72,6 +73,11 @@ namespace Group_Project.Pages
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.ID == id);
+        }
+        
+        public void OnGet()
+        {
+
         }
     }
 }

@@ -9,9 +9,9 @@
 <h4>User Information</h4>
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="User.ID" />
+        <ul>
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="User.ID" />*@
             <div class="form-group">
                 <label asp-for="User.Email" class="control-label"></label>
                 <label href="User.Email"></label>
@@ -73,8 +73,12 @@
                 <img class="rounded-circle" style="width:50px;height:50px;" src="User.ProfilePic" alt="">
             </div>
             <div class="form-group">
-                <input type="submit" value="Edit" class="btn btn-primary" href="/EditProfile"/>
+                <input type="button" value="Edit" href="/EditProfile?id={User.ID}" />
             </div>
-        </form>
+        </ul>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
