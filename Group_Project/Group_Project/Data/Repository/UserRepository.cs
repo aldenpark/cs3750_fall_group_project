@@ -26,6 +26,7 @@ namespace Group_Project.Data.Repository
             objFromDb.LastName = user.LastName;
             objFromDb.Birthdate = user.Birthdate;
             objFromDb.UserType = user.UserType;
+            objFromDb.ProfilePic = user.ProfilePic;
 
             _db.SaveChanges();
         }
