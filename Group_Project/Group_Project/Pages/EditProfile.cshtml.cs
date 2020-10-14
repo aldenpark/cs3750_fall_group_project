@@ -9,23 +9,30 @@ using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
 using System.Dynamic;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Group_Project.Pages
 {
     public class EditProfileModel : PageModel
     {
         private readonly Group_Project.Data.ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public EditProfileModel(Group_Project.Data.ApplicationDbContext context)
+        public EditProfileModel(Group_Project.Data.ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [BindProperty]
         public User User { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync()
         {
+
+            int id = 5;
+
             if (id == null)
             {
                 return NotFound();
@@ -47,6 +54,38 @@ namespace Group_Project.Pages
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            var files = HttpContext.Request.Form.Files; // get, post, put, etc....
+
+            if (User.ID != 0)
+            { // existing user
+                var objFromDb = await _context.User.FindAsync(User.ID);
+                if (files.Count > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(webRootPath, @"img\profile");
+                    var extension = Path.GetExtension(files[0].FileName);
+
+                    var imagePath = Path.Combine(webRootPath, objFromDb.ProfilePic.TrimStart('\\'));
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStream);
+                    }
+
+                    User.ProfilePic = @"\img\profile\" + fileName + extension;
+                }
+                else
+                {
+                    User.ProfilePic = objFromDb.ProfilePic;  // no image uploaded, just readding it from db so we don't lose it
+                }
+
             }
 
             _context.Attach(User).State = EntityState.Modified;
@@ -74,7 +113,7 @@ namespace Group_Project.Pages
         {
             return _context.User.Any(e => e.ID == id);
         }
-        
+
         public void OnGet()
         {
 

@@ -101,7 +101,7 @@
             @Html.DisplayNameFor(model => model.User.ProfilePic)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.ProfilePic)
+            <img src="@Model.User.ProfilePic" style="width:100%; border-radius:5px; border:1px solid #bbb9b9" />
         </dd>
     </dl>
 </div>
