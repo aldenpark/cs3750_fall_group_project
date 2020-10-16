@@ -27,9 +27,8 @@ namespace Group_Project.Pages.Profile
         public new User User { get; set; }
 
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int id)
         {
-            int id = 5;
 
             if (id == null)
             {

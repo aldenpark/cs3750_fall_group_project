@@ -14,5 +14,7 @@ namespace Group_Project.Data
         }
 
         public DbSet<User> User { get; set; }
+
+        public DbSet<Group_Project.Models.Course> Course { get; set; }
     }
 }
