@@ -1,0 +1,116 @@
+﻿@page
+@model Group_Project.Pages.EditCourseModel
+
+@{
+    ViewData["Title"] = "EditCourse";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>EditCourse</h1>
+
+<h4>Course</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Course.ID" />
+            <div class="form-group">
+                <label asp-for="Course.InstructorID" class="control-label"></label>
+                <input asp-for="Course.InstructorID" class="form-control" />
+                <span asp-validation-for="Course.InstructorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.CourseName" class="control-label"></label>
+                <input asp-for="Course.CourseName" class="form-control" />
+                <span asp-validation-for="Course.CourseName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.CourseNumber" class="control-label"></label>
+                <input asp-for="Course.CourseNumber" class="form-control" />
+                <span asp-validation-for="Course.CourseNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Department" class="control-label"></label>
+                <input asp-for="Course.Department" class="form-control" />
+                <span asp-validation-for="Course.Department" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Description" class="control-label"></label>
+                <input asp-for="Course.Description" class="form-control" />
+                <span asp-validation-for="Course.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.CreditHours" class="control-label"></label>
+                <input asp-for="Course.CreditHours" class="form-control" />
+                <span asp-validation-for="Course.CreditHours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Location" class="control-label"></label>
+                <input asp-for="Course.Location" class="form-control" />
+                <span asp-validation-for="Course.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Monday" class="control-label"></label>
+                <input asp-for="Course.Monday" class="form-control" />
+                <span asp-validation-for="Course.Monday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Tuesday" class="control-label"></label>
+                <input asp-for="Course.Tuesday" class="form-control" />
+                <span asp-validation-for="Course.Tuesday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Wednesday" class="control-label"></label>
+                <input asp-for="Course.Wednesday" class="form-control" />
+                <span asp-validation-for="Course.Wednesday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Thursday" class="control-label"></label>
+                <input asp-for="Course.Thursday" class="form-control" />
+                <span asp-validation-for="Course.Thursday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Friday" class="control-label"></label>
+                <input asp-for="Course.Friday" class="form-control" />
+                <span asp-validation-for="Course.Friday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Saturday" class="control-label"></label>
+                <input asp-for="Course.Saturday" class="form-control" />
+                <span asp-validation-for="Course.Saturday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Sunday" class="control-label"></label>
+                <input asp-for="Course.Sunday" class="form-control" />
+                <span asp-validation-for="Course.Sunday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.CourseTime" class="control-label"></label>
+                <input asp-for="Course.CourseTime" class="form-control" />
+                <span asp-validation-for="Course.CourseTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.AMPM" class="control-label"></label>
+                <input asp-for="Course.AMPM" class="form-control" />
+                <span asp-validation-for="Course.AMPM" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.MaxStudents" class="control-label"></label>
+                <input asp-for="Course.MaxStudents" class="form-control" />
+                <span asp-validation-for="Course.MaxStudents" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
