@@ -1,5 +1,5 @@
 ﻿@page
-@model Group_Project.Pages.CreateCourseModel
+@model Group_Project.Pages.Course.CreateCourseModel
 
 @{
     ViewData["Title"] = "CreateCourse";
@@ -90,9 +90,9 @@
                 <span asp-validation-for="Course.StartTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Course.AMPM" class="control-label"></label>
-                <input asp-for="Course.AMPM" class="form-control" />
-                <span asp-validation-for="Course.AMPM" class="text-danger"></span>
+                <label asp-for="Course.EndTime" class="control-label"></label>
+                <input asp-for="Course.EndTime" class="form-control" />
+                <span asp-validation-for="Course.EndTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Course.MaxStudents" class="control-label"></label>

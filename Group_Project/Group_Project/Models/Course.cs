@@ -22,27 +22,23 @@ namespace Group_Project.Models
         [Display(Name = "Credit Hours")]
         public int CreditHours { get; set; }
         public string Location { get; set; }
-        public int Monday { get; set; }
-        //Is the class on mondays? 1 for yes, 0 for no
-        public int Tuesday { get; set; }
-        //Ditto, but for tuesdays
-        public int Wednesday { get; set; }
-        //Yada yada
-        public int Thursday { get; set; }
-        //etc, etc, and etc
-        public int Friday { get; set; }
-        public int Saturday { get; set; }
-        public int Sunday { get; set; }
-        [DataType(DataType.Time)]
-        [Display(Name = "Time")]
-        public string StartTime { get; set; }
-        [DataType(DataType.Time)]
-        [Display(Name = "Time")]
-        public string EndTime { get; set; }
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set; }
+        public bool Friday { get; set; }
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
+        
         //Time of day
-        [Display(Name = "AM or PM")]
-        public string AMPM { get; set; }
-        //Literally whether the time is in "AM" or "PM"
+        [DataType(DataType.Time)]
+        [Display(Name = "Start Time")]
+        public string StartTime { get; set; }
+        
+        [DataType(DataType.Time)]
+        [Display(Name = "End Time")]
+        public string EndTime { get; set; }
+
         [Display(Name = "Max Students in Class")]
         public int MaxStudents { get; set; }
 
