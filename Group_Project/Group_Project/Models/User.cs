@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Group_Project.Models
 {
@@ -21,6 +22,11 @@ namespace Group_Project.Models
         public string FirstName { get; set; }
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [NotMapped] // don't map to field in db
+        public string FullName { get { return FirstName + " " + LastName; } }
+
+
         [DataType(DataType.Date)]
         [Display(Name = "Birth Date")]
         [Required]

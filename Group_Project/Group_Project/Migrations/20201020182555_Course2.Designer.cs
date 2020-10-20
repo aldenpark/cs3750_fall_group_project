@@ -4,14 +4,16 @@ using Group_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Group_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201020182555_Course2")]
+    partial class Course2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,6 +27,9 @@ namespace Group_Project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AMPM")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CourseName")
                         .HasColumnType("nvarchar(max)");
@@ -44,8 +49,8 @@ namespace Group_Project.Migrations
                     b.Property<string>("EndTime")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Friday")
-                        .HasColumnType("bit");
+                    b.Property<int>("Friday")
+                        .HasColumnType("int");
 
                     b.Property<int>("InstructorID")
                         .HasColumnType("int");
@@ -56,26 +61,26 @@ namespace Group_Project.Migrations
                     b.Property<int>("MaxStudents")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Monday")
-                        .HasColumnType("bit");
+                    b.Property<int>("Monday")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Saturday")
-                        .HasColumnType("bit");
+                    b.Property<int>("Saturday")
+                        .HasColumnType("int");
 
                     b.Property<string>("StartTime")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Sunday")
-                        .HasColumnType("bit");
+                    b.Property<int>("Sunday")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Thursday")
-                        .HasColumnType("bit");
+                    b.Property<int>("Thursday")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Tuesday")
-                        .HasColumnType("bit");
+                    b.Property<int>("Tuesday")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Wednesday")
-                        .HasColumnType("bit");
+                    b.Property<int>("Wednesday")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 

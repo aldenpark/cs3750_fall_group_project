@@ -28,10 +28,10 @@ namespace Group_Project.Pages
         [BindProperty]
         public User User { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(int id)
         {
 
-            int id = 5;
+            
 
             if (id == null)
             {
@@ -114,9 +114,5 @@ namespace Group_Project.Pages
             return _context.User.Any(e => e.ID == id);
         }
 
-        public void OnGet()
-        {
-
-        }
     }
 }

@@ -27,6 +27,14 @@ namespace Group_Project
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(10); // timeout
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            }); // must be before razor pages
+
             services.AddRazorPages();
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -34,6 +42,7 @@ namespace Group_Project
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddMvc(OptionsBuilderConfigurationExtensions => OptionsBuilderConfigurationExtensions.EnableEndpointRouting = false); // so we can use Javascript
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +61,7 @@ namespace Group_Project
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();

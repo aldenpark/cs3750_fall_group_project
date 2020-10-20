@@ -5,6 +5,8 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using Group_Project.Data.Repository.IRepository;
 using Group_Project.Helpers;
+using Group_Project.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -51,8 +53,9 @@ namespace Group_Project.Pages
                 return RedirectToPage("./BadLogin");
             }
 
-            // Do we have a page for showing a sucessful login?
-            return RedirectToPage("./GoodLogin");
+            // Setting Session with the id of the logged in User
+            HttpContext.Session.SetInt32(SD.UserSessionId, login.ID);
+            return RedirectToPage("/");
         }
 
     }
