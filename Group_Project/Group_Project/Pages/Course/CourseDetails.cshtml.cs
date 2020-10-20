@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
 
-namespace Group_Project.Pages
+namespace Group_Project.Pages.Course
 {
     public class CourseDetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace Group_Project.Pages
             _context = context;
         }
 
-        public Course Course { get; set; }
+        public Models.Course Course { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,12 +28,33 @@ namespace Group_Project.Pages
                 return NotFound();
             }
 
-            Course = await _context.Course.FirstOrDefaultAsync(m => m.ID == id);
+            Course = await _context.Course.FirstOrDefaultAsync(m => m.ID == id);            
+
 
             if (Course == null)
             {
                 return NotFound();
             }
+            else
+            {
+                string[] times = Course.StartTime.Split(':');
+
+                int hour = int.Parse(times[0]);
+                string AMPM = "";
+
+                if (hour > 12)
+                {
+                    AMPM = "PM";
+                    hour = hour - 12;
+                }
+                else
+                {
+                    AMPM = "AM";
+                }
+
+                Course.StartTime = hour.ToString() + ":" + times[1] + " " + AMPM;
+            }
+
             return Page();
         }
     }

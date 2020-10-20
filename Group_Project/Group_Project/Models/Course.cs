@@ -35,7 +35,10 @@ namespace Group_Project.Models
         public int Sunday { get; set; }
         [DataType(DataType.Time)]
         [Display(Name = "Time")]
-        public TimeSpan CourseTime { get; set; }
+        public string StartTime { get; set; }
+        [DataType(DataType.Time)]
+        [Display(Name = "Time")]
+        public string EndTime { get; set; }
         //Time of day
         [Display(Name = "AM or PM")]
         public string AMPM { get; set; }

@@ -1,5 +1,5 @@
 ﻿@page
-@model Group_Project.Pages.CourseDetailsModel
+@model Group_Project.Pages.Course.CourseDetailsModel
 
 @{
     ViewData["Title"] = "CourseDetails";
@@ -97,10 +97,10 @@
             @Html.DisplayFor(model => model.Course.Sunday)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.CourseTime)
+            @Html.DisplayNameFor(model => model.Course.StartTime)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => DateTime.Parse(model.Course.CourseTime.ToString()))
+            @Html.DisplayFor(model => model.Course.StartTime)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Course.AMPM)

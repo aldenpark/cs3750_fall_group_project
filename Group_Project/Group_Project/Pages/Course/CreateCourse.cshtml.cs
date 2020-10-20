@@ -27,7 +27,7 @@ namespace Group_Project.Pages
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
         [BindProperty]
-        public Course Course { get; set; }
+        public Models.Course Course { get; set; }
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

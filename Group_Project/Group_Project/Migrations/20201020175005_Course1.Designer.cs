@@ -4,14 +4,16 @@ using Group_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Group_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201020175005_Course1")]
+    partial class Course1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +37,9 @@ namespace Group_Project.Migrations
                     b.Property<int>("CourseNumber")
                         .HasColumnType("int");
 
+                    b.Property<string>("CourseTime")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CreditHours")
                         .HasColumnType("int");
 
@@ -42,9 +47,6 @@ namespace Group_Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EndTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Friday")
@@ -64,9 +66,6 @@ namespace Group_Project.Migrations
 
                     b.Property<int>("Saturday")
                         .HasColumnType("int");
-
-                    b.Property<string>("StartTime")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Sunday")
                         .HasColumnType("int");

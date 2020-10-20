@@ -21,7 +21,7 @@ namespace Group_Project.Pages
         }
 
         [BindProperty]
-        public Course Course { get; set; }
+        public Models.Course Course { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -31,6 +31,8 @@ namespace Group_Project.Pages
             }
 
             Course = await _context.Course.FirstOrDefaultAsync(m => m.ID == id);
+
+            
 
             if (Course == null)
             {
