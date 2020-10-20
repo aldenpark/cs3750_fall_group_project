@@ -14,7 +14,7 @@ namespace Group_Project.Pages.Course
     public class CreateCourseModel : PageModel
     {
         private readonly Group_Project.Data.ApplicationDbContext _context;
-        private CourseValidator courseValidator;
+        private CourseHelper courseHelper;
         private CourseValidationResponse courseValidationResponse;
 
         public CreateCourseModel(Group_Project.Data.ApplicationDbContext context)
@@ -39,10 +39,10 @@ namespace Group_Project.Pages.Course
                 return Page();
             }
 
-            courseValidator = new CourseValidator();
+            courseHelper = new CourseHelper();
             courseValidationResponse = new CourseValidationResponse();
 
-            courseValidationResponse = courseValidator.ValidateCourse(Course);
+            courseValidationResponse = courseHelper.ValidateCourse(Course);
 
             //Make sure that start time is before the end time
             if(courseValidationResponse.isValidated)
@@ -50,6 +50,7 @@ namespace Group_Project.Pages.Course
                 _context.Course.Add(Course);
                 await _context.SaveChangesAsync();
             }
+            //TODO: Make error page 
 
 
 

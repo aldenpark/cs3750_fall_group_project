@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
+using Group_Project.Helpers;
 
 namespace Group_Project.Pages.Course
 {
     public class CourseDetailsModel : PageModel
     {
         private readonly Group_Project.Data.ApplicationDbContext _context;
+        private CourseHelper courseHelper;
 
         public CourseDetailsModel(Group_Project.Data.ApplicationDbContext context)
         {
@@ -28,8 +30,8 @@ namespace Group_Project.Pages.Course
                 return NotFound();
             }
 
-            Course = await _context.Course.FirstOrDefaultAsync(m => m.ID == id);            
-
+            Course = await _context.Course.FirstOrDefaultAsync(m => m.ID == id);
+            courseHelper = new CourseHelper();
 
             if (Course == null)
             {
@@ -37,22 +39,10 @@ namespace Group_Project.Pages.Course
             }
             else
             {
-                string[] times = Course.StartTime.Split(':');
+                string startEndTime = courseHelper.ConcatenateStartAndEndTime(Course);
+                string fullSchedule = courseHelper.ConcatenateDaysAndTimes(Course, startEndTime);
 
-                int hour = int.Parse(times[0]);
-                string AMPM = "";
-
-                if (hour > 12)
-                {
-                    AMPM = "PM";
-                    hour = hour - 12;
-                }
-                else
-                {
-                    AMPM = "AM";
-                }
-
-                Course.StartTime = hour.ToString() + ":" + times[1] + " " + AMPM;
+                Course.StartTime = fullSchedule;
             }
 
             return Page();

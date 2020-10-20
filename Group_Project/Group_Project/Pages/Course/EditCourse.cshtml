@@ -1,5 +1,5 @@
 ﻿@page
-@model Group_Project.Pages.EditCourseModel
+@model Group_Project.Pages.Course.EditCourseModel
 
 @{
     ViewData["Title"] = "EditCourse";
@@ -50,45 +50,50 @@
                 <input asp-for="Course.Location" class="form-control" />
                 <span asp-validation-for="Course.Location" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Course.Monday" class="control-label"></label>
-                <input asp-for="Course.Monday" class="form-control" />
-                <span asp-validation-for="Course.Monday" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Course.Monday" /> @Html.DisplayNameFor(model => model.Course.Monday)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Course.Tuesday" class="control-label"></label>
-                <input asp-for="Course.Tuesday" class="form-control" />
-                <span asp-validation-for="Course.Tuesday" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Course.Tuesday" /> @Html.DisplayNameFor(model => model.Course.Tuesday)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Course.Wednesday" class="control-label"></label>
-                <input asp-for="Course.Wednesday" class="form-control" />
-                <span asp-validation-for="Course.Wednesday" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Course.Wednesday" /> @Html.DisplayNameFor(model => model.Course.Wednesday)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Course.Thursday" class="control-label"></label>
-                <input asp-for="Course.Thursday" class="form-control" />
-                <span asp-validation-for="Course.Thursday" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Course.Thursday" /> @Html.DisplayNameFor(model => model.Course.Thursday)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Course.Friday" class="control-label"></label>
-                <input asp-for="Course.Friday" class="form-control" />
-                <span asp-validation-for="Course.Friday" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Course.Friday" /> @Html.DisplayNameFor(model => model.Course.Friday)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Course.Saturday" class="control-label"></label>
-                <input asp-for="Course.Saturday" class="form-control" />
-                <span asp-validation-for="Course.Saturday" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Course.Saturday" /> @Html.DisplayNameFor(model => model.Course.Saturday)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Course.Sunday" class="control-label"></label>
-                <input asp-for="Course.Sunday" class="form-control" />
-                <span asp-validation-for="Course.Sunday" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Course.Sunday" /> @Html.DisplayNameFor(model => model.Course.Sunday)
+                </label>
             </div>
             <div class="form-group">
                 <label asp-for="Course.StartTime" class="control-label"></label>
                 <input asp-for="Course.StartTime" class="form-control" />
                 <span asp-validation-for="Course.StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.EndTime" class="control-label"></label>
+                <input asp-for="Course.EndTime" class="form-control" />
+                <span asp-validation-for="Course.EndTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Course.MaxStudents" class="control-label"></label>

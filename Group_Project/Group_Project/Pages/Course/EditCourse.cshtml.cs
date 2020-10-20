@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
 
-namespace Group_Project.Pages
+namespace Group_Project.Pages.Course
 {
     public class EditCourseModel : PageModel
     {
@@ -31,8 +31,6 @@ namespace Group_Project.Pages
             }
 
             Course = await _context.Course.FirstOrDefaultAsync(m => m.ID == id);
-
-            
 
             if (Course == null)
             {
