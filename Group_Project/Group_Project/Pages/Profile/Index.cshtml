@@ -1,6 +1,10 @@
 ﻿@page
 @model Group_Project.Pages.Profile.IndexModel
 @{
+    if (Model.User == null){
+        RedirectToPage("/Login");
+        return;
+    }
 }
 
 
@@ -102,11 +106,14 @@
             @Html.DisplayNameFor(model => model.User.ProfilePic)
         </dt>
         <dd class="col-sm-10">
+            @if (Model.User != null)
+            {
             <img src="@Model.User.ProfilePic" style="width:100%; border-radius:5px; border:1px solid #bbb9b9" />
+            }
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.User.ID">Edit</a> |
+    <a asp-page="./Edit">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>
