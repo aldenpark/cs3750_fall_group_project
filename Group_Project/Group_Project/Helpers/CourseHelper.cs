@@ -26,6 +26,28 @@ namespace Group_Project.Helpers
             return response;
         }
 
+        public string ConvertMilitaryToStandardTime(string time)
+        {
+            string standardTime = "";
+            string[] parsedTime = time.Split(':');
+            int Hour = int.Parse(parsedTime[0]);
+            string AMPM = "";
+
+            if(Hour > 12)
+            {
+                AMPM = "PM";
+                Hour = Hour - 12;
+            }
+            else
+            {
+                AMPM = "AM";
+            }
+
+            standardTime = Hour.ToString() + ":" + parsedTime[1] + " " + AMPM;
+
+            return standardTime;
+        }
+
         public string ConcatenateStartAndEndTime(Course course)
         {
             //Variable to hold the times of the course(StartTime & EndTime)

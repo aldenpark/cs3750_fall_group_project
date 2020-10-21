@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
+using Microsoft.AspNetCore.Http;
+using Group_Project.Utility;
 
 namespace Group_Project.Pages.Course
 {
@@ -30,12 +32,29 @@ namespace Group_Project.Pages.Course
                 return NotFound();
             }
 
+
             Course = await _context.Course.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Course == null)
             {
                 return NotFound();
             }
+            
+            //Get userId of logged in user
+            var userId = HttpContext.Session.GetInt32(SD.UserSessionId);
+            if (userId == null)
+            {
+                userId = 0;
+            }
+            //Check if user is an instructor
+            var isInstructor = await _context.User.Where(x => x.ID == userId).Where(x => x.UserType == 'I').AnyAsync();
+
+            //Makes sure user is logged in, is an instructor and is the instructor who created the course
+            if (userId == 0 || !isInstructor || (userId != Course.InstructorID))
+            {
+                return Unauthorized();
+            }
+
             return Page();
         }
 
