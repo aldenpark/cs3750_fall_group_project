@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Group_Project.Pages.Profile
 {
+
+
     public class IndexModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -25,7 +27,7 @@ namespace Group_Project.Pages.Profile
 
         [BindProperty] 
         public new User User { get; set; }
-
+        public Models.Course Course { get; set; }
         public IActionResult OnGet()
         {
             if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
