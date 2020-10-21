@@ -8,6 +8,7 @@ namespace Group_Project.Data.Repository.IRepository
     public interface IUnitOfWork : IDisposable
     {
         IUserRepository User { get; }
+        ICourseRepository Course { get; }
         void Save();
     }
 }
