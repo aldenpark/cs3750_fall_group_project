@@ -64,5 +64,7 @@ namespace Group_Project.Models
 
         public string ProfilePic { get; set; }
 
+        public double AmmountDue { get; set; }
+
     }
 }
