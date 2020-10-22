@@ -55,7 +55,7 @@ namespace Group_Project.Pages
 
             // Setting Session with the id of the logged in User
             HttpContext.Session.SetInt32(SD.UserSessionId, login.ID);
-            return RedirectToPage("/");
+            return RedirectToPage("/LoggedInHomePage");
         }
 
     }
