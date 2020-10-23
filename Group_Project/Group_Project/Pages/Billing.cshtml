@@ -1,7 +1,8 @@
 ﻿@page
-@model Group_Project.Pages.LoginModel
+@model Group_Project.Pages.BillingModel
 @{
     ViewData["Title"] = "Billing";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -9,6 +10,8 @@
 
     <label>Account Balance</label> <label>$1200.00</label><br />
     <!--Nothing to connect to yet-->
+
+    <label>Amount Due</label><label>@Html.DisplayFor(model => model.User.AmmountDue)</label><br />
 
     <label>Full Name</label>
     <input class="form-control" />
