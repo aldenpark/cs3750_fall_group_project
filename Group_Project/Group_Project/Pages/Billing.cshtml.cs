@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
+using Microsoft.AspNetCore.Http;
+using Group_Project.Utility;
 
 namespace Group_Project.Pages
 {
@@ -23,6 +25,8 @@ namespace Group_Project.Pages
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            id = HttpContext.Session.GetInt32(SD.UserSessionId);
+
             if (id == null)
             {
                 return NotFound();
