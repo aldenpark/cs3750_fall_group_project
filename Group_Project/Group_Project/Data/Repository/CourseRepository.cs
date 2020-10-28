@@ -20,13 +20,22 @@ namespace Group_Project.Data.Repository
         {
             var objFromDb = _db.Course.FirstOrDefault(s => s.ID == course.ID);
 
-            //objFromDb.Email = user.Email;
-            //objFromDb.Passwrd = user.Passwrd;
-            //objFromDb.FirstName = user.FirstName;
-            //objFromDb.LastName = user.LastName;
-            //objFromDb.Birthdate = user.Birthdate;
-            //objFromDb.UserType = user.UserType;
-            //objFromDb.ProfilePic = user.ProfilePic;
+            objFromDb.InstructorID = course.InstructorID;
+            objFromDb.CourseName = course.CourseName;
+            objFromDb.CourseNumber = course.CourseNumber;
+            objFromDb.Department = course.Department;
+            objFromDb.CreditHours = course.CreditHours;
+            objFromDb.Location = course.Location;
+            objFromDb.Monday = course.Monday;
+            objFromDb.Tuesday = course.Tuesday;
+            objFromDb.Wednesday = course.Wednesday;
+            objFromDb.Thursday = course.Thursday;
+            objFromDb.Friday = course.Friday;
+            objFromDb.Saturday = course.Saturday;
+            objFromDb.Sunday = course.Sunday;
+            objFromDb.StartTime = course.StartTime;
+            objFromDb.EndTime = course.EndTime;
+            objFromDb.MaxStudents = course.MaxStudents;
 
             _db.SaveChanges();
         }

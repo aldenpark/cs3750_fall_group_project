@@ -39,7 +39,7 @@ namespace Group_Project.Pages.Assignments
             _context.Assignment.Add(Assignment);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./LoggedInHomePage");
         }
     }
 }
