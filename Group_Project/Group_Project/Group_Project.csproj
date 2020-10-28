@@ -7,6 +7,7 @@
   <ItemGroup>
     <None Include="wwwroot\css\sb-admin-2.css" />
     <None Include="wwwroot\css\sb-admin-2.min.css" />
+    <None Include="wwwroot\css\StripeTestStyle.css" />
     <None Include="wwwroot\img\undraw_posting_photo.svg" />
     <None Include="wwwroot\js\demo\chart-area-demo.js" />
     <None Include="wwwroot\js\demo\chart-bar-demo.js" />

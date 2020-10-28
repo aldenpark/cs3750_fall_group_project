@@ -1,0 +1,17 @@
+﻿body {
+}
+
+label
+{
+    display: block;
+}
+
+input
+{
+    display: block;
+}
+
+.requestTokenButton
+{
+    margin-top: 10px;
+}

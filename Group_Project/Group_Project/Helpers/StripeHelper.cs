@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stripe;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +10,26 @@ namespace Group_Project.Helpers
     {
         public StripeHelper()
         {
-
+            StripeConfiguration.ApiKey = "";
         }
 
-       
+       public void SendStripeTokenRequest()
+        {
+            StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
+
+            var options = new TokenCreateOptions
+            {
+                Card = new TokenCardOptions
+                {
+                    Number = "4242424242424242",
+                    ExpMonth = 10,
+                    ExpYear = 2021,
+                    Cvc = "314",
+                },
+            };
+            var service = new TokenService();
+            service.Create(options);
+        }
 
 
     }

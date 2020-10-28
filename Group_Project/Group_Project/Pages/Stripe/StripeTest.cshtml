@@ -1,0 +1,24 @@
+﻿@page
+@model Group_Project.Pages.Stripe.StripeTestModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/StripeTestStyle.css" />
+
+<h1>Stripe Test</h1>
+
+<label for="cardNumberInput">Enter Card Number</label>
+<input type="text" class="cardNumberInput" />
+
+<label for="expirationMonth">Enter Expiration Month</label>
+<input type="number" class="expirationMonth" />
+
+<label for="expirationYear">Enter Expiration Year</label>
+<input type="number" class="expirationYear" />
+
+<label for="cvcCode">Enter CVC Code</label>
+<input type="number" class="cvcCode" />
+
+
+<input type="button" class="requestTokenButton" value="Request For Token" />
