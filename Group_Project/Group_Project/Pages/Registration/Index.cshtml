@@ -79,13 +79,20 @@
             $("#searchClasses").click(function () {
                 event.preventDefault();
                 $.ajax({
-                    url: "api/Registration", type: "get", data: { "Course": {
-                        "CourseName": $("#CourseObj_CourseName").val(),
-                        "CourseNumber": $("#CourseObj_CourseNumber").val(),
-                        "Department": $("#CourseObj_Department").val(),
-                        "CreditHours": $("#CourseObj_CreditHours").val()
-                    }
-                    }, dataType: "json", success: function (result) {
+                    //url: "api/Registration", type: "get", data: { "Course": {
+                    //    "CourseName": $("#CourseObj_CourseName").val(),
+                    //    "CourseNumber": $("#CourseObj_CourseNumber").val(),
+                    //    "Department": $("#CourseObj_Department").val(),
+                    //    "CreditHours": $("#CourseObj_CreditHours").val()
+                    //}}
+                    //url: "api/Registration", type: "get", data: {
+                    //    "CourseName": $("#CourseObj_CourseName").val(),
+                    //    "CourseNumber": $("#CourseObj_CourseNumber").val(),
+                    //    "Department": $("#CourseObj_Department").val(),
+                    //    "CreditHours": $("#CourseObj_CreditHours").val()
+                    //}
+                    url: "api/Registration", type: "get", data: "1",
+                    dataType: "json", success: function (result) {
                         if (result.courses) {
                             var body = '';
                             $.each(result.courses, function (index, row) {
