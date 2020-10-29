@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Group_Project.Data;
 using Group_Project.Models;
 using Group_Project.Helpers;
+using Microsoft.AspNetCore.Http;
+using Group_Project.Utility;
 
 namespace Group_Project.Pages.Course
 {
@@ -21,10 +23,14 @@ namespace Group_Project.Pages.Course
             _context = context;
         }
 
+        public User User { get; set; }
         public Models.Course Course { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+
+            id = HttpContext.Session.GetInt32(SD.UserSessionId);
+
             if (id == null)
             {
                 return NotFound();
