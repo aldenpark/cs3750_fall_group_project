@@ -29,7 +29,7 @@ namespace Group_Project.Pages.Course
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 
-            id = HttpContext.Session.GetInt32(SD.UserSessionId);
+            //id = HttpContext.Session.GetInt32(SD.UserSessionId);
 
             if (id == null)
             {
