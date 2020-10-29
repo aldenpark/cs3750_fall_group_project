@@ -42,7 +42,7 @@ namespace Group_Project.Controllers
 
         // GET api/<Registration>/5
         [HttpGet("{id}")]
-        public string Get([FromBody] Course id)
+        public string Get([FromBody] Course2 id)
         {
             return "value";
         }
@@ -56,6 +56,11 @@ namespace Group_Project.Controllers
 
         [HttpPost]
         public void Post()
+        {
+        }
+
+        [HttpPost("{id}")]
+        public void Post(int id, [FromBody] string value)
         {
         }
 

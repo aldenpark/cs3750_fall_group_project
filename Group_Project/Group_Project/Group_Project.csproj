@@ -1859,8 +1859,4 @@
     <PackageReference Include="Stripe.net" Version="39.19.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\img\profile\" />
-  </ItemGroup>
-
 </Project>
