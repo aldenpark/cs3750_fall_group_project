@@ -1,36 +1,44 @@
-﻿using Stripe;
+﻿
+using Group_Project.HelperModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Group_Project.Helpers
 {
     public class StripeHelper2
     {
-        private TokenService tokenService;
-        private ChargeService chargeService;
-        private Token myCardToken;
-        private Charge myChargeToken;
 
         private readonly string BaseURL = "https://api.stripe.com";
+        //POST
         private readonly string CreateURL = "/v1/tokens";
+        private readonly string ChargeURL = "/v1/charges";
+        //GET
+        private readonly string GetURL = "/v1/tokens/:id";
+        private readonly string APIKey = "sk_test_51HUauxGGhia5bBAKB5Pjb3fkp5OxNTzEZcHDtu2LPSXODAryxlez2qEv7OcOhGAcPzRRpqoOv7XdhKj44aFhWh8L00cdl9rLaO";
+        private string cardToken;
         private HttpClient httpClient;
         private HttpContent httpContent;
+        private StripeTokenResponse stripeToken;
 
         public StripeHelper2()
         {
-            //Initialize the API Key
-            StripeConfiguration.ApiKey = "sk_test_51HUauxGGhia5bBAKB5Pjb3fkp5OxNTzEZcHDtu2LPSXODAryxlez2qEv7OcOhGAcPzRRpqoOv7XdhKj44aFhWh8L00cdl9rLaO";
-            //Initialize the tokenService
-            tokenService = new TokenService();
-            chargeService = new ChargeService();
+            //Initialize the HttpClient
             httpClient = new HttpClient();
-            
+            //Initialize the Response object
+            stripeToken = new StripeTokenResponse();
+            //Initialize the cardToken
+            cardToken = "";
         }
 
-        public Token SendStripeTokenRequest()
+        public async Task<StripeTokenResponse> CreateCard()
         {
             //Make a card
             var options = new TokenCreateOptions
@@ -44,10 +52,56 @@ namespace Group_Project.Helpers
                 },
             };
 
-           
+            //Add authorization header
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", APIKey);
 
+            //Serialize the request object
+            var jsonObject = JsonConvert.SerializeObject(options);
+
+
+            var cardValues = new Dictionary<string, string>
+            {
+                { "card[number]", options.Card.Number },
+                { "card[exp_month]", options.Card.ExpMonth.ToString()},
+                { "card[exp_year]", options.Card.ExpYear.ToString() },
+                { "card[cvc]", options.Card.Cvc}
+            };
+
+
+            var formUrlEncodedContent = new FormUrlEncodedContent(cardValues);
+
+
+            //Post request to Stripe
+            var response = await httpClient.PostAsync(BaseURL + CreateURL, formUrlEncodedContent);
+            //Parse the json
+            var responsejson = await response.Content.ReadAsStringAsync();
+            //Parse the token id
+            string token = JObject.Parse(responsejson).SelectToken("id").ToString();
+
+
+            var chargeValues = new Dictionary<string, string>
+            {
+                { "amount", (10000).ToString() },
+                { "currency", "usd"},
+                { "description", "Test Charge Through Learning Management System" },
+                { "source", token }
+            };
+            var formUrlEncodedContent2 = new FormUrlEncodedContent(chargeValues);
+
+
+            var response2 = await httpClient.PostAsync(BaseURL + ChargeURL, formUrlEncodedContent2);
+            var responsejson2 = await response.Content.ReadAsStringAsync();
+            if(response2.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+
+            }
+            string token2 = JObject.Parse(responsejson).SelectToken("id").ToString();
+
+            return stripeToken;
+
+            /*
             //Make request to stripe using a card, retrieve token
-            var token = 
+            var token =
             myCardToken = tokenService.Create(options);
 
             //Retrieve the Card using the token
@@ -61,8 +115,10 @@ namespace Group_Project.Helpers
 
             //Return token
             return myCardToken;
+            */
         }
 
+        /*
         public Token GetCardById(string Id)
         {
             Token result = tokenService.Get(Id);
@@ -92,46 +148,11 @@ namespace Group_Project.Helpers
             return result;
         }
 
-
+        */
     }
 
-    public class StripeToken
-    {
-        public string id { get; set; }
-        public string _object { get; set; }
-        public Card card { get; set; }
-        public object client_ip { get; set; }
-        public int created { get; set; }
-        public bool livemode { get; set; }
-        public string type { get; set; }
-        public bool used { get; set; }
-    }
 
-    public class Card
-    {
-        public string id { get; set; }
-        public string _object { get; set; }
-        public object address_city { get; set; }
-        public object address_country { get; set; }
-        public object address_line1 { get; set; }
-        public object address_line1_check { get; set; }
-        public object address_line2 { get; set; }
-        public object address_state { get; set; }
-        public object address_zip { get; set; }
-        public object address_zip_check { get; set; }
-        public string brand { get; set; }
-        public string country { get; set; }
-        public string cvc_check { get; set; }
-        public object dynamic_last4 { get; set; }
-        public int exp_month { get; set; }
-        public int exp_year { get; set; }
-        public string fingerprint { get; set; }
-        public string funding { get; set; }
-        public string last4 { get; set; }
-        public Metadata metadata { get; set; }
-        public object name { get; set; }
-        public object tokenization_method { get; set; }
-    }
+
 
     public class StripeTokenRequest
     {
@@ -141,4 +162,32 @@ namespace Group_Project.Helpers
     public class Metadata
     {
     }
+
+    public class TokenCreateOptions
+    {
+        public TokenCardOptions Card { get; set; }
+    }
+
+    public class TokenCardOptions
+    {
+        public string Number { get; set; }
+        public int ExpMonth { get; set; }
+        public int ExpYear { get; set; }
+        public string Cvc { get; set; }
+    }
+
+    public class ChargeCreateOptions
+    {
+        public int Amount { get; set; }
+        public string Currency { get; set; }
+        public string Source { get; set; }
+        public string Description { get; set; }
+    }
+
+
+  
+
+
+
+
 }

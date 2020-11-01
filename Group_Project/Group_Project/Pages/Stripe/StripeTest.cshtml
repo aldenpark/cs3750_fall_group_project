@@ -9,18 +9,18 @@
 <h1>Stripe Test</h1>
 
 <label for="cardNumberInput">Last 4 of Card Number</label>
-<input type="text" class="cardNumberInput" value=@Model.stripeToken.Card.Last4 />
+<input type="text" class="cardNumberInput" value="" />
 
 <label for="expirationMonth">Expiration Month</label>
-<input type="number" class="expirationMonth" value=@Model.stripeToken.Card.ExpMonth />
+<input type="number" class="expirationMonth" value=1 />
 
 <label for="expirationYear">Expiration Year</label>
-<input type="number" class="expirationYear" value=@Model.stripeToken.Card.ExpYear />
+<input type="number" class="expirationYear" value=1/>
 
 <label for="cvcCode">Enter CVC Code</label>
-<input type="number" class="cvcCode" value=@Model.stripeToken.Card.CvcCheck/>
+<input type="number" class="cvcCode" value=1/>
 
 
 <input type="button" class="requestTokenButton" onclick="" value="Request For Token" />
 
-<input type="text" class="stripeToken" value=@Model.stripeToken.Id/>
+<input type="text" class="stripeToken" value=""/>

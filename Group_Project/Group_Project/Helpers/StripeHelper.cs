@@ -12,7 +12,7 @@ namespace Group_Project.Helpers
         private ChargeService chargeService;
         private Token myCardToken;
         private Charge myChargeToken;
-
+        /*
         public StripeHelper()
         {
             //Initialize the API Key
@@ -39,7 +39,7 @@ namespace Group_Project.Helpers
             
             
             //Make request to stripe using a card, retrieve token
-            myCardToken = tokenService.Create(options);
+            //myCardToken = tokenService.Create(options);
 
             //Retrieve the Card using the token
             Token retrievedCard = GetCardById(myCardToken.Id);
@@ -83,6 +83,7 @@ namespace Group_Project.Helpers
             return result;
         }
 
-
+        */
     }
+        
 }
