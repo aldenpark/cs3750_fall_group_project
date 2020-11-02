@@ -24,7 +24,7 @@ namespace Group_Project.Controllers
 
         // GET: api/<Registration>
         [HttpPost]
-        public IActionResult Post([FromForm] SearchCourses filter) //[FromBody]
+        public IActionResult Post([FromBody] SearchCourses filter) //[FromBody]
         {
             var test = filter;
             var Courses = _unitOfWork.Course.GetAll();
@@ -41,7 +41,7 @@ namespace Group_Project.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get([FromForm] SearchCourses filter)
+        public IActionResult Get([FromBody] SearchCourses filter)
         {
 
             var Courses = _unitOfWork.Course.GetAll();
