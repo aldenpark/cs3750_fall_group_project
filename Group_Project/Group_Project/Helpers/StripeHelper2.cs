@@ -1,10 +1,13 @@
 ﻿
-using Group_Project.HelperModels;
+//using Group_Project.HelperModels;
+using Group_Project.Data;
+using Group_Project.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -26,19 +29,17 @@ namespace Group_Project.Helpers
         private string cardToken;
         private HttpClient httpClient;
         private HttpContent httpContent;
-        private StripeTokenResponse stripeToken;
+        private ApplicationDbContext context;
 
         public StripeHelper2()
         {
             //Initialize the HttpClient
             httpClient = new HttpClient();
-            //Initialize the Response object
-            stripeToken = new StripeTokenResponse();
             //Initialize the cardToken
             cardToken = "";
         }
 
-        public async Task<StripeTokenResponse> CreateCard()
+        public async Task CreateCard()
         {
             //Make a card
             var options = new TokenCreateOptions
@@ -97,58 +98,79 @@ namespace Group_Project.Helpers
             }
             string token2 = JObject.Parse(responsejson).SelectToken("id").ToString();
 
-            return stripeToken;
 
-            /*
-            //Make request to stripe using a card, retrieve token
-            var token =
-            myCardToken = tokenService.Create(options);
-
-            //Retrieve the Card using the token
-            Token retrievedCard = GetCardById(myCardToken.Id);
-
-            //Charge the card and retrieve the charge token
-            myChargeToken = ChargeCard(myCardToken.Id);
-
-            //Retrieve the charge record using the charge token
-            Charge retrievedCharge = GetChargeById(myChargeToken.Id);
-
-            //Return token
-            return myCardToken;
-            */
+            
         }
 
-        /*
-        public Token GetCardById(string Id)
+        public async Task<HttpStatusCode> PayBill(BillingSubmission billingSubmission)
         {
-            Token result = tokenService.Get(Id);
+            HttpStatusCode statusCode = new HttpStatusCode();
 
-            return result;
-        }
-
-        public Charge ChargeCard(string cardId)
-        {
-            var options = new ChargeCreateOptions
+            if(!PayBillRequestValid(billingSubmission))
             {
-                Amount = 2000,
-                Currency = "usd",
-                Source = cardId,
-                Description = "My First Test Charge (created for API docs)",
-            };
-            Charge result = chargeService.Create(options);
+                statusCode = HttpStatusCode.BadRequest;
+            }
+            else
+            {
+                var cardValues = new Dictionary<string, string>
+                {
+                    { "card[number]", billingSubmission.CreditCardNum },
+                    { "card[exp_month]", billingSubmission.ExpMonth},
+                    { "card[exp_year]", billingSubmission.ExpYear },
+                    { "card[cvc]", billingSubmission.SecurityCode}
+                };
 
-            return result;
+                var formUrlEncodedContent = new FormUrlEncodedContent(cardValues);
+
+                //Post request to Stripe
+                var response = await httpClient.PostAsync(BaseURL + CreateURL, formUrlEncodedContent);
+                //Parse the json
+                var responsejson = await response.Content.ReadAsStringAsync();
+                //Parse the token id
+                string token = JObject.Parse(responsejson).SelectToken("id").ToString();
+
+                var chargeValues = new Dictionary<string, string>
+                {
+                    { "amount", (10000).ToString() },
+                    { "currency", "usd"},
+                    { "description", "Test Charge Through Learning Management System" },
+                    { "source", token }
+                };
+                var formUrlEncodedContent2 = new FormUrlEncodedContent(chargeValues);
+
+                var response2 = await httpClient.PostAsync(BaseURL + ChargeURL, formUrlEncodedContent2);
+                var responsejson2 = await response.Content.ReadAsStringAsync();
+
+                statusCode = response.StatusCode;
+
+                if(statusCode == HttpStatusCode.OK)
+                {
+                    StudentPayments payment = new StudentPayments();
+                    
+
+                }
+
+            }
+
+           
+
+            return statusCode;
         }
 
-        public Charge GetChargeById(string Id)
+        private bool PayBillRequestValid(BillingSubmission billingSubmission)
         {
-            var service = new ChargeService();
-            Charge result = service.Get(Id);
+            bool isValid = true;
 
-            return result;
+            if(string.IsNullOrEmpty(billingSubmission.CreditCardNum) || string.IsNullOrEmpty(billingSubmission.ExpMonth) || string.IsNullOrEmpty(billingSubmission.ExpYear) || string.IsNullOrEmpty(billingSubmission.SecurityCode))
+            {
+                isValid = false;
+            }
+
+            return isValid;
         }
 
-        */
+
+
     }
 
 

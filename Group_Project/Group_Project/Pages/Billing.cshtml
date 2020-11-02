@@ -8,26 +8,29 @@
 
 <form method="post">
 
-    <label>Account Balance</label> <label>$1200.00</label><br />
+    <label>Account Balance</label> <label>@Model.balance</label><br />
     <!--Nothing to connect to yet-->
 
     <label>Amount Due</label> <label>@Html.DisplayFor(model => model.User.AmmountDue)</label><br />
 
     <label>Full Name</label>
-    <input class="form-control" />
+    <input asp-for="billingSubmission.Name" type="text" class="form-control" />
 
     <label>Credit Card #</label>
-    <input class="form-control" />
+    <input asp-for="billingSubmission.CreditCardNum" type="text" class="form-control" />
 
     <label>Security Code</label>
-    <input class="form-control" />
+    <input asp-for="billingSubmission.SecurityCode" type="text" class="form-control" />
 
-    <label>Expiration Date</label>
-    <input class="form-control" />
+    <label>Expiration Month</label>
+    <input asp-for="billingSubmission.ExpMonth" type="number" class="form-control" />
+
+    <label>Expiration Year</label>
+    <input asp-for="billingSubmission.ExpYear" type="number" class="form-control" />
     <!--Currently just a standard input box probably should change to a date picker when this is made functional-->
 
     <label>Payment Amount</label>
-    <input class="form-control" />
+    <input asp-for="billingSubmission.Amount" type="number" class="form-control" />
 
     <input type="submit" value="Submit" /><br />
 </form>
