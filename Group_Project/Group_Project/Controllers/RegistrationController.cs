@@ -37,7 +37,7 @@ namespace Group_Project.Controllers
             //if (CreditHours != null)
             //    Courses = Courses.Where(c => c.CreditHours == c.CreditHours);
 
-            return Json(new { Courses });
+            return Json(new { filter });
         }
 
         [HttpGet]
