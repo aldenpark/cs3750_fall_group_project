@@ -23,8 +23,25 @@ namespace Group_Project.Controllers
         }
 
         // GET: api/<Registration>
+        [HttpPost]
+        public IActionResult Post([FromForm] SearchCourses filter) //[FromBody]
+        {
+            var test = filter;
+            var Courses = _unitOfWork.Course.GetAll();
+            if (filter.CourseName != null)
+                Courses = Courses.Where(c => c.CourseName.Contains(filter.CourseName));
+            //if (CourseNumber != null)
+            //    Courses = Courses.Where(c => c.CourseNumber == c.CourseNumber);
+            //if (Department != null)
+            //    Courses = Courses.Where(c => c.Department.Contains(c.Department));
+            //if (CreditHours != null)
+            //    Courses = Courses.Where(c => c.CreditHours == c.CreditHours);
+
+            return Json(new { Courses });
+        }
+
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromForm] SearchCourses filter)
         {
 
             var Courses = _unitOfWork.Course.GetAll();
@@ -40,28 +57,10 @@ namespace Group_Project.Controllers
             return Json(new { Courses });
         }
 
-        // GET api/<Registration>/5
-        [HttpGet("{id}")]
-        public string Get([FromBody] Course2 id)
-        {
-            return "value";
-        }
-
         [HttpGet("{CourseName},{CourseNumber},{Department},{CreditHours}")]
         public string Get(string CourseName, string CourseNumber, string Department, string CreditHours)
         {
             return "value";
-        }
-
-
-        [HttpPost]
-        public void Post()
-        {
-        }
-
-        [HttpPost("{id}")]
-        public void Post(int id, [FromBody] string value)
-        {
         }
 
         // PUT api/<Registration>/5
