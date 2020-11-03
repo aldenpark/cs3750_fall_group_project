@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Group_Project.Data.Repository.IRepository;
 using Group_Project.Models;
+using Group_Project.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,6 +47,28 @@ namespace Group_Project.Controllers
                 Int32.TryParse(filter.CreditHours, out CreditHours);
                 if (CreditHours > -1)
                     Courses = Courses.Where(c => c.CreditHours == CreditHours);
+            }
+
+            int userId = 0;
+            if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
+            {
+                if (HttpContext.Session.GetInt32(SD.UserSessionId).HasValue)
+                {
+                    userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
+                }
+            }
+
+            if (userId > 0)
+            {
+                var RegisteredCourses = _unitOfWork.Registration.GetAll(r => r.StudentID == userId);
+                if(RegisteredCourses.Count() > 0)
+                {
+                    foreach (var crs in RegisteredCourses)
+                    {
+                        var reg = Courses.FirstOrDefault(c => c.ID == crs.ID);
+                        reg.Registered = true;
+                    }
+                }
             }
 
             return Json(new { Courses });

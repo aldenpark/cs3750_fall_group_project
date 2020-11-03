@@ -12,12 +12,14 @@ namespace Group_Project.Data.Repository
         private readonly ApplicationDbContext _db;
         public IUserRepository User { get; private set; }
         public ICourseRepository Course { get; private set; }
+        public IRegistrationRepository Registration { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             User = new UserRepository(_db);
             Course = new CourseRepository(_db);
+            Registration = new RegistrationRepository(_db);
         }
         void IDisposable.Dispose()
         {

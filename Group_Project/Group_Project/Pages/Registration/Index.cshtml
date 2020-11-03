@@ -98,8 +98,8 @@
                                     '</div>' +
                                     '<p class="mb-1">' + row.description + '</p>' +
                                     '<div class="float-right">' +
-                                        '<button id="course_add_' + row.id + '" type="button" class="btn btn-primary course_add">Add</button> ' +
-                                    '<button id="course_remove_' + row.id + '" type="button" class="btn btn-danger disabled course_remove" disabled>Remove</button>' +
+                                    '<button id="course_add_' + row.id + '" type="button" class="btn btn-primary course_add ' + (row.registered == true ? '' : 'disabled') + '" ' + (row.registered == true ? '' : 'disabled') +'>Add</button> ' +
+                                    '<button id="course_remove_' + row.id + '" type="button" class="btn btn-danger disabled course_remove ' + (row.registered == true ? 'disabled' : '') + '" ' + (row.registered == true ? 'disabled' : '') +'>Remove</button>' +
                                     '</div>' +
                                     '<small class="text-muted">Sunday: ' + row.sunday + ' Monday: ' + row.monday + ' Tuesday: ' + row.tuesday + ' Wednesday: ' + row.wednesday + ' Thursday: ' + row.thursday + ' Friday: ' + row.friday + ' Saturday: ' + row.saturday + ' </small>' +
                                     '| <small class="text-muted">Duration: ' + row.startTime + ' - ' + row.endTime + ' </small>' +

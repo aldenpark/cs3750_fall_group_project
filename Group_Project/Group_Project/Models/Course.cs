@@ -41,6 +41,7 @@ namespace Group_Project.Models
 
         [Display(Name = "Max Students in Class")]
         public int MaxStudents { get; set; }
+        public virtual bool Registered { get; set; } = false;
 
 
     }

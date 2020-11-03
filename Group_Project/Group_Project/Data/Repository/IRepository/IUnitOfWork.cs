@@ -9,6 +9,7 @@ namespace Group_Project.Data.Repository.IRepository
     {
         IUserRepository User { get; }
         ICourseRepository Course { get; }
+        IRegistrationRepository Registration { get; }
         void Save();
     }
 }
