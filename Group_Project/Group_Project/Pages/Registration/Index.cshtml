@@ -1,6 +1,11 @@
 ﻿@page
 @model Group_Project.Pages.Registration.IndexModel
 @{
+    var validUser = "false";
+    if (Model.ValidUser == true)
+    {
+        validUser = "true";
+    }
 }
 
 <form method="post" asp-action="Index">
@@ -64,9 +69,15 @@
 
         </div>
 
+        <div id="loginAlert" class="alert alert-warning" style="display:none">
+            <strong>Login to Register for classes!</strong>
+            <button type="button" class="close" onclick="$('#loginAlert').hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
 
-            <div class="list-group" id="courseListings">
-            </div>
+        <div class="list-group" id="courseListings">
+        </div>
 
 
         </div>
@@ -88,9 +99,9 @@
                     contentType: 'application/json',
                     dataType: "json",
                     success: function (result) {
-                        if (result.courses) {
+                        if (result.courseList) {
                             var body = '';
-                            $.each(result.courses, function (index, row) {
+                            $.each(result.courseList, function (index, row) {
                                 body += '\r\n<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">' +
                                     '<div class="d-flex w-100 justify-content-between">' +
                                     '    <h5 class="mb-1">' + row.courseName + ' - ' + row.courseNumber + '</h5>' +
@@ -98,8 +109,8 @@
                                     '</div>' +
                                     '<p class="mb-1">' + row.description + '</p>' +
                                     '<div class="float-right">' +
-                                    '<button id="course_add_' + row.id + '" type="button" class="btn btn-primary course_add ' + (row.registered == true ? '' : 'disabled') + '" ' + (row.registered == true ? '' : 'disabled') +'>Add</button> ' +
-                                    '<button id="course_remove_' + row.id + '" type="button" class="btn btn-danger disabled course_remove ' + (row.registered == true ? 'disabled' : '') + '" ' + (row.registered == true ? 'disabled' : '') +'>Remove</button>' +
+                                    '<button id="course_add_' + row.id + '" type="button" class="btn btn-primary course_add ' + (row.registered == true ? 'disabled' : '') + '" ' + (row.registered == true ? 'disabled' : '') +'>Add</button> ' +
+                                    '<button id="course_remove_' + row.id + '" type="button" class="btn btn-danger course_remove ' + (row.registered == true ? '' : 'disabled') + '" ' + (row.registered == true ? '' : 'disabled') +'>Remove</button>' +
                                     '</div>' +
                                     '<small class="text-muted">Sunday: ' + row.sunday + ' Monday: ' + row.monday + ' Tuesday: ' + row.tuesday + ' Wednesday: ' + row.wednesday + ' Thursday: ' + row.thursday + ' Friday: ' + row.friday + ' Saturday: ' + row.saturday + ' </small>' +
                                     '| <small class="text-muted">Duration: ' + row.startTime + ' - ' + row.endTime + ' </small>' +
@@ -118,46 +129,41 @@
         $(document).on("click", ".course_add", function (event) {
             var CourseIdField = $(this).attr('id');
             var CourseId = CourseIdField.replace('course_add_', '');
-            $("#course_add_" + CourseId).addClass("disabled").prop('disabled', true);
-            $("#course_remove_" + CourseId).removeClass("disabled").prop('disabled', false);
-            $.ajax({
-                url: "api/Registration/" + CourseId,
-                type: 'PUT',
-                data: "true",
-                contentType: 'application/json',
-                dataType: "json"
-            });
+            var validUser = @validUser;
+            if (validUser == true) {
+                $("#course_add_" + CourseId).addClass("disabled").prop('disabled', true);
+                $("#course_remove_" + CourseId).removeClass("disabled").prop('disabled', false);
+                $.ajax({
+                    url: "api/Registration/" + CourseId,
+                    type: 'PUT',
+                    data: "true",
+                    contentType: 'application/json',
+                    dataType: "json"
+                });
+            }
+            else {
+                $("#loginAlert").show();
+            }
         });
         $(document).on("click", ".course_remove", function (event) {
             var CourseIdField = $(this).attr('id');
             var CourseId = CourseIdField.replace('course_remove_', '');
-            $("#course_add_" + CourseId).removeClass("disabled").prop('disabled', false);
-            $("#course_remove_" + CourseId).addClass("disabled").prop('disabled', true);
-            $.ajax({
-                url: "api/Registration/" + CourseId,
-                type: 'PUT',
-                data: "false",
-                contentType: 'application/json',
-                dataType: "json"
-            });
+            var validUser = @validUser;
+            if (validUser == true) {
+                $("#course_add_" + CourseId).removeClass("disabled").prop('disabled', false);
+                $("#course_remove_" + CourseId).addClass("disabled").prop('disabled', true);
+                $.ajax({
+                    url: "api/Registration/" + CourseId,
+                    type: 'PUT',
+                    data: "false",
+                    contentType: 'application/json',
+                    dataType: "json"
+                });
+            }
+            else {
+                $("#loginAlert").show();
+            }
         });
 
     </script>
 }
-
-@*
-
-
-    student registration page, show available courses, add filtering (Dept, course id) show resonable number
-    button that registers student to course, grey/disable button without page refresh
-
-    https://getbootstrap.com/docs/4.0/examples/grid/
-    https://getbootstrap.com/docs/4.0/layout/grid/
-
-    https://getbootstrap.com/docs/4.0/components/list-group/
-
-    https://www.geeksforgeeks.org/how-to-use-bootstrap-select-for-dropdown/
-    https://www.learnrazorpages.com/razor-pages/forms/select-lists
-
-*@
-

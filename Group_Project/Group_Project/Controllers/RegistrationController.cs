@@ -31,7 +31,7 @@ namespace Group_Project.Controllers
         {
             var Courses = _unitOfWork.Course.GetAll();
             if (filter.CourseName != "")
-                Courses = Courses.Where(c => c.CourseName.Contains(filter.CourseName));
+                Courses = Courses.Where(c => c.CourseName.ToLower().Contains(filter.CourseName.ToLower()));
             if (filter.CourseNumber != "")
             {
                 int CourseNumber = -1;
@@ -58,20 +58,27 @@ namespace Group_Project.Controllers
                 }
             }
 
+            var CourseList = Courses.ToList();
             if (userId > 0)
             {
+                int i = 0;
                 var RegisteredCourses = _unitOfWork.Registration.GetAll(r => r.StudentID == userId);
                 if(RegisteredCourses.Count() > 0)
                 {
-                    foreach (var crs in RegisteredCourses)
+                    foreach (var reg in RegisteredCourses)
                     {
-                        var reg = Courses.FirstOrDefault(c => c.ID == crs.ID);
-                        reg.Registered = true;
+                        i = 0;
+                        foreach (var crs in CourseList)
+                        {
+                            if (crs.ID == reg.CourseID)
+                                CourseList[i].Registered = true;
+                            i++;
+                        }
                     }
                 }
             }
 
-            return Json(new { Courses });
+            return Json(new { CourseList });
         }
 
         [HttpGet]
@@ -83,13 +90,31 @@ namespace Group_Project.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] bool value)
         {
-            var test = value;
+            int userId = 0;
+            if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
+            {
+                if (HttpContext.Session.GetInt32(SD.UserSessionId).HasValue)
+                {
+                    userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
+                }
+            }
+
+            if(userId > 0)
+            {
+                if(value == true) {
+                    var RegistrationObj = new Registration();
+                    RegistrationObj.CourseID = id;
+                    RegistrationObj.StudentID = userId;
+                    _unitOfWork.Registration.Add(RegistrationObj);
+                }
+                else
+                {
+                    var objFromDb = _unitOfWork.Registration.GetFirstorDefault(r => r.CourseID == id && r.StudentID == userId);
+                    _unitOfWork.Registration.Remove(objFromDb);
+                }
+                _unitOfWork.Save();
+            }
         }
 
-        // DELETE api/<Registration>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
