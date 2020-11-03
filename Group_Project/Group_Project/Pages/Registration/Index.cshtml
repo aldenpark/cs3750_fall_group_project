@@ -79,18 +79,12 @@
             $("#searchClasses").click(function () {
                 event.preventDefault();
                 $.ajax({
-                    //url: "api/registration", type: "get", data: { "course": {
-                    //    "coursename": $("#courseobj_coursename").val(),
-                    //    "coursenumber": $("#courseobj_coursenumber").val(),
-                    //    "department": $("#courseobj_department").val(),
-                    //    "credithours": $("#courseobj_credithours").val()
-                    //}},
-                    url: "api/Registration", type: "post", data: {
+                    url: "api/Registration", type: "post", data: JSON.stringify({
                         "CourseName": $("#CourseObj_CourseName").val(),
                         "CourseNumber": $("#CourseObj_CourseNumber").val(),
                         "Department": $("#CourseObj_Department").val(),
                         "CreditHours": $("#CourseObj_CreditHours").val()
-                    },
+                    }),
                     contentType: 'application/json',
                     dataType: "json",
                     success: function (result) {
@@ -126,12 +120,26 @@
             var CourseId = CourseIdField.replace('course_add_', '');
             $("#course_add_" + CourseId).addClass("disabled").prop('disabled', true);
             $("#course_remove_" + CourseId).removeClass("disabled").prop('disabled', false);
+            $.ajax({
+                url: "api/Registration/" + CourseId,
+                type: 'PUT',
+                data: "true",
+                contentType: 'application/json',
+                dataType: "json"
+            });
         });
         $(document).on("click", ".course_remove", function (event) {
             var CourseIdField = $(this).attr('id');
             var CourseId = CourseIdField.replace('course_remove_', '');
             $("#course_add_" + CourseId).removeClass("disabled").prop('disabled', false);
             $("#course_remove_" + CourseId).addClass("disabled").prop('disabled', true);
+            $.ajax({
+                url: "api/Registration/" + CourseId,
+                type: 'PUT',
+                data: "false",
+                contentType: 'application/json',
+                dataType: "json"
+            });
         });
 
     </script>
