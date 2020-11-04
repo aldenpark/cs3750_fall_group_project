@@ -58,41 +58,36 @@ namespace Group_Project.Pages.Profile
 
             User.ID = 5;
 
-            //if (User.ID != 0)
-            //{ // existing user
-                var objFromDb = _unitOfWork.User.GetFirstorDefault(u => u.ID == User.ID);
+            var objFromDb = _unitOfWork.User.GetFirstorDefault(u => u.ID == User.ID);  // Only existing users can get to this page
 
-                if (files.Count > 0)
+            if (files.Count > 0)
+            {
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = Path.Combine(webRootPath, @"img\profile");
+                var extension = Path.GetExtension(files[0].FileName);
+
+                if(objFromDb.ProfilePic != null)
                 {
-                    string fileName = Guid.NewGuid().ToString();
-                    var uploads = Path.Combine(webRootPath, @"img\profile");
-                    var extension = Path.GetExtension(files[0].FileName);
-
-                    if(objFromDb.ProfilePic != null)
+                    var imagePath = Path.Combine(webRootPath, objFromDb.ProfilePic.TrimStart('\\'));
+                    if (System.IO.File.Exists(imagePath))
                     {
-                        var imagePath = Path.Combine(webRootPath, objFromDb.ProfilePic.TrimStart('\\'));
-                        if (System.IO.File.Exists(imagePath))
-                        {
-                            System.IO.File.Delete(imagePath);
-                        }
-
+                        System.IO.File.Delete(imagePath);
                     }
+
+                }
 
                 using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-                    {
-                        files[0].CopyTo(fileStream);
-                    }
-
-                    User.ProfilePic = @"\img\profile\" + fileName + extension;
-                }
-                else
                 {
-                    User.ProfilePic = objFromDb.ProfilePic;  // no image uploaded, just readding it from db so we don't lose it
+                    files[0].CopyTo(fileStream);
                 }
 
-            //}
-
-            _unitOfWork.Save(); //Saved on the Update
+                User.ProfilePic = @"\img\profile\" + fileName + extension;
+            }
+            else
+            {
+                User.ProfilePic = objFromDb.ProfilePic;  // no image uploaded, just readding it from db so we don't lose it
+            }
+            _unitOfWork.User.Update(User);
 
             return RedirectToPage("./Index");
         }
