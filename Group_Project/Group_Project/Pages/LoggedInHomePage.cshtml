@@ -9,11 +9,13 @@
 <h1>Dashboard</h1>
 @*@if (Model.User.UserType == 'I')*@
 
-<div clase="row">
+@*<div clase="row">
     <a asp-page="/Course/CreateCourse">Create New Course</a>
     <a> </a>
     <a asp-page="/Course/InstructorCourseList">Instructor Course List</a>
-</div>
+    <a> </a>
+    <a asp-page="/Course/CourseDetails">Course</a>
+</div>*@
 
 <div class="row">
     @foreach (var item in Model.Course)
@@ -25,9 +27,9 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">@Html.DisplayFor(modelItem => item.CourseName)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Html.DisplayFor(modelItem => item.CourseNumber)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Html.DisplayFor(modelItem => item.InstructorID)</div>
+                            <a class="text-xs font-weight-bold text-primary text-uppercase mb-1" href="/Course/CourseDetails?id=@Html.DisplayFor(modelItem => item.ID)">@Html.DisplayFor(modelItem => item.CourseName)</a>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Course Number: @Html.DisplayFor(modelItem => item.CourseNumber)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Instructor ID: @Html.DisplayFor(modelItem => item.InstructorID)</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
