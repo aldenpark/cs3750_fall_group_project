@@ -120,7 +120,7 @@ namespace Group_Project.Controllers
                 date = String.Format("{0:ddd MMM dd, yyyy}", date) + " " + row.StartTime.ToString(), //"Wed Jan 01 2020 00:00:00 GMT-0800 (Pacific Standard Time)",
                 type = "event", // event, holiday, birthday
                 everyYear = false,
-                description = row.Description+" <a href='/Course/"+ row.ID+ "'>"+ row.CourseName + "-" + row.CourseNumber+"</a>"
+                description = row.Description+" <a href='/Course/CourseDetails?id="+ row.ID+ "'>"+ row.CourseName + "-" + row.CourseNumber+"</a>"
             };
         }
 

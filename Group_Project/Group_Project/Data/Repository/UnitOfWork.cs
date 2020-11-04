@@ -13,6 +13,7 @@ namespace Group_Project.Data.Repository
         public IUserRepository User { get; private set; }
         public ICourseRepository Course { get; private set; }
         public IAssignmentRepository Assignment { get; private set; }
+        public IRegistrationRepository Registration { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -20,6 +21,7 @@ namespace Group_Project.Data.Repository
             User = new UserRepository(_db);
             Course = new CourseRepository(_db);
             Assignment = new AssignmentRepository(_db);
+            Registration = new RegistrationRepository(_db);
         }
         void IDisposable.Dispose()
         {

@@ -9,12 +9,16 @@ namespace Group_Project.Models
     public class Registration
     {
         public int ID { get; set; }
-        //The ID of the registration
         public int StudentID { get; set; }
-        //The ID of the student
         public int CourseID { get; set; }
-        //The ID of the Course
+        public ClassTypes Status { get; set; } = ClassTypes.Registered;
+        public bool paid { get; set; } = false;
+    }
 
-        //This model exists solely to link students to courses
+    public enum ClassTypes
+    {
+        Registered = 0,
+        Withdrawn = 1,
+        Passed = 2
     }
 }

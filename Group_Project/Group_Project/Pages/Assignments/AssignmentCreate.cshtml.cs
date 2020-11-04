@@ -19,13 +19,27 @@ namespace Group_Project.Pages.Assignments
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? id)
         {
+            var course = _context.Course.Where(x => x.ID == id).FirstOrDefault();
+
+            if(course == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                CourseId = course.ID;
+            }
+
             return Page();
         }
 
         [BindProperty]
         public Assignment Assignment { get; set; }
+
+        [ViewData]
+        public int CourseId { get; set; }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.

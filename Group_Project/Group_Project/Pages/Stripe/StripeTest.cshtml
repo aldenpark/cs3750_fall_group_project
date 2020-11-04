@@ -8,17 +8,19 @@
 
 <h1>Stripe Test</h1>
 
-<label for="cardNumberInput">Enter Card Number</label>
-<input type="text" class="cardNumberInput" />
+<label for="cardNumberInput">Last 4 of Card Number</label>
+<input type="text" class="cardNumberInput" value="" />
 
-<label for="expirationMonth">Enter Expiration Month</label>
-<input type="number" class="expirationMonth" />
+<label for="expirationMonth">Expiration Month</label>
+<input type="number" class="expirationMonth" value=1 />
 
-<label for="expirationYear">Enter Expiration Year</label>
-<input type="number" class="expirationYear" />
+<label for="expirationYear">Expiration Year</label>
+<input type="number" class="expirationYear" value=1/>
 
 <label for="cvcCode">Enter CVC Code</label>
-<input type="number" class="cvcCode" />
+<input type="number" class="cvcCode" value=1/>
 
 
-<input type="button" class="requestTokenButton" value="Request For Token" />
+<input type="button" class="requestTokenButton" onclick="" value="Request For Token" />
+
+<input type="text" class="stripeToken" value=""/>
