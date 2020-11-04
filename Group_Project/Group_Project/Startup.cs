@@ -65,6 +65,7 @@ namespace Group_Project
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {

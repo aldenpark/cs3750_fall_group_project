@@ -1,0 +1,169 @@
+﻿@page
+@model Group_Project.Pages.Registration.IndexModel
+@{
+    var validUser = "false";
+    if (Model.ValidUser == true)
+    {
+        validUser = "true";
+    }
+}
+
+<form method="post" asp-action="Index">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-12">
+                <h2 class="text-primary ml-3">Student Registration</h2>
+            </div>
+        </div>
+
+        <div class="row px-2 mx-2 backgroundWhiteb border mb-4 ml-2">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h3 class="text-primary">Search Courses</h3>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container">
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="CourseObj.CourseName"></label>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" asp-for="CourseObj.CourseName" />
+                    </div>
+                    <div class="col-2">
+                        <label asp-for="CourseObj.CourseNumber"></label>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" asp-for="CourseObj.CourseNumber" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="CourseObj.Department"></label>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" asp-for="CourseObj.Department" />
+                    </div>
+                    <div class="col-2">
+                        <label asp-for="CourseObj.CreditHours"></label>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-control" asp-for="CourseObj.CreditHours" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row mb-2">
+                    <div class="col">
+                        <button id="searchClasses" type="button" class="btn btn-primary">Search Classes</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="loginAlert" class="alert alert-warning" style="display:none">
+            <strong>Login to Register for classes!</strong>
+            <button type="button" class="close" onclick="$('#loginAlert').hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="list-group" id="courseListings">
+        </div>
+
+
+        </div>
+</form>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#searchClasses").click(function () {
+                event.preventDefault();
+                $.ajax({
+                    url: "api/Registration", type: "post", data: JSON.stringify({
+                        "CourseName": $("#CourseObj_CourseName").val(),
+                        "CourseNumber": $("#CourseObj_CourseNumber").val(),
+                        "Department": $("#CourseObj_Department").val(),
+                        "CreditHours": $("#CourseObj_CreditHours").val()
+                    }),
+                    contentType: 'application/json',
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.courseList) {
+                            var body = '';
+                            $.each(result.courseList, function (index, row) {
+                                body += '\r\n<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">' +
+                                    '<div class="d-flex w-100 justify-content-between">' +
+                                    '    <h5 class="mb-1">' + row.courseName + ' - ' + row.courseNumber + '</h5>' +
+                                    '    <small class="text-muted text-right">Credit Hours: ' + row.creditHours + '</small > ' +
+                                    '</div>' +
+                                    '<p class="mb-1">' + row.description + '</p>' +
+                                    '<div class="float-right">' +
+                                    '<button id="course_add_' + row.id + '" type="button" class="btn btn-primary course_add ' + (row.registered == true ? 'disabled' : '') + '" ' + (row.registered == true ? 'disabled' : '') +'>Add</button> ' +
+                                    '<button id="course_remove_' + row.id + '" type="button" class="btn btn-danger course_remove ' + (row.registered == true ? '' : 'disabled') + '" ' + (row.registered == true ? '' : 'disabled') +'>Remove</button>' +
+                                    '</div>' +
+                                    '<small class="text-muted">Sunday: ' + row.sunday + ' Monday: ' + row.monday + ' Tuesday: ' + row.tuesday + ' Wednesday: ' + row.wednesday + ' Thursday: ' + row.thursday + ' Friday: ' + row.friday + ' Saturday: ' + row.saturday + ' </small>' +
+                                    '| <small class="text-muted">Duration: ' + row.startTime + ' - ' + row.endTime + ' </small>' +
+                                    '</a>';
+                            });
+
+                            $("#courseListings").html(body);
+                        }
+                        else {
+                            $("#courseListings").html("No Results");
+                        }
+                    }
+                });
+            });
+        });
+        $(document).on("click", ".course_add", function (event) {
+            var CourseIdField = $(this).attr('id');
+            var CourseId = CourseIdField.replace('course_add_', '');
+            var validUser = @validUser;
+            if (validUser == true) {
+                $("#course_add_" + CourseId).addClass("disabled").prop('disabled', true);
+                $("#course_remove_" + CourseId).removeClass("disabled").prop('disabled', false);
+                $.ajax({
+                    url: "api/Registration/" + CourseId,
+                    type: 'PUT',
+                    data: "true",
+                    contentType: 'application/json',
+                    dataType: "json"
+                });
+            }
+            else {
+                $("#loginAlert").show();
+            }
+        });
+        $(document).on("click", ".course_remove", function (event) {
+            var CourseIdField = $(this).attr('id');
+            var CourseId = CourseIdField.replace('course_remove_', '');
+            var validUser = @validUser;
+            if (validUser == true) {
+                $("#course_add_" + CourseId).removeClass("disabled").prop('disabled', false);
+                $("#course_remove_" + CourseId).addClass("disabled").prop('disabled', true);
+                $.ajax({
+                    url: "api/Registration/" + CourseId,
+                    type: 'PUT',
+                    data: "false",
+                    contentType: 'application/json',
+                    dataType: "json"
+                });
+            }
+            else {
+                $("#loginAlert").show();
+            }
+        });
+
+    </script>
+}
