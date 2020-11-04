@@ -2,6 +2,8 @@
 //using Group_Project.HelperModels;
 using Group_Project.Data;
 using Group_Project.Models;
+using Group_Project.Utility;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -35,6 +37,8 @@ namespace Group_Project.Helpers
         {
             //Initialize the HttpClient
             httpClient = new HttpClient();
+            //Add authorization header
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", APIKey);
             //Initialize the cardToken
             cardToken = "";
         }
@@ -102,59 +106,68 @@ namespace Group_Project.Helpers
             
         }
 
-        public async Task<HttpStatusCode> PayBill(BillingSubmission billingSubmission)
+        public async Task<PayBillResponse> PayBill(BillingSubmission billingSubmission)
         {
             HttpStatusCode statusCode = new HttpStatusCode();
+            PayBillResponse payBillResponse = new PayBillResponse();
+            
 
-            if(!PayBillRequestValid(billingSubmission))
+            try
             {
-                statusCode = HttpStatusCode.BadRequest;
-            }
-            else
-            {
-                var cardValues = new Dictionary<string, string>
+                if (!PayBillRequestValid(billingSubmission))
                 {
-                    { "card[number]", billingSubmission.CreditCardNum },
-                    { "card[exp_month]", billingSubmission.ExpMonth},
-                    { "card[exp_year]", billingSubmission.ExpYear },
-                    { "card[cvc]", billingSubmission.SecurityCode}
-                };
-
-                var formUrlEncodedContent = new FormUrlEncodedContent(cardValues);
-
-                //Post request to Stripe
-                var response = await httpClient.PostAsync(BaseURL + CreateURL, formUrlEncodedContent);
-                //Parse the json
-                var responsejson = await response.Content.ReadAsStringAsync();
-                //Parse the token id
-                string token = JObject.Parse(responsejson).SelectToken("id").ToString();
-
-                var chargeValues = new Dictionary<string, string>
+                    statusCode = HttpStatusCode.BadRequest;
+                }
+                else
                 {
-                    { "amount", (10000).ToString() },
-                    { "currency", "usd"},
-                    { "description", "Test Charge Through Learning Management System" },
-                    { "source", token }
-                };
-                var formUrlEncodedContent2 = new FormUrlEncodedContent(chargeValues);
+                    var cardValues = new Dictionary<string, string>
+                    {
+                        { "card[number]", billingSubmission.CreditCardNum },
+                        { "card[exp_month]", billingSubmission.ExpMonth},
+                        { "card[exp_year]", billingSubmission.ExpYear },
+                        { "card[cvc]", billingSubmission.SecurityCode}
+                    };
 
-                var response2 = await httpClient.PostAsync(BaseURL + ChargeURL, formUrlEncodedContent2);
-                var responsejson2 = await response.Content.ReadAsStringAsync();
+                    var formUrlEncodedContent = new FormUrlEncodedContent(cardValues);
 
-                statusCode = response.StatusCode;
+                    //Post request to Stripe
+                    var response = await httpClient.PostAsync(BaseURL + CreateURL, formUrlEncodedContent);
+                    //Parse the json
+                    var responsejson = await response.Content.ReadAsStringAsync();
+                    //Parse the token id
+                    string token = JObject.Parse(responsejson).SelectToken("id").ToString();
 
-                if(statusCode == HttpStatusCode.OK)
-                {
-                    StudentPayments payment = new StudentPayments();
-                    
+                    var chargeValues = new Dictionary<string, string>
+                    {
+                        { "amount", billingSubmission.Amount.ToString() },
+                        { "currency", "usd"},
+                        { "description", "Test Charge Through Learning Management System" },
+                        { "source", token }
+                    };
+                    var formUrlEncodedContent2 = new FormUrlEncodedContent(chargeValues);
+
+                    var response2 = await httpClient.PostAsync(BaseURL + ChargeURL, formUrlEncodedContent2);
+                    var responsejson2 = await response.Content.ReadAsStringAsync();
+
+
+                    if (response2.StatusCode == HttpStatusCode.OK)
+                    {
+                        StudentPayment payment = new StudentPayment();
+                        payment.StripeTokenId = JObject.Parse(responsejson2).SelectToken("id").ToString();
+                        payment.Payment = billingSubmission.Amount;
+                        payment.CreatedOn = DateTime.UtcNow;
+                        payBillResponse.studentPayments = payment;
+                        payBillResponse.responseMessage = response2;
+                    }
 
                 }
-
+            }
+            catch(Exception e)
+            {
+                payBillResponse = new PayBillResponse();
             }
 
-           
-
-            return statusCode;
+            return payBillResponse;
         }
 
         private bool PayBillRequestValid(BillingSubmission billingSubmission)

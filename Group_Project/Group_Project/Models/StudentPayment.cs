@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Group_Project.Models
 {
-    public class StudentPayments
+    public class StudentPayment
     {
         public int ID { get; set; }
         public int StudentId { get; set; }

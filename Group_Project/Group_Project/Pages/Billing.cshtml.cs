@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Group_Project.Utility;
 using System.ComponentModel.DataAnnotations;
 using Group_Project.Helpers;
+using System.Net;
 
 namespace Group_Project.Pages
 {
@@ -18,6 +19,7 @@ namespace Group_Project.Pages
     {
         private readonly Group_Project.Data.ApplicationDbContext _context;
         private StripeHelper2 stripeHelper;
+        private readonly int coursePrice = 100; 
 
         public BillingModel(Group_Project.Data.ApplicationDbContext context)
         {
@@ -27,7 +29,7 @@ namespace Group_Project.Pages
 
         [ViewData]
         public User User { get; set; }
-        public int balance { get; set; }
+        public decimal balance { get; set; }
 
         [BindProperty]
         public BillingSubmission billingSubmission { get; set; }
@@ -43,7 +45,11 @@ namespace Group_Project.Pages
             }
 
             User = await _context.User.FirstOrDefaultAsync(m => m.ID == id);
-            balance = (await _context.Registration.Where(x => x.StudentID == User.ID).CountAsync() * 500);
+            decimal courseTotalPrice = (await _context.Registration.Where(x => x.StudentID == User.ID).CountAsync() * coursePrice);
+            List<decimal> payments = await _context.StudentPayments.Where(x => x.StudentId == id).Select(x => x.Payment).ToListAsync();
+            decimal totalPayments = payments.Sum();
+            balance = courseTotalPrice - totalPayments;
+
 
 
             if (User == null)
@@ -56,7 +62,25 @@ namespace Group_Project.Pages
         public async Task<IActionResult> OnPostAsync()
         {
 
-            return Page();
+            int id = (int)HttpContext.Session.GetInt32(SD.UserSessionId);
+            PayBillResponse response = await stripeHelper.PayBill(billingSubmission);
+            
+            if(response.responseMessage.StatusCode != HttpStatusCode.OK)
+            {
+                return RedirectToPage("./Billing/PaymentFailed");
+            }
+            else
+            {
+                StudentPayment studentPayment = new StudentPayment();
+                studentPayment.StudentId = id;
+                studentPayment.StripeTokenId = response.studentPayments.StripeTokenId;
+                studentPayment.Payment = response.studentPayments.Payment;
+                studentPayment.CreatedOn = DateTime.UtcNow;
+                await _context.StudentPayments.AddAsync(studentPayment);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Billing/PaymentSuccessful");
+            }
         }
     }
 }
