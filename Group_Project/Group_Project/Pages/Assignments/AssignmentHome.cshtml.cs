@@ -26,6 +26,8 @@ namespace Group_Project.Pages.Assignments
         public User User { get; set; }
         public Models.Assignment Assignment { get; set; }
 
+        public Models.Submission Submission { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 

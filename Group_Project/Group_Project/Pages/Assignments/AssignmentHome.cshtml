@@ -40,5 +40,15 @@
 </div>
 
 <div>
-        <label>Assignment Submission</label>
+    <label>Assignment Submission</label>
+    <input asp-for="Submission.fileSubmit" class="form-control" />
+    <span asp-validation-for="Submission.fileSubmit" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
+</div>
+
+<div>
+    <a asp-page="/Assignments/AssignmentUpdate?id=@Html.DisplayFor(model => model.Assignment.ID)">Update an assignment</a>
 </div>
