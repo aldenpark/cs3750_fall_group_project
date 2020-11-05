@@ -22,5 +22,7 @@ namespace Group_Project.Data
         public DbSet<Group_Project.Models.Assignment> Assignment { get; set; }
 
         public DbSet<Group_Project.Models.StudentPayment> StudentPayments { get; set; }
+
+        public DbSet<Group_Project.Models.Submission> Submission { get; set; }
     }
 }
