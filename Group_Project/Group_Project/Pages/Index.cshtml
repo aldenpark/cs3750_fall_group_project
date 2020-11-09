@@ -9,9 +9,11 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
-@{
-@*    var Usr = _unitOfWork.User.Get(0);
-}
+@*
+
+
+var Usr = _unitOfWork.User.Get(0);
+
 @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.UserSessionId) != null)
 {
     var id = HttpContextAccessor.HttpContext.Session.GetInt32(SD.UserSessionId);
@@ -19,9 +21,9 @@
     {
         Usr = _unitOfWork.User.Get(id.Value);
     }
-}*@
+}
 
-@*@if (Usr != null)
+@if (Usr != null)
     {
         <!-- Page Wrapper -->
         <div id="wrapper" a>

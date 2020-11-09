@@ -30,6 +30,7 @@ namespace Group_Project.Pages
         [ViewData]
         public User User { get; set; }
         public decimal balance { get; set; }
+        public decimal amountDue { get; set; }
 
         [BindProperty]
         public BillingSubmission billingSubmission { get; set; }
@@ -38,8 +39,16 @@ namespace Group_Project.Pages
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             id = HttpContext.Session.GetInt32(SD.UserSessionId);
+            
 
             if (id == null)
+            {
+                return NotFound();
+            }
+
+            var isInstructor = await _context.User.Where(x => x.ID == id).Where(x => x.UserType == 'I').AnyAsync();
+
+            if(isInstructor)
             {
                 return NotFound();
             }
@@ -48,7 +57,8 @@ namespace Group_Project.Pages
             decimal courseTotalPrice = (await _context.Registration.Where(x => x.StudentID == User.ID).CountAsync() * coursePrice);
             List<decimal> payments = await _context.StudentPayments.Where(x => x.StudentId == id).Select(x => x.Payment).ToListAsync();
             decimal totalPayments = payments.Sum();
-            balance = courseTotalPrice - totalPayments;
+            balance = courseTotalPrice;
+            amountDue = (decimal)(courseTotalPrice - totalPayments);
 
 
 

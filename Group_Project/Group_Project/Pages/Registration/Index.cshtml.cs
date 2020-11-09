@@ -7,6 +7,8 @@ using Group_Project.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Stripe.Terminal;
 
 namespace Group_Project.Pages.Registration
 {
@@ -24,7 +26,7 @@ namespace Group_Project.Pages.Registration
         [BindProperty]
         public bool ValidUser { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             int userId = 0;
             if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
@@ -39,7 +41,14 @@ namespace Group_Project.Pages.Registration
             if (userId > 0)
             {
                 ValidUser = true;
+                var userObj = _unitOfWork.User.GetFirstorDefault(u => u.ID == userId);
+                if (userObj != null && userObj.UserType == 'I')
+                {
+                    return NotFound();
+                }
             }
+
+            return Page();
         }
     }
 }

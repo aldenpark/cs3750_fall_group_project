@@ -22,7 +22,7 @@ namespace Group_Project.Pages
             _context = context;
         }
 
-        public IList<Models.Course> Course { get;set; }
+        public List<Models.Course> Course { get;set; }
         public User User { get; set; }
 
 
@@ -37,7 +37,21 @@ namespace Group_Project.Pages
             var isInstructor = await _context.User.Where(x => x.ID == userId).Where(x => x.UserType == 'I').AnyAsync();
             courseHelper = new CourseHelper();
 
-            Course = await _context.Course.ToListAsync();
+            if(isInstructor)
+            {
+                Course = await _context.Course.Where(x => x.InstructorID == userId).ToListAsync();
+            }
+            else
+            {
+                var courseIds = await _context.Registration.Where(x => x.StudentID == userId).Select(x => x.CourseID).ToListAsync();
+                Course = new List<Models.Course>();
+
+                foreach(int id in courseIds)
+                {
+                    Course.Add(await _context.Course.Where(x => x.ID == id).FirstOrDefaultAsync());
+                }
+            }
+            
         }
 
 

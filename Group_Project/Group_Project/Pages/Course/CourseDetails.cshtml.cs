@@ -29,7 +29,7 @@ namespace Group_Project.Pages.Course
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 
-            //id = HttpContext.Session.GetInt32(SD.UserSessionId);
+            int userId = (int)HttpContext.Session.GetInt32(SD.UserSessionId);
 
             if (id == null)
             {
@@ -50,6 +50,12 @@ namespace Group_Project.Pages.Course
 
                 Course.StartTime = fullSchedule;
             }
+
+            if(id > 0)
+            {
+                User = _context.User.Where(x => x.ID == userId).FirstOrDefault();
+            }
+
 
             return Page();
         }

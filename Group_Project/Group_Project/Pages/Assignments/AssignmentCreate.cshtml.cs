@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Group_Project.Data;
 using Group_Project.Models;
+using Microsoft.AspNetCore.Http;
+using Group_Project.Utility;
+using Microsoft.EntityFrameworkCore;
 
 namespace Group_Project.Pages.Assignments
 {
@@ -19,8 +22,16 @@ namespace Group_Project.Pages.Assignments
             _context = context;
         }
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
+            int userId = (int)HttpContext.Session.GetInt32(SD.UserSessionId);
+            var isInstructor = await _context.User.Where(x => x.ID == userId).Where(x => x.UserType == 'I').AnyAsync();
+
+            if(!isInstructor)
+            {
+                return NotFound();
+            }
+
             var course = _context.Course.Where(x => x.ID == id).FirstOrDefault();
 
             if(course == null)
