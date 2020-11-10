@@ -1,16 +1,21 @@
 ﻿@page
 @model Group_Project.Pages.Assignments.AssignmentHomeModel
 
-@{
-    ViewData["Title"] = "Assignment Home";
+@{ ViewData["Title"] = "Assignment Home";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+
+    // https://localhost:44329/Assignments/AssignmentHome?id=1
 }
+
 
 <h1>CourseDetails</h1>
 
 <div>
     <h4>Course</h4>
     <hr />
+    @if (Model.SubmissionObj.Count > 0) {
+        <div class="float-sm-right"><a href="@Model.SubmissionObj.LastOrDefault().fileSubmit" target="_blank">@Model.SubmissionObj.LastOrDefault().fileSubmitDisplay</a></div>
+    }
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Assignment.Title)
@@ -39,16 +44,62 @@
     </dl>
 </div>
 
-<div>
-    <label>Assignment Submission</label>
-    <input asp-for="Submission.fileSubmit" class="form-control" />
-    <span asp-validation-for="Submission.fileSubmit" class="text-danger"></span>
-</div>
+<form method="post" enctype="multipart/form-data">
+    <nav>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="home"
+                   aria-selected="true">File Submission</a>
+            </li>
+            @*
+                <li class="nav-item">
+                    <a class="nav-link" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text"
+                        aria-selected="false">Text Submission</a>
+                </li>
+            *@
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="file" role="tabpanel" aria-labelledby="file-tab">
+            <label asp-for="SubmissionObj.LastOrDefault().fileSubmit" class="control-label"></label>
+            <input type="file" class="form-control" id="uploadBox" name="files" />
+        </div>
+        <div class="tab-pane fade" id="text" role="tabpanel" aria-labelledby="text-tab">
+            Text box can go here
+        </div>
+    </div>
+    </nav>
 
-<div class="form-group">
-    <input type="submit" value="Save" class="btn btn-primary" />
-</div>
+    <div class="form-group mt-4">
+        <input type="submit" value="@(Model.SubmissionObj.Count > 0 ? "Resubmit" : "Submit")" class="btn btn-primary" onclick="return ValidateInput()" />
+    </div>
 
-<div>
-    <a asp-page="/Assignments/AssignmentUpdate?id=@Html.DisplayFor(model => model.Assignment.ID)">Update an assignment</a>
-</div>
+    <div>
+        <a asp-page="/Assignments/AssignmentUpdate?id=@Html.DisplayFor(model => model.Assignment.ID)">Update an assignment</a>
+    </div>
+    </form>
+
+    @section Scripts{
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+        <script>
+            function ValidateInput() {
+                if (document.getElementById("uploadBox").value == "") {
+                    swal('Error', 'No Assignment has been selected for submission', 'error')
+                    return false;
+                }
+
+                var fileInput = document.getElementById('uploadBox');
+                var filePath = fileInput.value;
+
+                // Allowing file type
+                var allowedExtensions = /(\.pdf|\.docx|\.txt)$/i;
+
+                if (!allowedExtensions.exec(filePath)) {
+                    swal('Error', 'Invalid file type selected for upload.  Only files of type pdf, docx, and txt are allowed!', 'error')
+                    fileInput.value = '';
+                    return false;
+                }
+
+                return true;
+            }</script>
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
