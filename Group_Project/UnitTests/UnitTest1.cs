@@ -1,5 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit.Sdk;
 
@@ -8,77 +11,72 @@ namespace UnitTests
     [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-            Assert.AreEqual(true, true);
-        }
-        
-        [TestMethod]
-        public void TestAddUser()
-        {
-            Group_Project.Models.User user = new Group_Project.Models.User();
-            user.Email = "erck@email.com";
-            user.Passwrd = "password";
-            user.FirstName = "Aric";
-            user.LastName = "Campbell";
-            user.Birthdate = DateTime.Now;
+        private Group_Project.Data.ApplicationDbContext _context;
 
-            using (var db = new Group_Project.Data.ApplicationDbContext(Group_Project.Data.Utility.TestDbContextOptions()))
+        public UnitTest1()
+        {
+            DbContextOptions<Group_Project.Data.ApplicationDbContext> options = new DbContextOptions<Group_Project.Data.ApplicationDbContext>();
+            DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
+            SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Server=titan.cs.weber.edu,10433;Database=LMS_Zenith;user id=LMS_Zenith;password=Password*2", null);
+
+            _context = new Group_Project.Data.ApplicationDbContext((DbContextOptions<Group_Project.Data.ApplicationDbContext>)builder.Options);
+        }
+
+        [TestMethod]
+        public async Task TestDBAccess()
+        {
+            string FirstName = await _context.User.Where(x => x.ID == 20).Select(x => x.FirstName).FirstOrDefaultAsync();
+
+            Assert.AreEqual(FirstName, "Aric");
+        }
+
+        [TestMethod]
+        public async Task TestRegistration()
+        {
+            var user = await _context.User.Where(x => x.ID == 20).FirstOrDefaultAsync();
+            var courseIds = await _context.Course.Select(x => x.ID).ToListAsync();
+            int numCourses = courseIds.Count();
+            List<Group_Project.Models.Registration> registrations = new List<Group_Project.Models.Registration>();
+
+            registrations = _context.Registration.Where(x => x.StudentID == user.ID).ToList();
+            _context.RemoveRange(registrations);
+            _context.SaveChanges();
+
+            int i = 0;
+            foreach (var id in courseIds)
             {
-                Group_Project.Controllers.UsersController usersController = new Group_Project.Controllers.UsersController(db);
-                Group_Project.Data.Repository.UnitOfWork unitOfWork = new Group_Project.Data.Repository.UnitOfWork(db);
-
-                var result = usersController.PostUser(user);
-                var userId = result.Id;
-
-                var obj = unitOfWork.User.GetFirstorDefault(u => u.ID == userId);
-
-                Assert.IsTrue(obj != null);
-                Assert.IsTrue(obj.ID == userId);
-                user.ID = userId;
-                Assert.IsTrue(obj == user);
-
+                registrations.Add(new Group_Project.Models.Registration());
+                registrations[i].CourseID = id;
+                registrations[i].paid = false;
+                registrations[i].Status = Group_Project.Models.ClassTypes.Registered;
+                registrations[i].StudentID = user.ID;
+                
+                i++;
             }
-        }
 
-        [TestMethod]
-        public async Task TestDeleteUser()
-        {
-            Group_Project.Models.User user = new Group_Project.Models.User();
-            user.Email = "erck@email.com";
-            user.Passwrd = "password";
-            user.FirstName = "Aric";
-            user.LastName = "Campbell";
-            user.Birthdate = DateTime.Now;
+            var beforeCount = _context.Registration.Where(x => x.StudentID == user.ID).Count();
 
-            using (var db = new Group_Project.Data.ApplicationDbContext(Group_Project.Data.Utility.TestDbContextOptions()))
+            foreach(var registration in registrations)
             {
-                Group_Project.Controllers.UsersController usersController = new Group_Project.Controllers.UsersController(db);
-                Group_Project.Data.Repository.UnitOfWork unitOfWork = new Group_Project.Data.Repository.UnitOfWork(db);
-
-                var result = usersController.PostUser(user);
-                var userId = result.Id;
-
-                var obj = unitOfWork.User.GetFirstorDefault(u => u.ID == userId);
-
-                Assert.IsNotNull(obj);
-                Assert.IsTrue(obj.ID == userId);
-                user.ID = userId;
-                Assert.IsTrue(obj == user);
-
-                await usersController.DeleteUser(userId);
-
-                var obj2 = unitOfWork.User.GetFirstorDefault(u => u.ID == userId);
-
-                Assert.IsNull(obj2);
-
+                _context.Add(registration);
             }
+
+            _context.SaveChanges();
+
+            var afterCount = _context.Registration.Where(x => x.StudentID == user.ID).Count();
+
+            Assert.IsTrue(beforeCount < afterCount);
+            Assert.IsTrue(afterCount == numCourses);
+
+            registrations = _context.Registration.Where(x => x.StudentID == user.ID).ToList();
+
+            _context.RemoveRange(registrations);
+            _context.SaveChanges();
+
+            var deletedCount = _context.Registration.Where(x => x.StudentID == user.ID).Count();
+
+            Assert.IsTrue(deletedCount == 0);
         }
-
-
-
-
 
 
     }
