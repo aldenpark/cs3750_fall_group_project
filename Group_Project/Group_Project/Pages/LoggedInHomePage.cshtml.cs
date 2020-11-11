@@ -24,6 +24,7 @@ namespace Group_Project.Pages
 
         public List<Models.Course> Course { get;set; }
         public User User { get; set; }
+        public List<Models.Assignment> Assignment { get; set; }
 
 
 
@@ -50,8 +51,21 @@ namespace Group_Project.Pages
                 {
                     Course.Add(await _context.Course.Where(x => x.ID == id).FirstOrDefaultAsync());
                 }
+
+                Assignment = new List<Models.Assignment>();
+
+                var assignmentIds = await _context.Assignment.Select(x => x.ID).ToListAsync();
+
+                foreach (int id in assignmentIds)
+                {
+                    Assignment.Add(await _context.Assignment.Where(x => x.ID == id).FirstOrDefaultAsync());
+                }
+
+
             }
-            
+
+
+
         }
 
 

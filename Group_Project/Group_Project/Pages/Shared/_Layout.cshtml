@@ -72,6 +72,12 @@
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Registration/Index">Registration</a>
                                 </li>
                             }
+                            @if (Usr != null && Usr.UserType == 'I')
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Course/CreateCourse">Create Course</a>
+                                </li>
+                            }
 
                             <li>
                                 <!-- Search bar -->

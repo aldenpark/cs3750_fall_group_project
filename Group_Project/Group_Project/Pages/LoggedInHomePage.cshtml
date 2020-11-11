@@ -1,23 +1,33 @@
 ﻿@page
+@using Group_Project.Utility
+@using Group_Project.Data.Repository.IRepository;
+
 @model Group_Project.Pages.LoggedInHomePageModel
+@inject IUnitOfWork _unitOfWork
+
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    var Usr = _unitOfWork.User.Get(0);
+
 }
 
 <h1>Dashboard</h1>
 @*@if (Model.User.UserType == 'I')*@
 
 @*<div clase="row">
-    <a asp-page="/Course/CreateCourse">Create New Course</a>
-    <a> </a>
-    <a asp-page="/Course/InstructorCourseList">Instructor Course List</a>
-    <a> </a>
-    <a asp-page="/Course/CourseDetails">Course</a>
-</div>*@
+        <a asp-page="/Course/CreateCourse">Create New Course</a>
+        <a> </a>
+        <a asp-page="/Course/InstructorCourseList">Instructor Course List</a>
+        <a> </a>
+        <a asp-page="/Course/CourseDetails">Course</a>
+    </div>*@
 
 <div class="row">
+    
     @foreach (var item in Model.Course)
     {
 
@@ -39,53 +49,49 @@
             </div>
         </div>
     }
-    </div>
+</div>
 
-<div class="row">
+    <div class="row">
 
-    <!-- Area Chart -->
-    <div class="col-xl-8 col-lg-7">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Todo List</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+        <!-- ToDo List -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Todo List</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ToDo List -->
+                <div class="card-body">
+                    <div class="chart-area">
+                        <ul>
+                            @foreach (var item in Model.Assignment)
+                            {
+                                <li>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" href="/Assignments/AssignmentHome?id=@Html.DisplayFor(modelItem => item.ID)">@Html.DisplayFor(modelItem => item.Title): @Html.DisplayFor(modelItem => item.DueDate)</div>
+                                </li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-area">
-                    <ul>
-                        <li>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">CJ 1010: Assignment 4: Due 10/1/2020</div>
-                        </li>
-                        <li>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">PE 1155: Footwork Disscusion: Due 10/2/2020</div>
-                        </li>
-                        <li>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">AT 1300: Quiz 5: Due 14/2/2020</div>
-                        </li>
-                        <li>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">GEO 3250: Exam 1: Due 14/2/2020</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
+
+
     </div>
-
-
-</div>
 
 
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -106,125 +112,125 @@
     </div>
 </div>
 
-    @*
-            <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].InstructorID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].CourseName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].CourseNumber)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Department)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].CreditHours)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Location)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Monday)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Tuesday)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Wednesday)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Thursday)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Friday)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Saturday)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].Sunday)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].StartTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].EndTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Course[0].MaxStudents)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-        @foreach (var item in Model.Course) {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InstructorID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CourseName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CourseNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Department)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreditHours)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Location)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Monday)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tuesday)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Wednesday)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Thursday)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Friday)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Saturday)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Sunday)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MaxStudents)
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-                    </td>
-                </tr>
-        }
-            </tbody>
-        </table>
-    *@
+@*
+        <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].InstructorID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].CourseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].CourseNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Department)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].CreditHours)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Monday)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Tuesday)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Wednesday)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Thursday)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Friday)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Saturday)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].Sunday)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].EndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course[0].MaxStudents)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model.Course) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstructorID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Monday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tuesday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wednesday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Thursday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Friday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Saturday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sunday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxStudents)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+*@
