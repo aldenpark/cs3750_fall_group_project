@@ -19,8 +19,7 @@ namespace Group_Project.Models
         [Required]
         public int AssignmentId { get; set; }
 
-        public string fileSubmit { get; set; } // filename of file on server, this needs to be unique because multiple submissions can be made but with the same filename
-        public string fileSubmitDisplay { get; set; } // this displays either the uploaded filename or the text entered
+        public string fileSubmit { get; set; }
         //should work for both Text Entry and File Submission
     }
 }

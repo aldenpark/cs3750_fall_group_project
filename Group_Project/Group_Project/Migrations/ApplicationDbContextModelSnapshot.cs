@@ -176,9 +176,6 @@ namespace Group_Project.Migrations
                     b.Property<string>("fileSubmit")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("fileSubmitDisplay")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
 
                     b.ToTable("Submission");

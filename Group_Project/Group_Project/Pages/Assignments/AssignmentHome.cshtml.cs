@@ -10,33 +10,25 @@ using Group_Project.Models;
 using Group_Project.Helpers;
 using Microsoft.AspNetCore.Http;
 using Group_Project.Utility;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using Group_Project.Data.Repository.IRepository;
 
 namespace Group_Project.Pages.Assignments
 {
     public class AssignmentHomeModel : PageModel
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly Group_Project.Data.ApplicationDbContext _context;
         private CourseHelper courseHelper;
-        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public AssignmentHomeModel(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment)
+        public AssignmentHomeModel(Group_Project.Data.ApplicationDbContext context)
         {
-            _unitOfWork = unitOfWork;
-            _hostingEnvironment = hostingEnvironment;
+            _context = context;
         }
 
         public User User { get; set; }
-
-        [BindProperty]
         public Models.Assignment Assignment { get; set; }
 
-        [BindProperty]
-        public List<Models.Submission> SubmissionObj { get; set; }
+        public Models.Submission Submission { get; set; }
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
 
             //id = HttpContext.Session.GetInt32(SD.UserSessionId);
@@ -46,8 +38,7 @@ namespace Group_Project.Pages.Assignments
                 return NotFound();
             }
 
-            Assignment = _unitOfWork.Assignment.GetFirstorDefault(m => m.ID == id);
-            SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
+            Assignment = await _context.Assignment.FirstOrDefaultAsync(m => m.ID == id);
             courseHelper = new CourseHelper();
 
             if (Assignment == null)
@@ -56,51 +47,6 @@ namespace Group_Project.Pages.Assignments
             }
 
             return Page();
-        }
-
-        public IActionResult OnPost()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            int userId = 0;
-            if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
-            {
-                if (HttpContext.Session.GetInt32(SD.UserSessionId).HasValue)
-                {
-                     userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
-                }
-            }
-            SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
-
-            string webRootPath = _hostingEnvironment.WebRootPath;
-            var files = HttpContext.Request.Form.Files; // get, post, put, etc....
-
-            var subm = new Submission();
-            subm.AssignmentId = Assignment.ID;
-            subm.UserId = userId;
-            subm.fileSubmitDisplay = SubmissionObj.Count > 0 ? String.Concat(files[0].FileName, " (", SubmissionObj.Count, ")") : files[0].FileName;
-
-            if (files.Count > 0)
-            {
-                string fileName = Guid.NewGuid().ToString();
-                var uploads = Path.Combine(webRootPath, @"files\assignments");
-                var extension = Path.GetExtension(files[0].FileName);
-
-                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-                {
-                    files[0].CopyTo(fileStream);
-                }
-
-                subm.fileSubmit = @"\files\assignments\" + fileName + extension;
-
-                _unitOfWork.Submission.Add(subm);
-                _unitOfWork.Save();
-            }
-
-            return RedirectToPage("./Index");
         }
     }
 }

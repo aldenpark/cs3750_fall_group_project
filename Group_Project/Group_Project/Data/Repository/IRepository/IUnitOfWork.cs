@@ -11,7 +11,6 @@ namespace Group_Project.Data.Repository.IRepository
         ICourseRepository Course { get; }
         IAssignmentRepository Assignment { get; }
         IRegistrationRepository Registration { get; }
-        ISubmissionRepository Submission { get; }
         void Save();
     }
 }
