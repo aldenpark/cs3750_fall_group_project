@@ -36,10 +36,10 @@ namespace Group_Project.Controllers
 
             var Events = new List<Calendar>();
             var Course = _unitOfWork.Course.GetAll(); // .Where(c => c. )  loading all courses until we have a relationship setup
-            foreach(var row in Course)
+            var Assignment = _unitOfWork.Assignment.GetAll(); //Copypastaed from above, if you change the above please change this too
+            int count = 1; //moved so future events can make use of the same count
+            foreach (var row in Course)
             {
-
-                int count = 1;
                 for (DateTime date = start_date; date <= end_date; date = date.AddDays(1))
                 {
                     if (date.DayOfWeek == DayOfWeek.Sunday && row.Sunday == true)
@@ -79,6 +79,12 @@ namespace Group_Project.Controllers
                     }
                 }
 
+            }
+
+            foreach(var row in Assignment)
+            {
+                Events.Add(addEvent(count, row));
+                count++;
             }
 
             Events.Add(new Calendar()
@@ -122,6 +128,20 @@ namespace Group_Project.Controllers
                 everyYear = false,
                 description = row.Description+" <a href='/Course/CourseDetails?id="+ row.ID+ "'>"+ row.CourseName + "-" + row.CourseNumber+"</a>"
             };
+        }
+
+        private Calendar addEvent(int count, Assignment row)
+        {
+            return new Calendar()
+            {
+                id = "required-id-" + count,
+                name = row.Title,
+                date = String.Format("{0:ddd MMM dd, yyyy}", row.DueDate),
+                type = "event",
+                everyYear = false,
+                description = " <a href='/Assignments/AssignmentHome?id=" + row.ID + "'>" + row.Description
+            };
+
         }
 
     }
