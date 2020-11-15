@@ -56,6 +56,7 @@ namespace UnitTests
 
             var beforeCount = _context.Registration.Where(x => x.StudentID == user.ID).Count();
 
+            
             foreach(var registration in registrations)
             {
                 _context.Add(registration);
@@ -68,6 +69,9 @@ namespace UnitTests
             Assert.IsTrue(beforeCount < afterCount);
             Assert.IsTrue(afterCount == numCourses);
 
+            
+
+            /*
             registrations = _context.Registration.Where(x => x.StudentID == user.ID).ToList();
 
             _context.RemoveRange(registrations);
@@ -76,6 +80,19 @@ namespace UnitTests
             var deletedCount = _context.Registration.Where(x => x.StudentID == user.ID).Count();
 
             Assert.IsTrue(deletedCount == 0);
+            */
+        }
+
+        [TestMethod]
+        public async Task TestGrading()
+        {
+            var grade = 72;
+
+            //save the grade
+            //save your changes
+
+            //pull grade from database
+            //assert that grade = grade in database
         }
 
 
