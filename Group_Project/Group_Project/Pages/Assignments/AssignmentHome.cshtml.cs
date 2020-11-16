@@ -73,32 +73,39 @@ namespace Group_Project.Pages.Assignments
                      userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
                 }
             }
+            var AssignmentObj = _unitOfWork.Assignment.GetFirstorDefault(m => m.ID == Assignment.ID);
             SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
-
-            string webRootPath = _hostingEnvironment.WebRootPath;
-            var files = HttpContext.Request.Form.Files; // get, post, put, etc....
 
             var subm = new Submission();
             subm.AssignmentId = Assignment.ID;
             subm.UserId = userId;
-            subm.fileSubmitDisplay = SubmissionObj.Count > 0 ? String.Concat(files[0].FileName, " (", SubmissionObj.Count, ")") : files[0].FileName;
+            subm.fileSubmitDisplay = Assignment.TextSubmission;
 
-            if (files.Count > 0)
+            if (AssignmentObj.SubmissionType != "Text Entry")
             {
-                string fileName = Guid.NewGuid().ToString();
-                var uploads = Path.Combine(webRootPath, @"files\assignments");
-                var extension = Path.GetExtension(files[0].FileName);
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files; // get, post, put, etc....
 
-                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                subm.fileSubmitDisplay = SubmissionObj.Count > 0 ? String.Concat(files[0].FileName, " (", SubmissionObj.Count, ")") : files[0].FileName;
+
+                if (files.Count > 0)
                 {
-                    files[0].CopyTo(fileStream);
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(webRootPath, @"files\assignments");
+                    var extension = Path.GetExtension(files[0].FileName);
+
+                    using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStream);
+                    }
+
+                    subm.fileSubmit = @"\files\assignments\" + fileName + extension;
+
                 }
-
-                subm.fileSubmit = @"\files\assignments\" + fileName + extension;
-
-                _unitOfWork.Submission.Add(subm);
-                _unitOfWork.Save();
             }
+
+            _unitOfWork.Submission.Add(subm);
+            _unitOfWork.Save();
 
             return RedirectToPage("./Index");
         }
