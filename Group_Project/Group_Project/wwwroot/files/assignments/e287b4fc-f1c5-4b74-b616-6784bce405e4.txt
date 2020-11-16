@@ -1,0 +1,644 @@
+Bringing up airflow config from s3 ...
+download: s3://ds-etl-application-files/ds-etl-airflow-local/config/airflow.cfg to airflow/airflow.cfg
+download: s3://ds-etl-application-files/ds-etl-airflow-local/config/webserver_config.py to airflow/webserver_config.py
+download: s3://ds-etl-application-files/shared-keys/im-dev-private to ./im-dev-private
+Host *
+ StrictHostKeyChecking no
+copying from stage DWR ...
+ssh: connect to host 3.219.96.170 port 22: Connection refused
+mysqladmin: [Warning] Using a password on the command line interface can be insecure.
+mysqld is alive
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ssh: connect to host 3.219.96.170 port 22: Connection refused
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Obtaining file:///docker-airflow/lib/SearchConsole
+Installing collected packages: SearchConsole
+  Running setup.py develop for SearchConsole
+Successfully installed SearchConsole
+WARNING: You are using pip version 20.2.2; however, version 20.2.4 is available.
+You should consider upgrading via the '/usr/local/bin/python3.6 -m pip install --upgrade pip' command.
+Obtaining file:///docker-airflow/lib/ahrefs
+Installing collected packages: ahrefs
+  Running setup.py develop for ahrefs
+Successfully installed ahrefs
+WARNING: You are using pip version 20.2.2; however, version 20.2.4 is available.
+You should consider upgrading via the '/usr/local/bin/python3.6 -m pip install --upgrade pip' command.
+Obtaining file:///docker-airflow/lib/Transform
+Installing collected packages: transform
+  Running setup.py develop for transform
+Successfully installed transform
+WARNING: You are using pip version 20.2.2; however, version 20.2.4 is available.
+You should consider upgrading via the '/usr/local/bin/python3.6 -m pip install --upgrade pip' command.
+Requirement already satisfied: python-gnupg==0.4.5 in /usr/local/lib/python3.6/site-packages (0.4.5)
+WARNING: You are using pip version 20.2.2; however, version 20.2.4 is available.
+You should consider upgrading via the '/usr/local/bin/python3.6 -m pip install --upgrade pip' command.
+Running stage environment variables
+ * Starting DNS forwarder and DHCP server dnsmasq
+   ...done.
+[2020-11-05 16:17:53,881] {plugins_manager.py:193} ERROR - (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('fintech_op_start_date', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.ProgrammingError: (1146, "Table 'airflow.variable' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/airflow/plugins_manager.py", line 187, in <module>
+    m = imp.load_source(namespace, filepath)
+  File "/usr/local/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 684, in _load
+  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/docker-airflow/airflow/plugins/operator_plugins.py", line 9, in <module>
+    from plugin_register import operators
+  File "/docker-airflow/airflow/plugins/plugin_register.py", line 27, in <module>
+    from finance_reconciliation import GetWildCardFileS3
+  File "/docker-airflow/airflow/plugins/finance_reconciliation/__init__.py", line 21, in <module>
+    from fintech.brand_file.methods import BrandFileMethods as bfm
+  File "/docker-airflow/airflow/config/fintech/brand_file/methods/__init__.py", line 7, in <module>
+    from fintech.brand_file.enhancements import DataEnhancer as de
+  File "/docker-airflow/airflow/config/fintech/brand_file/enhancements/__init__.py", line 10, in <module>
+    from fintech.brand_file import mapping as map
+  File "/docker-airflow/airflow/config/fintech/brand_file/mapping/__init__.py", line 42, in <module>
+    fintech_op_start_date = Variable.get('fintech_op_start_date')  # FINTECH_OP_START_DATE----------------------------------
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/variable.py", line 112, in get
+    var_val = get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/__init__.py", line 68, in get_variable
+    var_val = secrets_backend.get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/utils/db.py", line 74, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/metastore.py", line 53, in get_variable
+    var_value = session.query(Variable).filter(Variable.key == key).first()
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3402, in first
+    ret = list(self[0:1])
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3176, in __getitem__
+    return list(res)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3508, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3533, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1011, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 298, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1130, in _execute_clauseelement
+    distilled_params,
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1317, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1511, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 182, in raise_
+    raise exception
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('fintech_op_start_date', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+[2020-11-05 16:17:53,895] {plugins_manager.py:194} ERROR - Failed to import plugin /docker-airflow/airflow/plugins/operator_plugins.py
+[2020-11-05 16:17:53,911] {plugins_manager.py:193} ERROR - (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('fintech_op_start_date', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.ProgrammingError: (1146, "Table 'airflow.variable' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/airflow/plugins_manager.py", line 187, in <module>
+    m = imp.load_source(namespace, filepath)
+  File "/usr/local/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 684, in _load
+  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/docker-airflow/airflow/plugins/plugin_register.py", line 27, in <module>
+    from finance_reconciliation import GetWildCardFileS3
+  File "/docker-airflow/airflow/plugins/finance_reconciliation/__init__.py", line 21, in <module>
+    from fintech.brand_file.methods import BrandFileMethods as bfm
+  File "/docker-airflow/airflow/config/fintech/brand_file/methods/__init__.py", line 7, in <module>
+    from fintech.brand_file.enhancements import DataEnhancer as de
+  File "/docker-airflow/airflow/config/fintech/brand_file/enhancements/__init__.py", line 10, in <module>
+    from fintech.brand_file import mapping as map
+  File "/docker-airflow/airflow/config/fintech/brand_file/mapping/__init__.py", line 42, in <module>
+    fintech_op_start_date = Variable.get('fintech_op_start_date')  # FINTECH_OP_START_DATE----------------------------------
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/variable.py", line 112, in get
+    var_val = get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/__init__.py", line 68, in get_variable
+    var_val = secrets_backend.get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/utils/db.py", line 74, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/metastore.py", line 53, in get_variable
+    var_value = session.query(Variable).filter(Variable.key == key).first()
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3402, in first
+    ret = list(self[0:1])
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3176, in __getitem__
+    return list(res)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3508, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3533, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1011, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 298, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1130, in _execute_clauseelement
+    distilled_params,
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1317, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1511, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 182, in raise_
+    raise exception
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('fintech_op_start_date', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+[2020-11-05 16:17:53,913] {plugins_manager.py:194} ERROR - Failed to import plugin /docker-airflow/airflow/plugins/plugin_register.py
+[2020-11-05 16:17:53,984] {plugins_manager.py:193} ERROR - (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('fintech_op_start_date', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.ProgrammingError: (1146, "Table 'airflow.variable' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/airflow/plugins_manager.py", line 187, in <module>
+    m = imp.load_source(namespace, filepath)
+  File "/usr/local/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 684, in _load
+  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/docker-airflow/airflow/plugins/finance_reconciliation/__init__.py", line 21, in <module>
+    from fintech.brand_file.methods import BrandFileMethods as bfm
+  File "/docker-airflow/airflow/config/fintech/brand_file/methods/__init__.py", line 7, in <module>
+    from fintech.brand_file.enhancements import DataEnhancer as de
+  File "/docker-airflow/airflow/config/fintech/brand_file/enhancements/__init__.py", line 10, in <module>
+    from fintech.brand_file import mapping as map
+  File "/docker-airflow/airflow/config/fintech/brand_file/mapping/__init__.py", line 42, in <module>
+    fintech_op_start_date = Variable.get('fintech_op_start_date')  # FINTECH_OP_START_DATE----------------------------------
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/variable.py", line 112, in get
+    var_val = get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/__init__.py", line 68, in get_variable
+    var_val = secrets_backend.get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/utils/db.py", line 74, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/metastore.py", line 53, in get_variable
+    var_value = session.query(Variable).filter(Variable.key == key).first()
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3402, in first
+    ret = list(self[0:1])
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3176, in __getitem__
+    return list(res)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3508, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3533, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1011, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 298, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1130, in _execute_clauseelement
+    distilled_params,
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1317, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1511, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 182, in raise_
+    raise exception
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('fintech_op_start_date', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+[2020-11-05 16:17:53,987] {plugins_manager.py:194} ERROR - Failed to import plugin /docker-airflow/airflow/plugins/finance_reconciliation/__init__.py
+[2020-11-05 16:17:54,314] {cli_action_loggers.py:107} WARNING - Failed to log action with (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.log' doesn't exist")
+[SQL: INSERT INTO log (dttm, dag_id, task_id, event, execution_date, owner, extra) VALUES (%s, %s, %s, %s, %s, %s, %s)]
+[parameters: (datetime.datetime(2020, 11, 5, 16, 17, 54, 312734), None, None, 'cli_webserver', None, 'root', '{"host_name": "52f15cc12242", "full_command": "[\'/usr/local/bin/airflow\', \'webserver\']"}')]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+  ____________       _____________
+ ____    |__( )_________  __/__  /________      __
+____  /| |_  /__  ___/_  /_ __  /_  __ \_ | /| / /
+___  ___ |  / _  /   _  __/ _  / / /_/ /_ |/ |/ /
+ _/_/  |_/_/  /_/    /_/    /_/  \____/____/|__/
+[2020-11-05 16:17:54,438] {__init__.py:50} INFO - Using executor LocalExecutor
+[2020-11-05 16:17:54,439] {dagbag.py:396} INFO - Filling up the DagBag from /docker-airflow/airflow/local_dags
+[2020-11-05 16:17:54,586] {dagbag.py:239} ERROR - Failed to import: /docker-airflow/airflow/local_dags/iex_attendance.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.ProgrammingError: (1146, "Table 'airflow.variable' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/dagbag.py", line 236, in process_file
+    m = imp.load_source(mod_name, filepath)
+  File "/usr/local/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 684, in _load
+  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/docker-airflow/airflow/local_dags/iex_attendance.py", line 30, in <module>
+    if Variable.get('environment') == "production":
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/variable.py", line 112, in get
+    var_val = get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/__init__.py", line 68, in get_variable
+    var_val = secrets_backend.get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/utils/db.py", line 74, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/metastore.py", line 53, in get_variable
+    var_value = session.query(Variable).filter(Variable.key == key).first()
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3402, in first
+    ret = list(self[0:1])
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3176, in __getitem__
+    return list(res)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3508, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3533, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1011, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 298, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1130, in _execute_clauseelement
+    distilled_params,
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1317, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1511, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 182, in raise_
+    raise exception
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('environment', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+[2020-11-05 16:17:54,599] {dagbag.py:239} ERROR - Failed to import: /docker-airflow/airflow/local_dags/iex_sync_pto.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.ProgrammingError: (1146, "Table 'airflow.variable' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/dagbag.py", line 236, in process_file
+    m = imp.load_source(mod_name, filepath)
+  File "/usr/local/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 684, in _load
+  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/docker-airflow/airflow/local_dags/iex_sync_pto.py", line 29, in <module>
+    if Variable.get('environment') == "production":
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/variable.py", line 112, in get
+    var_val = get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/__init__.py", line 68, in get_variable
+    var_val = secrets_backend.get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/utils/db.py", line 74, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/metastore.py", line 53, in get_variable
+    var_value = session.query(Variable).filter(Variable.key == key).first()
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3402, in first
+    ret = list(self[0:1])
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3176, in __getitem__
+    return list(res)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3508, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3533, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1011, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 298, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1130, in _execute_clauseelement
+    distilled_params,
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1317, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1511, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 182, in raise_
+    raise exception
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('environment', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+[2020-11-05 16:17:54,632] {dagbag.py:239} ERROR - Failed to import: /docker-airflow/airflow/local_dags/telephony_dag.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.ProgrammingError: (1146, "Table 'airflow.variable' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/dagbag.py", line 236, in process_file
+    m = imp.load_source(mod_name, filepath)
+  File "/usr/local/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 684, in _load
+  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/docker-airflow/airflow/local_dags/telephony_dag.py", line 30, in <module>
+    'email': Variable.get('im_email', deserialize_json=True) + Variable.get('telephony_email', deserialize_json=True),
+  File "/usr/local/lib/python3.6/site-packages/airflow/models/variable.py", line 112, in get
+    var_val = get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/__init__.py", line 68, in get_variable
+    var_val = secrets_backend.get_variable(key=key)
+  File "/usr/local/lib/python3.6/site-packages/airflow/utils/db.py", line 74, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/airflow/secrets/metastore.py", line 53, in get_variable
+    var_value = session.query(Variable).filter(Variable.key == key).first()
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3402, in first
+    ret = list(self[0:1])
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3176, in __getitem__
+    return list(res)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3508, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3533, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1011, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 298, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1130, in _execute_clauseelement
+    distilled_params,
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1317, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1511, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 182, in raise_
+    raise exception
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.variable' doesn't exist")
+[SQL: SELECT variable.val AS variable_val, variable.id AS variable_id, variable.`key` AS variable_key, variable.is_encrypted AS variable_is_encrypted
+FROM variable
+WHERE variable.`key` = %s
+ LIMIT %s]
+[parameters: ('im_email', 1)]
+(Background on this error at: http://sqlalche.me/e/13/f405)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+_mysql_exceptions.ProgrammingError: (1146, "Table 'airflow.connection' doesn't exist")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/airflow", line 37, in <module>
+    args.func(args)
+  File "/usr/local/lib/python3.6/site-packages/airflow/utils/cli.py", line 76, in wrapper
+  File "/usr/local/lib/python3.6/site-packages/airflow/bin/cli.py", line 1076, in webserver
+    app = cached_app_rbac(None) if settings.RBAC else cached_app(None)
+  File "/usr/local/lib/python3.6/site-packages/airflow/www/app.py", line 234, in cached_app
+    app = create_app(config, testing)
+  File "/usr/local/lib/python3.6/site-packages/airflow/www/app.py", line 89, in create_app
+    from airflow.www import views
+  File "/usr/local/lib/python3.6/site-packages/airflow/www/views.py", line 2487, in <module>
+    class ChartModelView(wwwutils.DataProfilingMixin, AirflowModelView):
+  File "/usr/local/lib/python3.6/site-packages/airflow/www/views.py", line 2578, in ChartModelView
+    'conn_id': _connection_ids()
+  File "/usr/local/lib/python3.6/site-packages/airflow/utils/db.py", line 74, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/airflow/www/views.py", line 2484, in _connection_ids
+    .group_by(Connection.conn_id))]
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3508, in __iter__
+    return self._execute_and_instances(context)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/orm/query.py", line 3533, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1011, in execute
+    return meth(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 298, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1130, in _execute_clauseelement
+    distilled_params,
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1317, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1511, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 182, in raise_
+    raise exception
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1277, in _execute_context
+    cursor, statement, parameters, context
+  File "/usr/local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 593, in do_execute
+    cursor.execute(statement, parameters)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 255, in execute
+    self.errorhandler(self, exc, value)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 50, in defaulterrorhandler
+    raise errorvalue
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 252, in execute
+    res = self._query(query)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/cursors.py", line 378, in _query
+    db.query(q)
+  File "/usr/local/lib/python3.6/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1146, "Table 'airflow.connection' doesn't exist")
+[SQL: SELECT connection.conn_id AS connection_conn_id
+FROM connection GROUP BY connection.conn_id]
+(Background on this error at: http://sqlalche.me/e/13/f405)
