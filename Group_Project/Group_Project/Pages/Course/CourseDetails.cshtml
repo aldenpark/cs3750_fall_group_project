@@ -75,4 +75,10 @@
         <a href="/Course/EditCourse?id=@Html.DisplayFor(model => model.Course.ID)">Edit Course</a> | <a href="/Assignments/AssignmentCreate?id=@Html.DisplayFor(model => model.Course.ID)">Create a new assignment</a>
     </div>
 }
+@if(Model.User != null && Model.User.UserType == 'S')
+{
+    <div>
+        <a href="/Assignments/AssignmentListByCourse">Assignment List</a>
+    </div>
+}
 
