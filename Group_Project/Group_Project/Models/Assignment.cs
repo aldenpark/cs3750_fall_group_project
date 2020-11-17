@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Group_Project.Models
 {
@@ -23,6 +24,16 @@ namespace Group_Project.Models
         [Display(Name = "Submission Type")]
         public string SubmissionType { get; set; }
         //Either "Text Entry" or "File Submission", should be selected with a dropdown menu
+
+        [NotMapped]
+        public int SubmissionId { get; set; } // mapping used to get data in Assignment Submission
+        [NotMapped]
+        [Display(Name = "Text Entry")]
+        public string TextSubmission { get; set; } // mapping used to get data in Assignment Submission
+
+        [NotMapped]
+        [Display(Name = "Grade")]
+        public int Grade { get; set; } // mapping used to get data in Assignment Submission
 
     }
 }

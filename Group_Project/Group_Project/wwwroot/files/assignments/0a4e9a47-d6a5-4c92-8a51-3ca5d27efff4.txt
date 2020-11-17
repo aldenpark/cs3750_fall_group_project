@@ -1,0 +1,135 @@
+C_LEGID	C_NAME
+200	Crisis_Exception
+201	Crisis_Exception_Paid
+202	Wellness_Exception
+203	Wellness_Exception_Paid
+204	Paternity_Maternity_Unpaid
+205	Outage_Phone_PTO
+77	Holiday_Closed
+78	ACW
+79	Weather Exception
+80	Vacation_Unpaid
+81	NCNS
+82	Meeting_Closed
+83	Coaching_Adhoc
+84	Facilities_Lock_Out
+85	Intern_Marketing
+86	Intern_Other
+87	VTO_ADH
+88	New_Hire_Vacation
+89	Speed_to_Green_Exception
+90	Intern_Training
+91	Court_Date
+92	School_EC_Accomodation
+93	Back_Up_Other
+94	School_EC_Accomodation_PTO
+95	QA E-learn Review
+96	Back_Up_Sales
+97	Back_Up_Training
+98	Outage_Phone
+99	ADA
+100	Coaching_1_on_1
+101	Coaching_Exception
+102	Coaching_HR_EA
+103	Reschedule_On
+104	Trade_On
+105	Reschedule_Off
+106	Bereavement_Pending
+107	Trade_Off
+108	Bereavement_w/in_Pol
+109	Training_Field
+110	Training_Misc
+111	Training_Nesting
+112	Training_New_Skill
+113	Training_NH
+114	eTrainer
+115	FMLA
+116	Vacation_Paid
+117	Pending_Termination
+118	Team_Outing
+119	Unauthorizthed_Early_Quit
+120	VTO
+121	Meeting_Other
+122	Absent
+123	Pending_Transfer
+124	Rewards_Recognition
+125	Extra_Time
+126	LOA
+127	Absent_Paid
+128	Meeting_PSI
+129	Meeting_Team
+130	Jury_Duty
+131	Outage_System
+132	Weather_Closed
+133	Emergency_Closed
+134	Paternity/Maternity_Pending
+135	Tardy
+136	Early_Quit
+137	Vacation_Incentive
+138	VTO_Exception
+139	Vacation_Exception
+140	Volunteer_Exception
+141	Outage_Exception
+142	Future_VTO
+143	Suspension
+144	Unavailable_Personal
+145	Unavailable_ACW
+146	Unavailable
+147	Unavailable_Approved_Outbound
+148	Unavailable_Busy
+149	Unavailable_Callback_Pending
+150	Unavailable_Cases
+151	Flex_On
+152	Flex_Off
+153	UR Personal_Day_Unpaid
+154	HR Approved Time
+155	UR Personal_Day_Paid
+156	VTO_Paid
+157	FVTO_Paid
+158	Cancelled_Break
+159	HR Meeting
+160	Holiday_Closed_Paid
+161	WFO_Exception
+162	Extra Time Cancelled
+163	Cancelled_1_on_1
+164	Restricted Personal Day Unpaid
+165	Restricted Personal Day Paid
+166	Project (MGMT Approved)
+167	Sickline Tardy
+168	Mentor_Protege_Meeting
+169	Weather_Exception_Paid
+170	PTO_Exception
+171	Tardy_Paid
+172	Early_Quit_Paid
+173	NCNS_Paid
+174	ADA_Paid
+175	LOA_Paid
+176	FMLA_Paid
+177	Bereavement_Approved_Paid
+178	Trade_Off_Paid
+179	UAEQ_Paid
+180	Court_Date_Paid
+181	Paternity/Maternity_Paid
+182	Volunteer_Exception_Paid
+183	VTO_Exception_Paid
+185	Weather_Closed_Paid
+186	Emergency_Closed_Paid
+187	Paternity/Maternity_Approved_PTO
+188	Vacation_Unpaid_Paid
+189	Vacation_Exception_Paid
+190	Suspension_Paid
+191	Flex_Off_Paid
+192	HR_Approved_Time_Paid
+193	WFO_Exception_Paid
+194	Reschedule_Off_Paid
+195	Military_Leave_Unpaid
+196	Military_Leave_Paid
+197	Lunch_Exception
+198	Lunch_Exception_Paid
+199	Break_Exception
+66	Break
+76	Lunch
+45	Forced Day Off
+32	Closed
+46	Open
+11	Wait List
