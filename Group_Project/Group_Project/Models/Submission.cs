@@ -18,6 +18,8 @@ namespace Group_Project.Models
 
         [Required]
         public int AssignmentId { get; set; }
+        [Display(Name = "Grade")]
+        public int Points { get; set; }
 
         [Display(Name = "File Upload")]
         public string fileSubmit { get; set; } // filename of file on server, this needs to be unique because multiple submissions can be made but with the same filename

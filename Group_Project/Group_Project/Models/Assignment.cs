@@ -26,8 +26,14 @@ namespace Group_Project.Models
         //Either "Text Entry" or "File Submission", should be selected with a dropdown menu
 
         [NotMapped]
+        public int SubmissionId { get; set; } // mapping used to get data in Assignment Submission
+        [NotMapped]
         [Display(Name = "Text Entry")]
         public string TextSubmission { get; set; } // mapping used to get data in Assignment Submission
+
+        [NotMapped]
+        [Display(Name = "Grade")]
+        public int Grade { get; set; } // mapping used to get data in Assignment Submission
 
     }
 }

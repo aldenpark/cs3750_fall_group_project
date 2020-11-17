@@ -18,15 +18,8 @@ namespace Group_Project.Data.Repository
 
         public void Update(Submission obj)
         {
-            var objFromDb = _db.Registration.FirstOrDefault(s => s.ID == obj.ID);
-
-            //objFromDb.Email = user.Email;
-            //objFromDb.Passwrd = user.Passwrd;
-            //objFromDb.FirstName = user.FirstName;
-            //objFromDb.LastName = user.LastName;
-            //objFromDb.Birthdate = user.Birthdate;
-            //objFromDb.UserType = user.UserType;
-            //objFromDb.ProfilePic = user.ProfilePic;
+            var objFromDb = _db.Submission.FirstOrDefault(s => s.ID == obj.ID);
+            objFromDb.Points = obj.Points;
 
             _db.SaveChanges();
         }

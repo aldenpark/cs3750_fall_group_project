@@ -1,0 +1,55 @@
+﻿@page
+@model Group_Project.Pages.Assignments.Grade.IndexModel
+@{
+}
+
+<h2 class="mb-4">Submitted Assignments: @Model.AssignmentObj.Title</h2>
+
+<div class="table-responsive-sm">
+    <table class="table table-responsive-sm table-hover">
+        <thead>
+            <tr>
+                <th id="ObjStudent">
+                    Student
+                </th>
+                <th id="ObjGrade">
+                    Due Date
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+@if (Model.ObjList.Count > 0)
+{
+<tbody>
+    @foreach (var item in Model.ObjList)
+    {
+    <tr>
+        <td>
+            @item.Student
+        </td>
+        <td>
+            @item.DueDate
+        </td>
+        <td style="width: 25%">
+            <div class="btn-group">
+                <a class="btn btn-info btn-sm" asp-page="/Assignments/AssignmentHome" asp-route-id="@item.ID">
+                    <span class="d-none d-lg-block">Edit</span>
+                    <i class="fas fa-edit d-lg-none"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+    }
+</tbody>
+}
+else
+{
+    <tr>
+        <td colspan="3">
+            No Records Returned
+        </td>
+    </tr>
+}
+    </table>
+</div>

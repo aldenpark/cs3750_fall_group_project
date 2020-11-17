@@ -1,0 +1,75 @@
+﻿@page
+@model Group_Project.Pages.Assignments.IndexModel
+@{
+}
+
+<h2 class="mb-4">Assignments Index</h2>
+
+@if (Model.UserObj.UserType == 'I')
+{
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <a class="btn btn-primary btn-sm" asp-page="/Assignments/AssignmentCreate">Create Assignment</a>
+    </div>
+</div>
+}
+<div class="table-responsive-sm">
+    <table class="table table-responsive-sm table-hover">
+        <thead>
+            <tr>
+                <th id="objCourseId">
+                    CourseID
+                </th>
+                <th id="objAssignment">
+                    Assignment
+                </th>
+                <th id="ObjDueDate">
+                    Date Due
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+@if (Model.ObjList.Count > 0)
+{
+<tbody>
+    @foreach (var item in Model.ObjList)
+    {
+<tr>
+    <td style="width: 25%">
+        @item.CourseID
+    </td>
+    <td style="width: 50%">
+        @Html.Raw(@item.Title)
+    </td>
+    <td>
+        @item.DueDate.Date.ToShortDateString()
+    </td>
+    <td>
+        <div class="btn-group">
+            @if (Model.UserObj.UserType == 'I')
+            {
+                <a class="btn btn-info btn-sm" asp-page="/Assignments/AssignmentUpdate" asp-route-id="@item.ID">
+                    <span class="d-none d-lg-block">Edit</span>
+                    <i class="fas fa-edit d-lg-none"></i>
+                </a>
+                <a class="btn btn-success btn-sm" href="/Assignments/Grade?id=@item.ID">
+                    <span class="d-none d-lg-block">Grade</span>
+                    <i class="fas fa-edit d-lg-none"></i>
+                </a>
+            }
+            else if (Model.UserObj.UserType == 'S')
+            {
+                <a class="btn btn-info btn-sm" asp-page="/Assignments/AssignmentHome" asp-route-id="@item.ID">
+                    <span class="d-none d-lg-block">View</span>
+                    <i class="fas fa-edit d-lg-none"></i>
+                </a>
+            }
+        </div>
+    </td>
+</tr>
+    }
+</tbody>
+}
+    </table>
+</div>
