@@ -78,7 +78,7 @@
 @if(Model.User != null && Model.User.UserType == 'S')
 {
     <div>
-        <a href="/Assignments/AssignmentListByCourse">Assignment List</a>
+        <a href="/Assignments/AssignmentListByCourse?id=@Model.Course.ID">Assignment List</a>
     </div>
 }
 

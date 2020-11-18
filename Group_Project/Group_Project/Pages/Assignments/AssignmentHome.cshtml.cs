@@ -57,10 +57,22 @@ namespace Group_Project.Pages.Assignments
             }
 
             Assignment = _unitOfWork.Assignment.GetFirstorDefault(m => m.ID == id);
-            SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
+            
+            if(_unitOfWork.Submission.GetFirstorDefault(m => m.AssignmentId == Assignment.ID) != null)
+            {
+                SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
+            }
+            else
+            {
+                SubmissionObj = new List<Submission>();
+                SubmissionObj.Add(new Submission());
+            }
+            
             Assignment.SubmissionId = SubmissionObj.LastOrDefault().ID;
             Assignment.Grade = SubmissionObj.LastOrDefault().Points;
             courseHelper = new CourseHelper();
+            
+            
 
             if (Assignment == null)
             {
