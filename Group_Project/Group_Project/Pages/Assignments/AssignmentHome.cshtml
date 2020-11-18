@@ -7,11 +7,11 @@
     // https://localhost:44329/Assignments/AssignmentHome?id=1 }
 
 
-<h1>CourseDetails</h1>
+<h1>@Model.Assignment.Title</h1>
 
 <input type="hidden" asp-for="Assignment.SubmissionId" />
 <div>
-    <h4>Course</h4>
+    <h4>Submissions</h4>
     <hr />
     @if (Model.Assignment.SubmissionType != "Text Entry" && Model.SubmissionObj.Count > 0)
     {
@@ -98,7 +98,7 @@
                         </div>
 
                 <div class="form-group mt-4">
-                    <input type="submit" value="@(Model.SubmissionObj.Count > 0 ? "Resubmit" : "Submit")" class="btn btn-primary" onclick="return ValidateInput()" />
+                    <input type="submit" value="@((Model.SubmissionObj.Count > 0 && Model.SubmissionObj[0].ID > 0) ? "Resubmit" : "Submit")" class="btn btn-primary" onclick="return ValidateInput()" />
                 </div>
 
             </form>
