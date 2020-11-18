@@ -42,6 +42,8 @@ namespace Group_Project.Pages.Assignments.Grade
 
             AssignmentObj = _unitOfWork.Assignment.Get(id);
 
+            //Aldens Code
+            /*
             var result = from s in _unitOfWork.Submission.GetAll(s => s.AssignmentId == id)
                          join a in _unitOfWork.Assignment.GetAll() on s.AssignmentId equals a.ID
                          join u in _unitOfWork.User.GetAll() on s.UserId equals u.ID
@@ -55,6 +57,29 @@ namespace Group_Project.Pages.Assignments.Grade
                          };
 
             ObjList = result.ToList();
+            */
+
+            //Arics Code
+            var submitters = (from s in _unitOfWork.Submission.GetAll(s => s.AssignmentId == id) group s by s.UserId into g select g.First()).ToList();
+
+            if(ObjList == null)
+            {
+                ObjList = new List<SubmissionList>();
+            }
+
+            int i = 0;
+            foreach(var submission in submitters)
+            {
+                ObjList.Add(new SubmissionList());
+                ObjList[i].ID = submission.AssignmentId;
+                ObjList[i].DueDate = _unitOfWork.Assignment.GetAll(x => x.ID == submission.ID).Select(x => x.DueDate).FirstOrDefault();
+                ObjList[i].Student = _unitOfWork.User.GetAll(x => x.ID == submission.UserId).Select(x => x.FirstName + x.LastName).FirstOrDefault() ?? String.Empty;
+                i++;
+            }
+
+
+
+            
             return Page();
         }
     }
