@@ -42,6 +42,8 @@ namespace UnitTests
             _context.RemoveRange(registrations);
             _context.SaveChanges();
 
+            registrations = new List<Group_Project.Models.Registration>();
+
             int i = 0;
             foreach (var id in courseIds)
             {
@@ -69,7 +71,8 @@ namespace UnitTests
             Assert.IsTrue(beforeCount < afterCount);
             Assert.IsTrue(afterCount == numCourses);
 
-            
+            _context.RemoveRange(registrations);
+            _context.SaveChanges();
 
             /*
             registrations = _context.Registration.Where(x => x.StudentID == user.ID).ToList();
@@ -97,10 +100,27 @@ namespace UnitTests
             assignment.TextSubmission = "Text Submission Test Text";
             assignment.Grade = 10;
 
+            //Arics notes for daniel
+            _context.Assignment.Add(assignment);
+            _context.SaveChanges();
+
+            var assignmentFromDB = _context.Assignment.Where(x => x.CourseID == assignment.CourseID).Where(x => x.Title == assignment.Title).FirstOrDefault();
+
+            Assert.IsNotNull(assignmentFromDB);
+
+            _context.Assignment.Remove(assignmentFromDB);
+            _context.SaveChanges();
+
+            var deletedAssignmentFromDB = _context.Assignment.Where(x => x.ID == assignmentFromDB.ID).FirstOrDefault();
+
+            Assert.IsNull(deletedAssignmentFromDB);
+
+            /*
             _context.Add(assignment);
             _context.SaveChanges();
             _context.Remove(assignment);
             _context.SaveChanges();
+            */
 
         }
 
