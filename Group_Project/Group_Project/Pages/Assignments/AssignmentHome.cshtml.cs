@@ -94,11 +94,6 @@ namespace Group_Project.Pages.Assignments
             }
             UserObj = _unitOfWork.User.GetFirstorDefault(u => u.ID == userId);
 
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
             var AssignmentObj = _unitOfWork.Assignment.GetFirstorDefault(m => m.ID == Assignment.ID);
             SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
 
