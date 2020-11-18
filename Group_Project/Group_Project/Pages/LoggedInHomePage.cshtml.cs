@@ -60,12 +60,14 @@ namespace Group_Project.Pages
 
             Assignment = new List<Models.Assignment>();
 
-            var assignmentIds = await _context.Assignment.Select(x => x.ID).ToListAsync();
-
-            foreach (int id in assignmentIds)
-            {
-                Assignment.Add(await _context.Assignment.Where(x => x.ID == id).FirstOrDefaultAsync());
+            foreach (Models.Course course in Course) {
+                var assignmentIds = await _context.Assignment.Where(x => x.CourseID == course.ID).Where(x => x.DueDate >= DateTime.Today).Select(x => x.ID).ToListAsync();
+                foreach (int id in assignmentIds)
+                {
+                    Assignment.Add(await _context.Assignment.Where(x => x.ID == id).FirstOrDefaultAsync());
+                }
             }
+
         }
 
 

@@ -84,6 +84,28 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public async Task TestAddingAssignment()
+        {
+            Group_Project.Models.Assignment assignment = new Group_Project.Models.Assignment();
+
+            assignment.CourseID = 1;
+            assignment.Title = "Test";
+            assignment.Description = "This is a test description";
+            assignment.DueDate = DateTime.Now;
+            assignment.PointsPossible = 10;
+            assignment.SubmissionType = "Text Entry";
+            assignment.TextSubmission = "Text Submission Test Text";
+            assignment.Grade = 10;
+
+            _context.Add(assignment);
+            _context.SaveChanges();
+            _context.Remove(assignment);
+            _context.SaveChanges();
+
+        }
+
+
+        [TestMethod]
         public async Task TestGrading()
         {
             var grade = 72;
