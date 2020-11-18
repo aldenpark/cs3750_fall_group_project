@@ -23,7 +23,7 @@ namespace Group_Project.Pages.Assignments
         public List<Models.Assignment> ObjList { get; set; }
         public User UserObj { get; set; }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int id)
         {
             int userId = 0;
             if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
@@ -39,7 +39,7 @@ namespace Group_Project.Pages.Assignments
             }
 
             UserObj = _unitOfWork.User.GetFirstorDefault(u => u.ID == userId);
-            ObjList = _unitOfWork.Assignment.GetAll().ToList();
+            ObjList = _unitOfWork.Assignment.GetAll(u => u.CourseID == id).ToList();
 
             return Page();
         }
