@@ -60,7 +60,7 @@ namespace Group_Project.Pages.Assignments.Grade
             */
 
             //Arics Code
-            var submitters = (from s in _unitOfWork.Submission.GetAll(s => s.AssignmentId == id) group s by s.UserId into g select g.First()).ToList();
+            var submitters = (from s in _unitOfWork.Submission.GetAll(s => s.AssignmentId == id) group s by s.UserId into g select g.Last()).ToList();
 
             if(ObjList == null)
             {
@@ -71,7 +71,7 @@ namespace Group_Project.Pages.Assignments.Grade
             foreach(var submission in submitters)
             {
                 ObjList.Add(new SubmissionList());
-                ObjList[i].ID = submission.AssignmentId;
+                ObjList[i].ID = submission.ID;
                 ObjList[i].DueDate = _unitOfWork.Assignment.GetAll(x => x.ID == submission.ID).Select(x => x.DueDate).FirstOrDefault();
                 ObjList[i].Student = _unitOfWork.User.GetAll(x => x.ID == submission.UserId).Select(x => x.FirstName + x.LastName).FirstOrDefault() ?? String.Empty;
                 i++;

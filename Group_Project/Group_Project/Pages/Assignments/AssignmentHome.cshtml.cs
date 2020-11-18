@@ -94,55 +94,44 @@ namespace Group_Project.Pages.Assignments
             }
             UserObj = _unitOfWork.User.GetFirstorDefault(u => u.ID == userId);
 
-            if (UserObj.UserType == 'I')
+            if (!ModelState.IsValid)
             {
-                var objFromDb = _unitOfWork.Submission.Get(Assignment.SubmissionId);
-                objFromDb.Points = Assignment.Grade;
-                _unitOfWork.Submission.Update(objFromDb);
-
-                return Redirect("/Assignments/Grade?id="+Assignment.ID.ToString());
+                return Page();
             }
-            else
+
+            var AssignmentObj = _unitOfWork.Assignment.GetFirstorDefault(m => m.ID == Assignment.ID);
+            SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
+
+            var subm = new Submission();
+            subm.AssignmentId = Assignment.ID;
+            subm.UserId = UserObj.ID;
+            subm.fileSubmitDisplay = Assignment.TextSubmission;
+
+            if (AssignmentObj.SubmissionType != "Text Entry")
             {
-                if (!ModelState.IsValid)
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files; // get, post, put, etc....
+
+                subm.fileSubmitDisplay = SubmissionObj.Count > 0 ? String.Concat(files[0].FileName, " (", SubmissionObj.Count, ")") : files[0].FileName;
+
+                if (files.Count > 0)
                 {
-                    return Page();
-                }
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(webRootPath, @"files\assignments");
+                    var extension = Path.GetExtension(files[0].FileName);
 
-                var AssignmentObj = _unitOfWork.Assignment.GetFirstorDefault(m => m.ID == Assignment.ID);
-                SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
-
-                var subm = new Submission();
-                subm.AssignmentId = Assignment.ID;
-                subm.UserId = UserObj.ID;
-                subm.fileSubmitDisplay = Assignment.TextSubmission;
-
-                if (AssignmentObj.SubmissionType != "Text Entry")
-                {
-                    string webRootPath = _hostingEnvironment.WebRootPath;
-                    var files = HttpContext.Request.Form.Files; // get, post, put, etc....
-
-                    subm.fileSubmitDisplay = SubmissionObj.Count > 0 ? String.Concat(files[0].FileName, " (", SubmissionObj.Count, ")") : files[0].FileName;
-
-                    if (files.Count > 0)
+                    using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
                     {
-                        string fileName = Guid.NewGuid().ToString();
-                        var uploads = Path.Combine(webRootPath, @"files\assignments");
-                        var extension = Path.GetExtension(files[0].FileName);
-
-                        using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-                        {
-                            files[0].CopyTo(fileStream);
-                        }
-
-                        subm.fileSubmit = @"\files\assignments\" + fileName + extension;
-
+                        files[0].CopyTo(fileStream);
                     }
-                }
 
-                _unitOfWork.Submission.Add(subm);
-                _unitOfWork.Save();
+                    subm.fileSubmit = @"\files\assignments\" + fileName + extension;
+
+                }
             }
+
+            _unitOfWork.Submission.Add(subm);
+            _unitOfWork.Save();
 
             return RedirectToPage("./Index");
         }
