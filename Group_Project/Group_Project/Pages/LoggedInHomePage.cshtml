@@ -81,7 +81,7 @@
                             @foreach (var item in Model.Assignment)
                             {
                                 <li>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800" href="/assignments/assignmenthome?id=@Html.DisplayFor(modelItem => item.ID)">@Html.DisplayFor(modelItem => item.Title): @Html.DisplayFor(modelItem => item.DueDate)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="/assignments/assignmenthome?id=@Html.DisplayFor(modelItem => item.ID)">@Html.DisplayFor(modelItem => item.Title): @Html.DisplayFor(modelItem => item.DueDate)</a></div>
                                 </li>
                             }
                         </ul>
