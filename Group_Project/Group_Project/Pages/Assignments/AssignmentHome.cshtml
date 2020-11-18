@@ -41,20 +41,6 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Assignment.PointsPossible)
         </dd>
-@if (Model.UserObj.UserType == 'I')
-{
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Assignment.Grade)
-        </dt>
-        <dd class="col-sm-10">
-            <form method="post">
-                <input type="hidden" asp-for="Assignment.ID" />
-                <input type="hidden" asp-for="Assignment.SubmissionId" />
-                <input asp-for="Assignment.Grade" />
-                <input type="submit" value="Submit" class="btn btn-primary" />
-            </form>
-        </dd>
-}
     </dl>
 </div>
 
@@ -76,17 +62,6 @@
             }
         </ul>
         <div class="tab-content m-4" id="myTabContent">
-            @if (Model.UserObj.UserType == 'I')
-            {
-            <div class="tab-pane fade @(Model.Assignment.SubmissionType != "Text Entry" ? "show active" : "")" id="file" role="tabpanel" aria-labelledby="file-tab">
-                <iframe src="@Model.SubmissionObj.LastOrDefault().fileSubmit" width="800" height="800"></iframe>
-            </div>
-            <div class="tab-pane fade @(Model.Assignment.SubmissionType == "Text Entry" ? "show active" : "")" id="text" role="tabpanel" aria-labelledby="text-tab">
-                @Html.Raw(@Model.Assignment.TextSubmission)
-            </div>
-            }
-            else
-            {
             <form method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Assignment.ID" />
                 <input type="hidden" id="SubmissionType" name="SubmissionType" value="@Model.Assignment.SubmissionType" />
@@ -102,48 +77,42 @@
                 </div>
 
             </form>
-            }
         </div>
     </nav>
 
-@if (Model.UserObj.UserType == 'S')
-{
 
     <div>
         <a asp-page="/Assignments/AssignmentUpdate?id=@Html.DisplayFor(model => model.Assignment.ID)">Update an assignment</a>
     </div>
 }
-}
-                @section Scripts{
-                    @if (Model.UserObj.UserType == 'S')
-                    {
+@section Scripts{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-                        <script>
-                            function ValidateInput() {
-                                if (document.getElementById("SubmissionType").includes("Text Entry")) {
-                                    return true;
-                                }
-                                else {
-                                    if (document.getElementById("uploadBox").value == "") {
-                                        swal('Error', 'No Assignment has been selected for submission', 'error')
-                                        return false;
-                                    }
-
-                                    var fileInput = document.getElementById('uploadBox');
-                                    var filePath = fileInput.value;
-
-                                    // Allowing file type
-                                    var allowedExtensions = /(\.pdf|\.docx|\.txt)$/i;
-
-                                    if (!allowedExtensions.exec(filePath)) {
-                                        swal('Error', 'Invalid file type selected for upload.  Only files of type pdf, docx, and txt are allowed!', 'error')
-                                        fileInput.value = '';
-                                        return false;
-                                    }
-
-                                    return true;
-                                }
-                            }
-                        </script>}
-                    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script>
+            function ValidateInput() {
+                if (document.getElementById("SubmissionType").includes("Text Entry")) {
+                    return true;
                 }
+                else {
+                    if (document.getElementById("uploadBox").value == "") {
+                        swal('Error', 'No Assignment has been selected for submission', 'error')
+                        return false;
+                    }
+
+                    var fileInput = document.getElementById('uploadBox');
+                    var filePath = fileInput.value;
+
+                    // Allowing file type
+                    var allowedExtensions = /(\.pdf|\.docx|\.txt)$/i;
+
+                    if (!allowedExtensions.exec(filePath)) {
+                        swal('Error', 'Invalid file type selected for upload.  Only files of type pdf, docx, and txt are allowed!', 'error')
+                        fileInput.value = '';
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+        </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
