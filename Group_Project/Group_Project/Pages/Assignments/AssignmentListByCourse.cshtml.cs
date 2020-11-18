@@ -24,10 +24,10 @@ namespace Group_Project.Pages.Assignments
         [ViewData]
         public Models.Course _course { get; set; }
 
-        public async Task OnGetAsync(int courseId)
+        public async Task OnGetAsync(int? id)
         {
-            
-            Assignment = await _context.Assignment.ToListAsync();
+       
+              Assignment = await _context.Assignment.Where(x => x.CourseID == id).ToListAsync();
         }
     }
 }
