@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Group_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201119200958_Notification")]
+    [Migration("20201119202633_Notification")]
     partial class Notification
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
