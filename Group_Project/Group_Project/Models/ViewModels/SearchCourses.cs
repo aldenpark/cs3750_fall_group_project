@@ -12,5 +12,6 @@ namespace Group_Project.Models
         public string CourseNumber { get; set; }
         public string Department { get; set; }
         public string CreditHours { get; set; }
+        public bool? isTest { get; set; }
     }
 }

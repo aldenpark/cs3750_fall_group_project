@@ -30,6 +30,25 @@ namespace Group_Project.Controllers
         public IActionResult Post([FromBody] SearchCourses filter) //[FromBody]
         {
             var Courses = _unitOfWork.Course.GetAll();
+            int userId = 0;
+
+            if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
+            {
+                if (HttpContext.Session.GetInt32(SD.UserSessionId) != null && HttpContext.Session.GetInt32(SD.UserSessionId).HasValue)
+                {
+                    userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
+                }
+            }
+
+
+            var CourseList = GetCourses(filter, userId);
+
+            return Json(new { CourseList });
+        }
+
+        public List<Course> GetCourses(SearchCourses filter, int userId)
+        {
+            var Courses = _unitOfWork.Course.GetAll();
             if (filter.CourseName != "")
                 Courses = Courses.Where(c => c.CourseName.ToLower().Contains(filter.CourseName.ToLower()));
             if (filter.CourseNumber != "")
@@ -49,21 +68,13 @@ namespace Group_Project.Controllers
                     Courses = Courses.Where(c => c.CreditHours == CreditHours);
             }
 
-            int userId = 0;
-            if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
-            {
-                if (HttpContext.Session.GetInt32(SD.UserSessionId).HasValue)
-                {
-                    userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
-                }
-            }
 
             var CourseList = Courses.ToList();
             if (userId > 0)
             {
                 int i = 0;
                 var RegisteredCourses = _unitOfWork.Registration.GetAll(r => r.StudentID == userId);
-                if(RegisteredCourses.Count() > 0)
+                if (RegisteredCourses.Count() > 0)
                 {
                     foreach (var reg in RegisteredCourses)
                     {
@@ -78,7 +89,8 @@ namespace Group_Project.Controllers
                 }
             }
 
-            return Json(new { CourseList });
+            return CourseList;
+
         }
 
         [HttpGet]
@@ -99,9 +111,15 @@ namespace Group_Project.Controllers
                 }
             }
 
-            if(userId > 0)
+            AddOrRemoveRegistration(id, value, userId);
+        }
+
+        public void AddOrRemoveRegistration(int id, bool value, int userId)
+        {
+            if (userId > 0)
             {
-                if(value == true) {
+                if (value == true)
+                {
                     var RegistrationObj = new Registration();
                     RegistrationObj.CourseID = id;
                     RegistrationObj.StudentID = userId;

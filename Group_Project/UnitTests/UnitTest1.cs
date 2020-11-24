@@ -1,10 +1,19 @@
+using Group_Project.Controllers;
+using Group_Project.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Xunit.Sdk;
+using System.Runtime.Serialization.Json;
+using System.Web.Helpers;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace UnitTests
 {
@@ -12,6 +21,7 @@ namespace UnitTests
     public class UnitTest1
     {
         private Group_Project.Data.ApplicationDbContext _context;
+        private Group_Project.Data.Repository.UnitOfWork _unitOfWork;
 
         public UnitTest1()
         {
@@ -20,6 +30,7 @@ namespace UnitTests
             SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Server=titan.cs.weber.edu,10433;Database=LMS_Zenith;user id=LMS_Zenith;password=Password*2", null);
 
             _context = new Group_Project.Data.ApplicationDbContext((DbContextOptions<Group_Project.Data.ApplicationDbContext>)builder.Options);
+            _unitOfWork = new Group_Project.Data.Repository.UnitOfWork(_context);
         }
 
         [TestMethod]
@@ -74,16 +85,48 @@ namespace UnitTests
             _context.RemoveRange(registrations);
             _context.SaveChanges();
 
-            /*
-            registrations = _context.Registration.Where(x => x.StudentID == user.ID).ToList();
+        }
 
-            _context.RemoveRange(registrations);
+        [TestMethod]
+        public async Task TestRegistrationV2()
+        {
+            SearchCourses filter = new SearchCourses();
+            HttpClient httpClient = new HttpClient();
+            RegistrationController registrationController = new RegistrationController(_unitOfWork);
+            httpClient.DefaultRequestHeaders.Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            filter.isTest = true;
+            filter.CourseName = "";
+            filter.CourseNumber = "";
+            filter.CreditHours = "";
+            filter.Department = "";
+
+            var registrationsFromDatabase = _context.Registration.Where(x => x.StudentID == 20);
+            _context.Registration.RemoveRange(registrationsFromDatabase);
             _context.SaveChanges();
 
-            var deletedCount = _context.Registration.Where(x => x.StudentID == user.ID).Count();
+            var coursesFromController = registrationController.GetCourses(filter, 20);
 
-            Assert.IsTrue(deletedCount == 0);
-            */
+            int controllerCourseCount = coursesFromController.Count;
+            int databaseCourseCount = _context.Course.Count();
+
+            Assert.AreEqual(controllerCourseCount, databaseCourseCount);
+
+            foreach(var course in coursesFromController)
+            {
+                registrationController.AddOrRemoveRegistration(course.ID, true, 20);
+            }
+
+            int registrationCountFromDatabase = _context.Registration.Where(x => x.StudentID == 20).Count();
+            int registrationCountFromController = registrationController.GetCourses(filter, 20).Count();
+
+            Assert.AreEqual(databaseCourseCount, registrationCountFromDatabase);
+            Assert.AreEqual(controllerCourseCount, registrationCountFromDatabase);
+            Assert.AreEqual(registrationCountFromController, registrationCountFromDatabase);
+
+            registrationsFromDatabase = _context.Registration.Where(x => x.StudentID == 20);
+            _context.Registration.RemoveRange(registrationsFromDatabase);
+            _context.SaveChanges();
         }
 
         [TestMethod]
@@ -190,5 +233,40 @@ namespace UnitTests
         }
 
 
+    }
+
+    public class RegistrationResponse
+    {
+        List<Course> CourseList { get; set; }
+    }
+
+    public class CouseAsStrings
+    {
+        public string ID { get; set; }
+        //The ID of the course NOT the instructor!
+        public string InstructorID { get; set; }
+        //Same as the ID of the instructor, should ideally be a foreign key, 
+        //but might not be neccessary to program it as such
+        public string CourseName { get; set; }
+        public string CourseNumber { get; set; }
+        public string Department { get; set; }
+        public string Description { get; set; }
+        public string CreditHours { get; set; }
+        public string Location { get; set; }
+        public string Monday { get; set; }
+        public string Tuesday { get; set; }
+        public string Wednesday { get; set; }
+        public string Thursday { get; set; }
+        public string Friday { get; set; }
+        public string Saturday { get; set; }
+        public string Sunday { get; set; }
+
+        //Time of day
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+
+        
+        public string MaxStudents { get; set; }
+        public string Registered { get; set; } 
     }
 }
