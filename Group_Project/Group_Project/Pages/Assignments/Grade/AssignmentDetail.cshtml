@@ -1,0 +1,52 @@
+﻿@page
+@model Group_Project.Pages.Assignments.AssignmentDetailModel
+
+@{ ViewData["Title"] = "Assignment Detail";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+
+    // https://localhost:44329/Assignments/Grade/AssignmentDetail?id=1
+
+
+<h1>@Model.AssignmentGradeObj.AssignmentObj.Title</h1>
+
+    <div id="chartContainer" style="height: 250px; width: 100%;"></div>
+
+    <div>
+        <a asp-page="/Assignments/AssignmentUpdate?id=@Html.DisplayFor(model => model.AssignmentGradeObj.AssignmentObj.ID)">Update an assignment</a>
+    </div>
+}
+@section Scripts{
+    <script src="~/lib/canvasjs.min.js"></script>
+    <script>
+
+        var average = @Model.AssignmentGradeObj.AssignmentObj.Avg;
+        var grade = @Model.AssignmentGradeObj.AssignmentObj.Grade;
+        var maxpoints = @Model.AssignmentGradeObj.AssignmentObj.PointsPossible;
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2",
+            axisY: {
+                stripLines: [
+                    {
+                        value: null,
+                        label: "Average: ",
+                        showOnTop: true
+                    }
+                ],
+                gridThickness: 0,
+                minimum: 0,
+                maximum: maxpoints
+            },
+            data: [{
+                type: "column",
+                dataPoints: [
+                    @Html.Raw(Model.AssignmentGradeObj.jsGradesList)
+                ]
+            }]
+        });
+        chart.options.axisY.stripLines[0].value = average;
+        chart.options.axisY.stripLines[0].label += average.toPrecision(3);
+        chart.render();
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

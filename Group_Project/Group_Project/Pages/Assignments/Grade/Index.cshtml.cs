@@ -35,7 +35,7 @@ namespace Group_Project.Pages.Assignments.Grade
                 }
             }
             UserObj = _unitOfWork.User.GetFirstorDefault(u => u.ID == userId && u.UserType == 'I');
-            if (UserObj.ID < 1)
+            if (UserObj == null)
             {
                 return RedirectToPage("/BadLogin");
             }
