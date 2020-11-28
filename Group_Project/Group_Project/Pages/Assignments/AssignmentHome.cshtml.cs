@@ -57,10 +57,16 @@ namespace Group_Project.Pages.Assignments
             }
 
             Assignment = _unitOfWork.Assignment.GetFirstorDefault(m => m.ID == id);
-            
-            if(_unitOfWork.Submission.GetFirstorDefault(m => m.AssignmentId == Assignment.ID) != null)
+
+            var Avglist = new List<int>();
+            foreach(var item in _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID))
             {
-                SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID).ToList();
+                Avglist.Add(item.Points);
+            }
+
+            if (_unitOfWork.Submission.GetFirstorDefault(m => m.AssignmentId == Assignment.ID && m.UserId == userId) != null)
+            {
+                SubmissionObj = _unitOfWork.Submission.GetAll(m => m.AssignmentId == Assignment.ID && m.UserId == userId).ToList();
             }
             else
             {
@@ -70,8 +76,9 @@ namespace Group_Project.Pages.Assignments
             
             Assignment.SubmissionId = SubmissionObj.LastOrDefault().ID;
             Assignment.Grade = SubmissionObj.LastOrDefault().Points;
+            Assignment.Avg = Avglist.Average().ToString();
+            if(Assignment.Avg == "") { Assignment.Avg = "0"; }
             courseHelper = new CourseHelper();
-            
             
 
             if (Assignment == null)

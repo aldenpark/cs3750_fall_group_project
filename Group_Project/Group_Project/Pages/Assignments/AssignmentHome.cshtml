@@ -13,35 +13,48 @@
 <div>
     <h4>Submissions</h4>
     <hr />
+    <div class="float-sm-right">
     @if (Model.Assignment.SubmissionType != "Text Entry" && Model.SubmissionObj.Count > 0)
     {
-<div class="float-sm-right"><a href="@Model.SubmissionObj.LastOrDefault().fileSubmit" target="_blank">@Model.SubmissionObj.LastOrDefault().fileSubmitDisplay</a></div>}
+        <a href="@Model.SubmissionObj.LastOrDefault().fileSubmit" target="_blank">@Model.SubmissionObj.LastOrDefault().fileSubmitDisplay</a>
+    }
+    @if (Model.Assignment.Grade > 0)
+    {
+        <div id="chartContainer" class="mt-3" style="height: 120px; width: 150px;"></div>
+    }
+    </div>
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Assignment.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Assignment.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Assignment.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Assignment.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Assignment.DueDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Assignment.DueDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Assignment.PointsPossible)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Assignment.PointsPossible)
-        </dd>
-    </dl>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Assignment.Title)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Assignment.Title)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Assignment.Description)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Assignment.Description)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Assignment.DueDate)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Assignment.DueDate)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Assignment.PointsPossible)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Assignment.PointsPossible)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => Model.Assignment.Grade)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Assignment.Grade)
+    </dd>
+</dl>
 </div>
 
     <nav>
@@ -87,6 +100,7 @@
 }
 @section Scripts{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="~/lib/canvasjs.min.js"></script>
         <script>
             function ValidateInput() {
                 if (document.getElementById("SubmissionType").includes("Text Entry")) {
@@ -113,6 +127,35 @@
                     return true;
                 }
             }
+
+            var average = @Model.Assignment.Avg;
+            var grade = @Model.Assignment.Grade;
+            var maxpoints = @Model.Assignment.PointsPossible;
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "light2",
+                axisY: {
+                    stripLines: [
+                        {
+                            value: null,
+                            label: "Average: ",
+                            showOnTop: true
+                        }
+                    ],
+                    gridThickness: 0,
+                    minimum: 0,
+                    maximum: maxpoints
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: [
+                        { y: grade, label: " " },
+                    ]
+                }]
+            });
+            chart.options.axisY.stripLines[0].value = average;
+            chart.options.axisY.stripLines[0].label += average.toPrecision(3);
+            chart.render();
         </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

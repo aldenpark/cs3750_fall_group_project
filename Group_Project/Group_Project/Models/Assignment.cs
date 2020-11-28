@@ -35,5 +35,9 @@ namespace Group_Project.Models
         [Display(Name = "Grade")]
         public int Grade { get; set; } // mapping used to get data in Assignment Submission
 
+        [NotMapped]
+        [Display(Name = "Average")]
+        public string Avg { get; set; } // mapping used to show class Average
+
     }
 }
