@@ -76,8 +76,9 @@ namespace Group_Project.Pages.Assignments
             
             Assignment.SubmissionId = SubmissionObj.LastOrDefault().ID;
             Assignment.Grade = SubmissionObj.LastOrDefault().Points;
-            Assignment.Avg = Avglist.Average().ToString();
-            if(Assignment.Avg == "") { Assignment.Avg = "0"; }
+            Assignment.Avg = "0";
+            if (Avglist.Count() > 0)
+                Assignment.Avg = Avglist.Average().ToString();
             courseHelper = new CourseHelper();
             
 
