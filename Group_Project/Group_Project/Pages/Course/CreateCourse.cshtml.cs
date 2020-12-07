@@ -55,6 +55,8 @@ namespace Group_Project.Pages.Course
             courseHelper = new CourseHelper();
             courseValidationResponse = new CourseValidationResponse();
 
+            Course.InstructorID = userId;
+
             courseValidationResponse = courseHelper.ValidateCourse(Course);
 
             if (userId == null)
