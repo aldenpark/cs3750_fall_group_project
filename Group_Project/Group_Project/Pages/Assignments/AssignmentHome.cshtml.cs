@@ -136,7 +136,7 @@ namespace Group_Project.Pages.Assignments
             _unitOfWork.Submission.Add(subm);
             _unitOfWork.Save();
 
-            return RedirectToPage("./Index");
+            return Redirect("./assignmentHome?id="+ Assignment.ID);
         }
     }
 }

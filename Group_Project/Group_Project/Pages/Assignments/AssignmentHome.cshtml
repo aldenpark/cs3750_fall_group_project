@@ -57,6 +57,12 @@
 </dl>
 </div>
 
+    @if (Model.Assignment.SubmissionType == "Text Entry" && Model.SubmissionObj.Count > 0)
+    {
+        @Html.Raw(Model.SubmissionObj.LastOrDefault().fileSubmitDisplay)
+    }
+
+
     <nav>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             @if (Model.Assignment.SubmissionType != "Text Entry")
