@@ -25,6 +25,6 @@ namespace Group_Project.Data
 
         public DbSet<Group_Project.Models.Submission> Submission { get; set; }
 
-        public DbSet<Group_Project.Models.Submission> Notification { get; set; }
+        public DbSet<Group_Project.Models.Notification> Notification { get; set; }
     }
 }

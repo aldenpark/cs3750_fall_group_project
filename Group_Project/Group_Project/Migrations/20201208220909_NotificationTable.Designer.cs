@@ -4,14 +4,16 @@ using Group_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Group_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201208220909_NotificationTable")]
+    partial class NotificationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,28 +112,6 @@ namespace Group_Project.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Course");
-                });
-
-            modelBuilder.Entity("Group_Project.Models.Notification", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
-
-                    b.Property<int>("sourceID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("Group_Project.Models.Registration", b =>
