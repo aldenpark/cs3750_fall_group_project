@@ -21,11 +21,13 @@ namespace Group_Project.Pages.Assignments.Grade
         private readonly IUnitOfWork _unitOfWork;
         private CourseHelper courseHelper;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly Group_Project.Data.ApplicationDbContext _context;
 
-        public AssignmentSubmissionModel(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment)
+        public AssignmentSubmissionModel(IUnitOfWork unitOfWork, IWebHostEnvironment hostingEnvironment, Group_Project.Data.ApplicationDbContext context)
         {
             _unitOfWork = unitOfWork;
             _hostingEnvironment = hostingEnvironment;
+            _context = context;
         }
 
         [BindProperty]
@@ -37,6 +39,7 @@ namespace Group_Project.Pages.Assignments.Grade
         [BindProperty]
         public Models.Submission SubmissionObj { get; set; }
 
+  
 
         public IActionResult OnGet(int? id)
         {
@@ -81,6 +84,15 @@ namespace Group_Project.Pages.Assignments.Grade
 
             if (UserObj.UserType == 'I')
             {
+                Models.Notification NotificationObj = new Models.Notification();
+
+                NotificationObj.sourceID = SubmissionObj.ID;
+                NotificationObj.Type = 'A';
+                NotificationObj.Message = "Assignment: " + AssignmentObj.Title + " Has been Created";
+
+                
+                _context.Notification.Add(NotificationObj);
+
                 var objFromDb = _unitOfWork.Submission.Get(SubmissionObj.ID);
                 objFromDb.Points = SubmissionObj.Points;
                 _unitOfWork.Submission.Update(objFromDb);

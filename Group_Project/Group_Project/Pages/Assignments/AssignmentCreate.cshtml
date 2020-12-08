@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "AssignmentCreate";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+
 }
 
 <h1>AssignmentCreate</h1>
@@ -49,15 +50,17 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        <div>
+            <a asp-page="Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

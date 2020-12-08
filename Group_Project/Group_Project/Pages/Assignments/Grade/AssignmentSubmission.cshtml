@@ -4,6 +4,8 @@
 @{ ViewData["Title"] = "Submission Home";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 
+}
+
     // https://localhost:44329/Assignments/AssignmentHome?id=1 }
 
 
@@ -15,7 +17,7 @@
     <hr />
     @if (Model.AssignmentObj.SubmissionType != "Text Entry")
     {
-<div class="float-sm-right"><a href="@Model.SubmissionObj.fileSubmit" target="_blank">@Model.SubmissionObj.fileSubmitDisplay</a></div>}
+        <div class="float-sm-right"><a href="@Model.SubmissionObj.fileSubmit" target="_blank">@Model.SubmissionObj.fileSubmitDisplay</a></div>}
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AssignmentObj.Title)
@@ -41,48 +43,52 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AssignmentObj.PointsPossible)
         </dd>
-@if (Model.UserObj.UserType == 'I')
-{
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AssignmentObj.Grade)
-        </dt>
-        <dd class="col-sm-10">
-            <form method="post">
-                <input type="hidden" asp-for="SubmissionObj.ID" />
-                <input asp-for="SubmissionObj.Points" />
-                <input type="submit" value="Submit" class="btn btn-primary" />
-            </form>
-        </dd>
-}
+        @if (Model.UserObj.UserType == 'I')
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AssignmentObj.Grade)
+            </dt>
+            <dd class="col-sm-10">
+                <form method="post">
+                    <input type="hidden" asp-for="SubmissionObj.ID" />
+                    <input asp-for="SubmissionObj.Points" />
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </form>
+            </dd>
+        }
     </dl>
 </div>
 
-    <nav>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            @if (Model.AssignmentObj.SubmissionType != "Text Entry")
-            {
-<li class="nav-item">
-    <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="home"
-       aria-selected="true">File Submission</a>
-</li> 
-            }
-            else if (Model.AssignmentObj.SubmissionType == "Text Entry")
-            {
-<li class="nav-item">
-    <a class="nav-link" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text"
-       aria-selected="false">Text Submission</a>
-</li>
-            }
-        </ul>
-        <div class="tab-content m-4" id="myTabContent">
-            <div class="tab-pane fade @(Model.AssignmentObj.SubmissionType != "Text Entry" ? "show active" : "")" id="file" role="tabpanel" aria-labelledby="file-tab">
-                <iframe src="@Model.SubmissionObj.fileSubmit" width="800" height="800"></iframe>
-            </div>
-            <div class="tab-pane fade @(Model.AssignmentObj.SubmissionType == "Text Entry" ? "show active" : "")" id="text" role="tabpanel" aria-labelledby="text-tab">
-                @Html.Raw(@Model.SubmissionObj.fileSubmitDisplay)
-            </div>
+<nav>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        @if (Model.AssignmentObj.SubmissionType != "Text Entry")
+        {
+            <li class="nav-item">
+                <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="home"
+                   aria-selected="true">File Submission</a>
+            </li>
+
+        }
+        else if (Model.AssignmentObj.SubmissionType == "Text Entry")
+        {
+            <li class="nav-item">
+                <a class="nav-link" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text"
+                   aria-selected="false">Text Submission</a>
+            </li>
+        }
+    </ul>
+    <div class="tab-content m-4" id="myTabContent">
+        <div class="tab-pane fade @(Model.AssignmentObj.SubmissionType != "Text Entry" ? "show active" : "")" id="file" role="tabpanel" aria-labelledby="file-tab">
+            <iframe src="@Model.SubmissionObj.fileSubmit" width="800" height="800"></iframe>
         </div>
-    </nav>
+        <div class="tab-pane fade @(Model.AssignmentObj.SubmissionType == "Text Entry" ? "show active" : "")" id="text" role="tabpanel" aria-labelledby="text-tab">
+            @Html.Raw(@Model.SubmissionObj.fileSubmitDisplay)
+        </div>
+    </div>
+</nav>
+
+
+
 
 @if (Model.UserObj.UserType == 'S')
 {

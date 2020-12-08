@@ -16,7 +16,7 @@ namespace Group_Project.Models
         //ID of the attached assignment or course
 
         public char Type { get; set; }
-        //A single letter A for assignment or C for assignment
+        //A single letter A for assignment created or C for assignment graded
 
         public string Message { get; set; }
         //The actual text in the Notification

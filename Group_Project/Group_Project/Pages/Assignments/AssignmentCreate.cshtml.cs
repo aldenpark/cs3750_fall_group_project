@@ -49,6 +49,7 @@ namespace Group_Project.Pages.Assignments
         [BindProperty]
         public Assignment Assignment { get; set; }
 
+
         [ViewData]
         public int CourseId { get; set; }
 
@@ -60,6 +61,14 @@ namespace Group_Project.Pages.Assignments
             {
                 return Page();
             }
+
+            Models.Notification NotificationObj = new Models.Notification();
+
+            NotificationObj.sourceID = Assignment.ID;
+            NotificationObj.Type = 'A';
+            NotificationObj.Message = "Assignment: " + Assignment.Title + " Has been Created"; 
+
+            _context.Notification.Add(NotificationObj);
 
             _context.Assignment.Add(Assignment);
             await _context.SaveChangesAsync();
