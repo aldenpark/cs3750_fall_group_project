@@ -14,6 +14,7 @@ using System.Web.Helpers;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Group_Project.Helpers;
 
 namespace UnitTests
 {
@@ -230,6 +231,31 @@ namespace UnitTests
 
             Assert.IsTrue(deletedCount == 0);
 
+        }
+
+        [TestMethod]
+        public async Task TestPasswordEncryption()
+        {
+            string password = "Password123$";
+
+            var UserObj = new User();
+            UserObj.Passwrd = password;
+
+            var encrypt = new Security();
+            UserObj.Passwrd = encrypt.EncryptString(UserObj.Passwrd);
+            UserObj.Passwrd = encrypt.HashPassword(UserObj.Passwrd);
+            
+            string EncryptedPassword = encrypt.EncryptString(password);
+
+            var EncryptedPass = encrypt.EncryptString("Password123$");
+
+            var loginPassed = true;
+            if (encrypt.IsMatch(EncryptedPass, UserObj.Passwrd) != true)
+            {
+                loginPassed = false;
+            }
+
+            Assert.IsTrue(loginPassed == true);
         }
 
 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Group_Project.Data;
 using Group_Project.Data.Repository.IRepository;
 using Group_Project.Models;
+using Group_Project.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,13 +32,26 @@ namespace Group_Project.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+
+            int userId = 0;
+            if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
+            {
+                if (HttpContext.Session.GetInt32(SD.UserSessionId).HasValue)
+                {
+                    userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
+                }
+            }
+
             DateTime start_date = new DateTime(2020, 08, 24);
             DateTime end_date = new DateTime(2020, 12, 11);
 
             var Events = new List<Calendar>();
-            var Course = _unitOfWork.Course.GetAll(); // .Where(c => c. )  loading all courses until we have a relationship setup
-            var Assignment = _unitOfWork.Assignment.GetAll(); //Copypastaed from above, if you change the above please change this too
-            int count = 1; //moved so future events can make use of the same count
+
+            var Course = from r in _unitOfWork.Registration.GetAll(r => r.StudentID == userId)
+                              join c in _unitOfWork.Course.GetAll() on r.CourseID equals c.ID
+                              select c;
+
+            int count = 1;
             foreach (var row in Course)
             {
                 for (DateTime date = start_date; date <= end_date; date = date.AddDays(1))
@@ -81,7 +95,10 @@ namespace Group_Project.Controllers
 
             }
 
-            foreach(var row in Assignment)
+            var Assignments = from r in _unitOfWork.Registration.GetAll(r => r.StudentID == userId)
+                         join a in _unitOfWork.Assignment.GetAll() on r.CourseID equals a.CourseID
+                         select a;
+            foreach (var row in Assignments)
             {
                 Events.Add(addEvent(count, row));
                 count++;
