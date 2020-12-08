@@ -12,6 +12,7 @@ namespace Group_Project.Data.Repository.IRepository
         IAssignmentRepository Assignment { get; }
         IRegistrationRepository Registration { get; }
         ISubmissionRepository Submission { get; }
+        INotificationRepository Notification { get; }
         void Save();
     }
 }
