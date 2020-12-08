@@ -62,10 +62,6 @@ namespace Group_Project.Pages.Profile
                 {
                     int userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
                     User = _unitOfWork.User.Get(userId);
-                    if (User != null)
-                    {
-                        return Page();
-                    }
                 }
             }
 
