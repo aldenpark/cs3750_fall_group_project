@@ -56,7 +56,18 @@ namespace Group_Project.Pages.Profile
             string webRootPath = _hostingEnvironment.WebRootPath;
             var files = HttpContext.Request.Form.Files; // get, post, put, etc....
 
-            User.ID = 5;
+            if (HttpContext.Session.GetInt32(SD.UserSessionId) != null)
+            {
+                if (HttpContext.Session.GetInt32(SD.UserSessionId).HasValue)
+                {
+                    int userId = HttpContext.Session.GetInt32(SD.UserSessionId).Value;
+                    User = _unitOfWork.User.Get(userId);
+                    if (User != null)
+                    {
+                        return Page();
+                    }
+                }
+            }
 
             var objFromDb = _unitOfWork.User.GetFirstorDefault(u => u.ID == User.ID);  // Only existing users can get to this page
 
