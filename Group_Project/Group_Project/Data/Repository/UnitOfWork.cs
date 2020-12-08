@@ -16,6 +16,8 @@ namespace Group_Project.Data.Repository
         public IRegistrationRepository Registration { get; private set; }
         public ISubmissionRepository Submission { get; private set; }
 
+        public INotificationRepository Notification( get; private set; )
+
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
