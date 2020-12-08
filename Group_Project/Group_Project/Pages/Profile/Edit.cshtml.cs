@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Group_Project.Data.Repository.IRepository;
+using Group_Project.Helpers;
 using Group_Project.Models;
 using Group_Project.Utility;
 using Microsoft.AspNetCore.Hosting;
@@ -84,6 +85,18 @@ namespace Group_Project.Pages.Profile
             {
                 User.ProfilePic = objFromDb.ProfilePic;  // no image uploaded, just readding it from db so we don't lose it
             }
+
+            if(User.Passwrd != "")
+            {
+                var encrypt = new Security();
+                User.Passwrd = encrypt.EncryptString(User.Passwrd);
+                User.Passwrd = encrypt.HashPassword(User.Passwrd);
+            }
+            else
+            {
+                User.Passwrd = objFromDb.Passwrd;
+            }
+
             _unitOfWork.User.Update(User);
 
             return RedirectToPage("./Index");
