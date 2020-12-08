@@ -1,6 +1,5 @@
 ﻿@using Group_Project.Utility
 @using Group_Project.Data.Repository.IRepository;
-@using Group_Project.Models;
 
 @inject IUnitOfWork _unitOfWork
 
@@ -22,16 +21,7 @@
     }
 }
  @{ 
-     var notifications = new List<Notification>();
-     var submissions = _unitOfWork.Submission.GetAll(x => x.UserId == Usr.ID);
-
-     foreach(var submission in submissions)
-     {
-         notifications.AddRange(_unitOfWork.Notification.GetAll(x => x.sourceID == submission.AssignmentId));
-     }
-
-     
-
+    // var notifications = _unitOfWork
  }
 
 <!DOCTYPE html>
