@@ -35,6 +35,7 @@ namespace Group_Project.Pages
             {
                 userId = 0;
             }
+            User = _context.User.Where(x => x.ID == userId).FirstOrDefault();
             var isInstructor = await _context.User.Where(x => x.ID == userId).Where(x => x.UserType == 'I').AnyAsync();
             courseHelper = new CourseHelper();
 
