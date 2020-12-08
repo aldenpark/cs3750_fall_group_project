@@ -56,13 +56,13 @@ namespace Group_Project.Pages.Profile
             string webRootPath = _hostingEnvironment.WebRootPath;
             var files = HttpContext.Request.Form.Files; // get, post, put, etc....
 
+            var objFromDb = _unitOfWork.User.GetFirstorDefault(u => u.ID == User.ID);  // Only existing users can get to this page
             if (files.Count > 0)
             {
                 string fileName = Guid.NewGuid().ToString();
                 var uploads = Path.Combine(webRootPath, @"img\profile");
                 var extension = Path.GetExtension(files[0].FileName);
 
-                var objFromDb = _unitOfWork.User.GetFirstorDefault(u => u.ID == User.ID);  // Only existing users can get to this page
                 if (objFromDb.ProfilePic != null)
                 {
                     var imagePath = Path.Combine(webRootPath, objFromDb.ProfilePic.TrimStart('\\'));
