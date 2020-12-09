@@ -56,6 +56,13 @@
 
  }
 
+@{ 
+    void DeleteNotification(Notification n)
+    {
+        _unitOfWork.Notification.Remove(n);
+    }
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,6 +165,7 @@
                         </form>
                     </div>
                 </li> <!-- Nav Item - Notifications -->
+                               
                                                 <li class="nav-item dropdown no-arrow mx-1">
                                                     <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         <i class="fas fa-bell fa-fw"></i>
@@ -169,7 +177,7 @@
                                                         <h6 class="dropdown-header">
                                                             Notification Center
                                                         </h6>
-                                                        @*@foreach(var item in Model.Notifications){*@
+                                                        @foreach(var item in notifications){
                                                         <a class="dropdown-item d-flex align-items-center" href="#">
                                                             <div class="mr-3">
                                                                 <div class="icon-circle bg-primary">
@@ -177,10 +185,10 @@
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <span class="font-weight-bold">@*@Html.DisplayFor(modelItem => item.Message)*@</span>
+                                                                <span class="font-weight-bold" onclick="DeleteNotification(@item)">@item.Message</span>
                                                             </div>
                                                         </a>
-                                                        @*}*@
+                                                        }
                                                     </div>
                                                 </li> <!-- Nav Item - Messages -->
                                                                                 <li class="nav-item dropdown no-arrow mx-1">
