@@ -26,6 +26,7 @@ namespace Group_Project.Data.Repository
             Assignment = new AssignmentRepository(_db);
             Registration = new RegistrationRepository(_db);
             Submission = new SubmissionRepository(_db);
+            Notification = new NotificationRepository(_db);
         }
         void IDisposable.Dispose()
         {
