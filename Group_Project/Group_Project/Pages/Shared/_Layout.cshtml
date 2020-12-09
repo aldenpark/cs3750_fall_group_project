@@ -34,15 +34,7 @@
                  notifications.AddRange(_unitOfWork.Notification.GetAll(x => x.sourceID == submission.AssignmentId));
              }
          }
-         else if(Usr.UserType == 'I')
-         {
-             var courses = _unitOfWork.Course.GetAll(x => x.InstructorID == Usr.ID);
-             foreach(var course in courses)
-             {
-                 assignments.AddRange(_unitOfWork.Assignment.GetAll(x => x.CourseID == course.ID));
-             }
-             
-         }
+         
 
      }
 
