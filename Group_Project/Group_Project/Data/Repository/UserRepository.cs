@@ -20,13 +20,20 @@ namespace Group_Project.Data.Repository
         {
             var objFromDb = _db.User.FirstOrDefault(s => s.ID == user.ID);
 
-            objFromDb.Email = user.Email;
             objFromDb.Passwrd = user.Passwrd;
             objFromDb.FirstName = user.FirstName;
             objFromDb.LastName = user.LastName;
             objFromDb.Birthdate = user.Birthdate;
-            objFromDb.UserType = user.UserType;
             objFromDb.ProfilePic = user.ProfilePic;
+            objFromDb.AddressLine1 = user.AddressLine1;
+            objFromDb.AddressLine2 = user.AddressLine2;
+            objFromDb.State = user.State;
+            objFromDb.City = user.City;
+            objFromDb.Zip = user.Zip;
+            objFromDb.Bio = user.Bio;
+            objFromDb.Link1 = user.Link1;
+            objFromDb.Link2 = user.Link2;
+            objFromDb.Link3 = user.Link3;
 
             _db.SaveChanges();
         }

@@ -29,7 +29,7 @@ namespace Group_Project.Pages.Assignments
         }
 
         [BindProperty]
-        public User UserObj { get; set; }
+        public Models.User UserObj { get; set; }
 
         [BindProperty]
         public Models.Assignment Assignment { get; set; }

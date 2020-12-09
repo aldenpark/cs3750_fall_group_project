@@ -26,7 +26,7 @@ namespace Group_Project.Pages
         }
 
         [BindProperty]
-        public User User { get; set; }
+        public Models.User User { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {

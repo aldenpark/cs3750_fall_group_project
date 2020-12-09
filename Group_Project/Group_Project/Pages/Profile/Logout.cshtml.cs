@@ -15,7 +15,7 @@ namespace Group_Project.Pages.Profile
         {
             //HttpContext.Session.SetInt32(SD.UserSessionId, 0);  // Set logged in user to 0
             HttpContext.Session.Clear(); // Delete all sessions
-            return RedirectToPage("/");
+            return Redirect("~/");
         }
     }
 }
