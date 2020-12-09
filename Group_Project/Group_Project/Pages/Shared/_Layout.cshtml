@@ -169,7 +169,18 @@
                                     <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-bell fa-fw"></i>
                                         <!-- Counter - Notifications -->
-                                        <span class="badge badge-danger badge-counter">3+</span>
+                                        @if (notifications.Count() > 0 && notifications.Count() < 4)
+                                        {
+                                            <span class="badge badge-danger badge-counter">@notifications.Count().ToString()</span>
+                                            }
+                                        else if(notifications.Count() > 3)
+                                        {
+                                            <span class="badge badge-danger badge-counter">3+</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-counter">0</span>
+                                        }
                                     </a>
                                     <!-- Dropdown - Notifications -->
                                     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -178,16 +189,17 @@
                                         </h6>
                                         @foreach (var item in notifications)
                                         {
-                        <a class="dropdown-item d-flex align-items-center" href="#" onclick="DeleteNotification(@item.ID)">
-                            <div class="mr-3">
-                                <div class="icon-circle bg-primary">
-                                    <i class="fas fa-file-alt text-white"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="font-weight-bold">@item.Message</span>
-                            </div>
-                        </a>}
+                                        <a class="dropdown-item d-flex align-items-center" href="#" onclick="DeleteNotification(@item.ID)">
+                                            <div class="mr-3">
+                                                <div class="icon-circle bg-primary">
+                                                    <i class="fas fa-file-alt text-white"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">@item.Message</span>
+                                            </div>
+                                        </a>
+                                        }
                                     </div>
                                 </li>
  <!-- Nav Item - Messages -->
@@ -328,19 +340,19 @@
         //$(document).ready(function () {
         //    loadNotifications();
         //});
-        function loadNotifications() {
-            $.ajax({
-                url: "api/Notifications", type: "get",
-                contentType: 'application/json',
-                dataType: "json",
-                success: function (result) {
-                    console.log(result);
-                    if (result.notifications) {
-                        //$("#NotificationsCenter").html(body);
-                    }
-                }
-            });
-        }
+        //function loadNotifications() {
+        //    $.ajax({
+        //        url: "api/Notifications", type: "get",
+        //        contentType: 'application/json',
+        //        dataType: "json",
+        //        success: function (result) {
+        //            console.log(result);
+        //            if (result.notifications) {
+        //                //$("#NotificationsCenter").html(body);
+        //            }
+        //        }
+        //    });
+        //}
         function DeleteNotification(id) {
             $.ajax({
                 url: "api/Notifications/"+id, type: "Delete",
@@ -350,6 +362,7 @@
                     console.log(result);
                     if (result.success == true) {
                         //loadNotifications();
+                        location.reload();
                     }
                 }
             });
