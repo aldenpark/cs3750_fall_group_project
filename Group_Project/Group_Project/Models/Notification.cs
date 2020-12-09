@@ -20,5 +20,7 @@ namespace Group_Project.Models
 
         public string Message { get; set; }
         //The actual text in the Notification
+        public DateTime CreatedOn { get; set; }
+        public bool Seen { get; set; }
     }
 }
