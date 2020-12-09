@@ -85,17 +85,25 @@ namespace Group_Project.Pages.Assignments.Grade
             if (UserObj.UserType == 'I')
             {
                 Models.Notification NotificationObj = new Models.Notification();
+                var points = SubmissionObj.Points;
+                SubmissionObj = _context.Submission.Where(x => x.ID == SubmissionObj.ID).FirstOrDefault();
+                AssignmentObj = _context.Assignment.Where(x => x.ID == SubmissionObj.AssignmentId).FirstOrDefault();
+                AssignmentObj.Grade = points;
 
-                NotificationObj.sourceID = SubmissionObj.ID;
+                NotificationObj.sourceID = SubmissionObj.AssignmentId;
                 NotificationObj.Type = 'A';
-                NotificationObj.Message = "Assignment: " + AssignmentObj.Title + " Has been Created";
+                NotificationObj.Message = "Assignment: " + AssignmentObj.Title + " Has been Graded";
 
                 
                 _context.Notification.Add(NotificationObj);
 
+                _context.SaveChanges();
+
                 var objFromDb = _unitOfWork.Submission.Get(SubmissionObj.ID);
                 objFromDb.Points = SubmissionObj.Points;
                 _unitOfWork.Submission.Update(objFromDb);
+
+                _unitOfWork.Save();
 
                 return Redirect("/Assignments/Grade?id="+ objFromDb.AssignmentId.ToString());
             }

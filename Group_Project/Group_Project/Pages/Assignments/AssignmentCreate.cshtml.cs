@@ -62,6 +62,11 @@ namespace Group_Project.Pages.Assignments
                 return Page();
             }
 
+            _context.Assignment.Add(Assignment);
+            await _context.SaveChangesAsync();
+
+            Assignment = _context.Assignment.OrderByDescending(x => x.ID).FirstOrDefault();
+
             Models.Notification NotificationObj = new Models.Notification();
 
             NotificationObj.sourceID = Assignment.ID;
@@ -70,7 +75,6 @@ namespace Group_Project.Pages.Assignments
 
             _context.Notification.Add(NotificationObj);
 
-            _context.Assignment.Add(Assignment);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./LoggedInHomePage");

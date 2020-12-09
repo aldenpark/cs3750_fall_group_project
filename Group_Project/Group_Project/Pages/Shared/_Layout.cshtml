@@ -47,7 +47,10 @@
              }
              foreach(var assignment in assignments)
              {
-                 notifications.AddRange(_unitOfWork.Notification.GetAll(x => x.sourceID == assignment.ID));
+                 if(!notifications.Where(x => x.sourceID == assignment.ID).Any())
+                 {
+                     notifications.AddRange(_unitOfWork.Notification.GetAll(x => x.sourceID == assignment.ID));
+                 }
              }
          }
 
